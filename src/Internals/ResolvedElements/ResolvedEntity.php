@@ -13,7 +13,7 @@ final class ResolvedEntity
     /**
      * @param class-string $class
      * @param non-empty-string $table
-     * @param list<ResolvedId|ResolvedField|ResolvedEmbeddeded> $properties
+     * @param list<ResolvedField|ResolvedEmbeddeded> $properties
      */
     public function __construct(
         public string $class,

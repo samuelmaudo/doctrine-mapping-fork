@@ -18,7 +18,6 @@ use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddable;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddeded;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEntity;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedField;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedId;
 
 abstract class AbstractPhpDriver implements MappingDriver
 {
@@ -73,23 +72,13 @@ abstract class AbstractPhpDriver implements MappingDriver
         }
 
         foreach ($class->properties as $property) {
-            if ($property instanceof ResolvedId) {
-                $metadata->mapField([
-                    'id' => true,
-                    'fieldName' => $property->property,
-                    'column' => $property->column,
-                    'type' => $property->type,
-                    'length' => $property->length,
-                    'options' => [
-                        'unsigned' => $property->unsigned,
-                        'fixed' => $property->fixed,
-                    ],
-                ]);
-            } elseif ($property instanceof ResolvedField) {
+            if ($property instanceof ResolvedField) {
                 $metadata->mapField([
                     'fieldName' => $property->property,
-                    'column' => $property->column,
+                    'columnName' => $property->column,
                     'type' => $property->type,
+                    'id' => $property->primaryKey,
+                    'unique' => $property->unique,
                     'nullable' => $property->nullable,
                     'notInsertable' => ($property->insertable === false),
                     'notUpdatable' => ($property->updatable === false),

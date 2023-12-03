@@ -22,6 +22,8 @@ final class ResolvedField
         public string $property,
         public string $column,
         public string $type,
+        public bool $primaryKey = false,
+        public bool $unique = false,
         public bool $nullable = false,
         public bool $insertable = true,
         public bool $updatable = true,

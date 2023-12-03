@@ -11,7 +11,7 @@ final class Embeddable
 {
     /**
      * @param class-string $class
-     * @param non-empty-list<Id|Field|Embeddeded> $properties
+     * @param non-empty-list<Field|Embeddeded> $properties
      */
     private function __construct(
         private string $class,
@@ -20,7 +20,7 @@ final class Embeddable
 
     /**
      * @param class-string $class
-     * @param non-empty-list<Id|Field|Embeddeded> $properties
+     * @param non-empty-list<Field|Embeddeded> $properties
      */
     public static function of(
         string $class,
@@ -38,7 +38,7 @@ final class Embeddable
     }
 
     /**
-     * @return non-empty-list<Id|Field|Embeddeded>
+     * @return non-empty-list<Field|Embeddeded>
      */
     public function properties(): array
     {

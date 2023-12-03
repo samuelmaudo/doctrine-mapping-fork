@@ -11,7 +11,7 @@ final class Entity
 {
     /**
      * @param class-string $class
-     * @param non-empty-list<Id|Field|Embeddeded> $properties
+     * @param non-empty-list<Field|Embeddeded> $properties
      * @param ?non-empty-string $table
      */
     private function __construct(
@@ -24,7 +24,7 @@ final class Entity
 
     /**
      * @param class-string $class
-     * @param non-empty-list<Id|Field|Embeddeded> $properties
+     * @param non-empty-list<Field|Embeddeded> $properties
      * @param ?non-empty-string $table
      */
     public static function of(
@@ -46,7 +46,7 @@ final class Entity
     }
 
     /**
-     * @return non-empty-list<Id|Field|Embeddeded>
+     * @return non-empty-list<Field|Embeddeded>
      */
     public function properties(): array
     {

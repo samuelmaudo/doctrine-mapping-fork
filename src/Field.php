@@ -21,6 +21,8 @@ final class Field
         private string $property,
         private ?string $column = null,
         private ?string $type = null,
+        private bool $primaryKey = false,
+        private bool $unique = false,
         private ?bool $nullable = null,
         private bool $insertable = true,
         private bool $updatable = true,
@@ -43,6 +45,8 @@ final class Field
         string $property,
         ?string $column = null,
         ?string $type = null,
+        bool $primaryKey = false,
+        bool $unique = false,
         ?bool $nullable = null,
         bool $insertable = true,
         bool $updatable = true,
@@ -77,6 +81,16 @@ final class Field
     public function type(): ?string
     {
         return $this->type;
+    }
+
+    public function primaryKey(): bool
+    {
+        return $this->primaryKey;
+    }
+
+    public function unique(): bool
+    {
+        return $this->unique;
     }
 
     public function nullable(): ?bool
