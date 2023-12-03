@@ -9,8 +9,6 @@ use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddable;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddeded;
 use ReflectionClass;
-use ReflectionNamedType;
-use voku\helper\ASCII;
 
 /**
  * @internal
@@ -18,44 +16,36 @@ use voku\helper\ASCII;
 final class EmbeddededResolver
 {
     /**
-     * @param non-empty-string|false $columnPrefix
+     * @param non-empty-string|false $parentColumnPrefix
      * @return array{ResolvedEmbeddeded, list<ResolvedEmbeddable>}
      * @throws MappingException
      */
     public static function resolve(
         ReflectionClass $class,
         Embeddeded $embeddeded,
-        string|bool $columnPrefix = false,
+        string|bool $parentColumnPrefix = false,
     ): array {
         $property = PropertyResolver::resolve($class, $embeddeded->property());
-
-        if ($embeddeded->class()) {
-            $embeddededClass = ClassResolver::resolve($embeddeded->class());
-        } else {
-            $propertyType = $property->getType();
-
-            if (!$propertyType instanceof ReflectionNamedType) {
-                throw MappingException::propertyTypeNotFound(
-                    $property->class,
-                    $property->name,
-                );
-            }
-
-            $embeddededClass = ClassResolver::resolve($propertyType->getName());
-        }
-
-        $columnPrefix = $embeddeded->columnPrefix();
-
-        if (!$embeddeded->columnPrefix()) {
-            $columnPrefix = ASCII::to_slugify($property->name, separator: '_').'_';
-        }
+        $class = PropertyClassResolver::resolve($property, $embeddeded->class());
+        $columnPrefix = PropertyColumnPrefixResolver::resolve($property, $embeddeded->columnPrefix(), $parentColumnPrefix);
 
         $resolvedEmbeddeded = new ResolvedEmbeddeded(
             property: $property->name,
-            class: $embeddededClass->name,
+            class: $class->name,
             columnPrefix: $columnPrefix,
         );
 
-        return [$resolvedEmbeddeded, []];
+        if (!$embeddeded->properties()) {
+            return [$resolvedEmbeddeded, []];
+        }
+
+        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $embeddeded->properties());
+
+        $resolvedEmbeddable = new ResolvedEmbeddable(
+            class: $class->name,
+            properties: $fields,
+        );
+
+        return [$resolvedEmbeddeded, [$resolvedEmbeddable, ...$embeddedEmbeddables]];
     }
 }

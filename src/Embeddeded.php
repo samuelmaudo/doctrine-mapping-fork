@@ -53,7 +53,7 @@ final class Embeddeded
     }
 
     /**
-     * @return string|false|null
+     * @return non-empty-string|false|null
      */
     public function columnPrefix(): string|bool|null
     {

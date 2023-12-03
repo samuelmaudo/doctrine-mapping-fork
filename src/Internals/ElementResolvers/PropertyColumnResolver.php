@@ -20,7 +20,7 @@ final class PropertyColumnResolver
      */
     public static function resolve(
         ReflectionProperty $property,
-        ?string $column,
+        ?string $column = null,
         string|bool $columnPrefix = false,
     ): string {
         if (!$column) {

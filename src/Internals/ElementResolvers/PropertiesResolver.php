@@ -30,20 +30,20 @@ final class PropertiesResolver
         string|bool $columnPrefix = false,
     ): array {
         $fields = [];
-        $allEmbeddables = [];
+        $allEmbeddedEmbeddables = [];
 
         foreach ($properties as $property) {
             if ($property instanceof Field) {
                 $properties[] = FieldResolver::resolve($class, $property, $columnPrefix);
             } elseif ($property instanceof Embeddeded) {
-                [$embedded, $embeddables] = EmbeddededResolver::resolve($class, $property, $columnPrefix);
+                [$embedded, $embeddedEmbeddables] = EmbeddededResolver::resolve($class, $property, $columnPrefix);
                 $properties[] = $embedded;
-                foreach ($embeddables as $embeddable) {
-                    $allEmbeddables[] = $embeddable;
+                foreach ($embeddedEmbeddables as $embeddable) {
+                    $allEmbeddedEmbeddables[] = $embeddable;
                 }
             }
         }
 
-        return [$fields, $allEmbeddables];
+        return [$fields, $allEmbeddedEmbeddables];
     }
 }
