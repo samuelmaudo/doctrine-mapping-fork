@@ -17,15 +17,17 @@ final class PropertyNullableResolver
      */
     public static function resolve(
         ReflectionProperty $property,
-        ?bool $fieldAllowsNulls,
+        ?bool $nullable,
+        bool $primaryKey = false,
     ): bool {
-        $propertyAllowsNulls = $property->getType()?->allowsNull();
-
-        if ($fieldAllowsNulls === false
-            && $propertyAllowsNulls === true) {
-            throw MappingException::nullableProperty($property->class, $property->name);
+        if ($nullable === null) {
+            $nullable = $property->getType()?->allowsNull() ?? false;
         }
 
-        return $fieldAllowsNulls ?? $propertyAllowsNulls ?? false;
+        if ($nullable && $primaryKey) {
+            throw MappingException::nullablePrimaryKey($property->class, $property->name);
+        }
+
+        return $nullable;
     }
 }

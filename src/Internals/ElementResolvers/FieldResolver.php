@@ -31,7 +31,7 @@ final class FieldResolver
             type: PropertyTypeResolver::resolve($property, $field->type()),
             primaryKey: $field->primaryKey(),
             unique: $field->unique(),
-            nullable: PropertyNullableResolver::resolve($property, $field->nullable() && !$field->primaryKey()),
+            nullable: PropertyNullableResolver::resolve($property, $field->nullable(), $field->primaryKey()),
             insertable: $field->insertable(),
             updatable: $field->updatable(),
             length: $field->length(),

@@ -34,10 +34,10 @@ final class PropertiesResolver
 
         foreach ($properties as $property) {
             if ($property instanceof Field) {
-                $properties[] = FieldResolver::resolve($class, $property, $columnPrefix);
+                $fields[] = FieldResolver::resolve($class, $property, $columnPrefix);
             } elseif ($property instanceof Embeddeded) {
                 [$embedded, $embeddedEmbeddables] = EmbeddededResolver::resolve($class, $property, $columnPrefix);
-                $properties[] = $embedded;
+                $fields[] = $embedded;
                 foreach ($embeddedEmbeddables as $embeddable) {
                     $allEmbeddedEmbeddables[] = $embeddable;
                 }

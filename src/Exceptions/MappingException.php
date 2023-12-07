@@ -56,11 +56,11 @@ final class MappingException extends DoctrineMappingException
     }
 
     /**
-     * @param class-string $className
-     * @param non-empty-string $propertyName
+     * @param class-string $entityName
+     * @param non-empty-string $fieldName
      */
-    public static function nullableProperty(string $className, string $propertyName): self
+    public static function nullablePrimaryKey(string $entityName, string $fieldName): self
     {
-        return new self("Property '{$propertyName}' on class '{$className}' allows nulls, but the field does not");
+        return new self("Primary key '{$fieldName}' on entity '{$entityName}' is nullable");
     }
 }
