@@ -7,13 +7,13 @@ namespace Hereldar\DoctrineMapping;
 /**
  * @psalm-immutable
  */
-final class Embeddeded
+final class Embedded
 {
     /**
      * @param non-empty-string $property
      * @param ?class-string $class
      * @param non-empty-string|false|null $columnPrefix
-     * @param ?non-empty-list<Field|Embeddeded> $properties
+     * @param ?non-empty-list<Field|Embedded> $properties
      */
     private function __construct(
         private string $property,
@@ -25,7 +25,7 @@ final class Embeddeded
     /**
      * @param ?class-string $class
      * @param non-empty-string|false|null $columnPrefix
-     * @param ?non-empty-list<Field|Embeddeded> $properties
+     * @param ?non-empty-list<Field|Embedded> $properties
      */
     public static function of(
         string $property,
@@ -61,7 +61,7 @@ final class Embeddeded
     }
 
     /**
-     * @return ?non-empty-list<Field|Embeddeded>
+     * @return ?non-empty-list<Field|Embedded>
      */
     public function properties(): ?array
     {

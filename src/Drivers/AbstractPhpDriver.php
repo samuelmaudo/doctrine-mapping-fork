@@ -15,7 +15,7 @@ use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Internals\ElementResolvers\EmbeddableResolver;
 use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddable;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddeded;
+use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbedded;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEntity;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedField;
 
@@ -90,7 +90,7 @@ abstract class AbstractPhpDriver implements MappingDriver
                         'fixed' => $property->fixed,
                     ],
                 ]);
-            } elseif ($property instanceof ResolvedEmbeddeded) {
+            } elseif ($property instanceof ResolvedEmbedded) {
                 $metadata->mapEmbedded([
                     'fieldName' => $property->property,
                     'class' => $property->class,

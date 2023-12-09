@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\ElementResolvers;
 
-use Hereldar\DoctrineMapping\Embeddeded;
+use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddable;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddeded;
+use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbedded;
 use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedField;
 use ReflectionClass;
 
@@ -18,9 +18,9 @@ use ReflectionClass;
 final class PropertiesResolver
 {
     /**
-     * @param list<Field|Embeddeded> $properties
+     * @param list<Field|Embedded> $properties
      *
-     * @return array{list<ResolvedField|ResolvedEmbeddeded>, list<ResolvedEmbeddable>}
+     * @return array{list<ResolvedField|ResolvedEmbedded>, list<ResolvedEmbeddable>}
      * @throws MappingException
      */
     public static function resolve(
@@ -33,8 +33,8 @@ final class PropertiesResolver
         foreach ($properties as $property) {
             if ($property instanceof Field) {
                 $fields[] = FieldResolver::resolve($class, $property);
-            } elseif ($property instanceof Embeddeded) {
-                [$embedded, $embeddedEmbeddables] = EmbeddededResolver::resolve($class, $property);
+            } elseif ($property instanceof Embedded) {
+                [$embedded, $embeddedEmbeddables] = EmbeddedResolver::resolve($class, $property);
                 $fields[] = $embedded;
                 foreach ($embeddedEmbeddables as $embeddable) {
                     $allEmbeddedEmbeddables[] = $embeddable;

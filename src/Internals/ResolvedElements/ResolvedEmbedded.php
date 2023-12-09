@@ -8,7 +8,7 @@ namespace Hereldar\DoctrineMapping\Internals\ResolvedElements;
  * @internal
  * @psalm-immutable
  */
-final class ResolvedEmbeddeded
+final class ResolvedEmbedded
 {
     /**
      * @param non-empty-string $property
