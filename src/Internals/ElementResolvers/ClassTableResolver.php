@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Internals\ElementResolvers;
 
 use ReflectionClass;
-use voku\helper\ASCII;
+
+use function Hereldar\DoctrineMapping\to_snake_case;
 
 /**
  * @internal
@@ -25,6 +26,6 @@ final class ClassTableResolver
             return $table;
         }
 
-        return ASCII::to_slugify($class->getShortName(), separator: '_');
+        return to_snake_case($class->getShortName());
     }
 }

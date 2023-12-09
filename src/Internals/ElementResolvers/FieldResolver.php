@@ -15,19 +15,17 @@ use ReflectionClass;
 final class FieldResolver
 {
     /**
-     * @param non-empty-string|false $columnPrefix
      * @throws MappingException
      */
     public static function resolve(
         ReflectionClass $class,
         Field $field,
-        string|bool $columnPrefix = false,
     ): ResolvedField {
         $property = PropertyResolver::resolve($class, $field->property());
 
         return new ResolvedField(
             property: $field->property(),
-            column: PropertyColumnResolver::resolve($property, $field->column(), $columnPrefix),
+            column: PropertyColumnResolver::resolve($property, $field->column()),
             type: PropertyTypeResolver::resolve($property, $field->type()),
             primaryKey: $field->primaryKey(),
             unique: $field->unique(),

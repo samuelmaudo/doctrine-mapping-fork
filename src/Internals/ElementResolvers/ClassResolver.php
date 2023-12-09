@@ -18,9 +18,8 @@ final class ClassResolver
      *
      * @throws MappingException
      */
-    public static function resolve(
-        string $className,
-    ): ReflectionClass {
+    public static function resolve(string $className): ReflectionClass
+    {
         if (!$className) {
             throw MappingException::emptyClassName();
         }

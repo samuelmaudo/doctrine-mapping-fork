@@ -16,18 +16,16 @@ use ReflectionClass;
 final class EmbeddededResolver
 {
     /**
-     * @param non-empty-string|false $parentColumnPrefix
      * @return array{ResolvedEmbeddeded, list<ResolvedEmbeddable>}
      * @throws MappingException
      */
     public static function resolve(
         ReflectionClass $class,
         Embeddeded $embeddeded,
-        string|bool $parentColumnPrefix = false,
     ): array {
         $property = PropertyResolver::resolve($class, $embeddeded->property());
         $class = PropertyClassResolver::resolve($property, $embeddeded->class());
-        $columnPrefix = PropertyColumnPrefixResolver::resolve($property, $embeddeded->columnPrefix(), $parentColumnPrefix);
+        $columnPrefix = PropertyColumnPrefixResolver::resolve($property, $embeddeded->columnPrefix());
 
         $resolvedEmbeddeded = new ResolvedEmbeddeded(
             property: $property->name,
