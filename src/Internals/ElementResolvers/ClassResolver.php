@@ -14,8 +14,6 @@ use ReflectionException;
 final class ClassResolver
 {
     /**
-     * @param class-string $className
-     *
      * @throws MappingException
      */
     public static function resolve(string $className): ReflectionClass

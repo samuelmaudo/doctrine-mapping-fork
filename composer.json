@@ -33,7 +33,7 @@
             "Hereldar\\DoctrineMapping\\Tests\\": "tests/"
         },
         "files": [
-            "src/functions.php"
+          "src/Internals/functions.php"
         ]
     },
     "config": {

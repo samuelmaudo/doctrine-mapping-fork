@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping;
+namespace Hereldar\DoctrineMapping\Internals;
 
 if (!\function_exists('to_snake_case')) {
     /**

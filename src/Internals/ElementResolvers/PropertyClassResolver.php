@@ -15,14 +15,13 @@ use ReflectionProperty;
 final class PropertyClassResolver
 {
     /**
-     * @param class-string|null $className
      * @throws MappingException
      */
     public static function resolve(
         ReflectionProperty $property,
-        string|null $className = null,
+        ?string $className = null,
     ): ReflectionClass {
-        if ($className !== null) {
+        if ($className) {
             return ClassResolver::resolve($className);
         }
 

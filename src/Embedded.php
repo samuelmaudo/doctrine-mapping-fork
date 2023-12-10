@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping;
 
+use Hereldar\DoctrineMapping\Internals\Exceptions\FalseTypeError;
+
 /**
  * @psalm-immutable
  */
@@ -33,6 +35,10 @@ final class Embedded
         string|bool|null $columnPrefix = null,
         ?array $properties = null,
     ): self {
+        if ($columnPrefix === true) {
+            throw new FalseTypeError('Embedded::of()', 3, '$columnPrefix');
+        }
+
         return new self(...func_get_args());
     }
 

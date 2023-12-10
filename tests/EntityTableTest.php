@@ -10,7 +10,7 @@ use Hereldar\DoctrineMapping\Tests\Entities\ProductVariant;
 
 final class EntityTableTest extends TestCase
 {
-    public function testDefinedTableProperty(): void
+    public function testDefinedTable(): void
     {
         $entity = Entity::of(
             class: ProductVariant::class,
@@ -23,11 +23,24 @@ final class EntityTableTest extends TestCase
         self::assertSame('product_variant_table', $resolvedEntity->table);
     }
 
-    public function testUndefinedTableProperty(): void
+    public function testUndefinedTable(): void
     {
         $entity = Entity::of(
             class: ProductVariant::class,
             properties: [],
+        );
+
+        [$resolvedEntity] = EntityResolver::resolve($entity);
+
+        self::assertSame('product_variant', $resolvedEntity->table);
+    }
+
+    public function testEmptyTable(): void
+    {
+        $entity = Entity::of(
+            class: ProductVariant::class,
+            properties: [],
+            table: '',
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);

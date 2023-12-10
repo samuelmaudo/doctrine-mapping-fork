@@ -11,7 +11,7 @@ use Hereldar\DoctrineMapping\Tests\Entities\Product;
 
 final class FieldColumnTest extends TestCase
 {
-    public function testDefinedColumnProperty(): void
+    public function testDefinedColumn(): void
     {
         $entity = Entity::of(
             class: Product::class,
@@ -27,13 +27,29 @@ final class FieldColumnTest extends TestCase
         self::assertSame('category_id_column', $resolvedEntity->properties[1]->column);
     }
 
-    public function testUndefinedColumnProperty(): void
+    public function testUndefinedColumn(): void
     {
         $entity = Entity::of(
             class: Product::class,
             properties: [
                 Field::of(property: 'id'),
                 Field::of(property: 'categoryId'),
+            ],
+        );
+
+        [$resolvedEntity] = EntityResolver::resolve($entity);
+
+        self::assertSame('id', $resolvedEntity->properties[0]->column);
+        self::assertSame('category_id', $resolvedEntity->properties[1]->column);
+    }
+
+    public function testEmptyColumn(): void
+    {
+        $entity = Entity::of(
+            class: Product::class,
+            properties: [
+                Field::of(property: 'id', column: ''),
+                Field::of(property: 'categoryId', column: ''),
             ],
         );
 

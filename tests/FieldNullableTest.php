@@ -12,7 +12,7 @@ use Hereldar\DoctrineMapping\Tests\Entities\Product;
 
 final class FieldNullableTest extends TestCase
 {
-    public function testDefinedNullableProperty(): void
+    public function testDefinedNullable(): void
     {
         $entity = Entity::of(
             class: Product::class,
@@ -28,7 +28,7 @@ final class FieldNullableTest extends TestCase
         self::assertFalse($resolvedEntity->properties[1]->nullable);
     }
 
-    public function testUndefinedNullableProperty(): void
+    public function testUndefinedNullable(): void
     {
         $entity = Entity::of(
             class: Product::class,
@@ -55,6 +55,18 @@ final class FieldNullableTest extends TestCase
 
         self::assertException(
             MappingException::nullablePrimaryKey(Product::class, 'id'),
+            fn () => EntityResolver::resolve($entity),
+        );
+
+        $entity = Entity::of(
+            class: Product::class,
+            properties: [
+                Field::of(property: 'categoryId', primaryKey: true),
+            ],
+        );
+
+        self::assertException(
+            MappingException::nullablePrimaryKey(Product::class, 'categoryId'),
             fn () => EntityResolver::resolve($entity),
         );
     }

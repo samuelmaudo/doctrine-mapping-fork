@@ -6,7 +6,7 @@ namespace Hereldar\DoctrineMapping\Internals\ElementResolvers;
 
 use ReflectionProperty;
 
-use function Hereldar\DoctrineMapping\to_snake_case;
+use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**
  * @internal
@@ -14,18 +14,16 @@ use function Hereldar\DoctrineMapping\to_snake_case;
 final class PropertyColumnResolver
 {
     /**
-     * @param ?non-empty-string $column
-     *
      * @return non-empty-string
      */
     public static function resolve(
         ReflectionProperty $property,
-        ?string $column = null,
+        ?string $column,
     ): string {
-        if (!$column) {
-            $column = to_snake_case($property->name);
+        if ($column) {
+            return $column;
         }
 
-        return $column;
+        return to_snake_case($property->name);
     }
 }

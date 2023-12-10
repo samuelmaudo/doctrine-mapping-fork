@@ -6,7 +6,7 @@ namespace Hereldar\DoctrineMapping\Internals\ElementResolvers;
 
 use ReflectionClass;
 
-use function Hereldar\DoctrineMapping\to_snake_case;
+use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**
  * @internal
@@ -14,8 +14,6 @@ use function Hereldar\DoctrineMapping\to_snake_case;
 final class ClassTableResolver
 {
     /**
-     * @param ?non-empty-string $table
-     *
      * @return non-empty-string
      */
     public static function resolve(
