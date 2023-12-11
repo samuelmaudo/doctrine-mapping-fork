@@ -8,6 +8,7 @@ use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Internals\ElementResolvers\PropertyColumnPrefixResolver;
+use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbedded;
 use Hereldar\DoctrineMapping\Tests\Entities\User;
 use Hereldar\DoctrineMapping\Tests\Entities\UserId;
 use ReflectionClass;
@@ -95,7 +96,7 @@ final class EmbeddedColumnPrefixTest extends TestCase
 
         self::assertException(
             TypeError::class,
-            fn () => Embedded::of(property: 'id', class: UserId::class, columnPrefix: true),
+            fn () => new ResolvedEmbedded(property: 'id', class: UserId::class, columnPrefix: true),
         );
     }
 }
