@@ -6,7 +6,6 @@ namespace Hereldar\DoctrineMapping\Tests;
 
 use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Internals\ElementResolvers\PropertyColumnPrefixResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\User;
