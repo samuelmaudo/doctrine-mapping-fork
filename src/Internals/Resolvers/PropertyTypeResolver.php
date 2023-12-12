@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Internals\ElementResolvers;
+namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
 use Doctrine\DBAL\Types\Types;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;

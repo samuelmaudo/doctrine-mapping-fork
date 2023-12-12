@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Internals\ElementResolvers;
+namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddable;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEntity;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEntity;
 
 /**
  * @internal

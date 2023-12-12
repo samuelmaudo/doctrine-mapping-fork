@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Tests;
 
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\ProductVariant;
 
 final class EntityTableTest extends TestCase

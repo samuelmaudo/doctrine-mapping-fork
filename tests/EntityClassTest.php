@@ -6,7 +6,7 @@ namespace Hereldar\DoctrineMapping\Tests;
 
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\ProductVariant;
 
 final class EntityClassTest extends TestCase

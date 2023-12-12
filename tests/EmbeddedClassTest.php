@@ -7,7 +7,7 @@ namespace Hereldar\DoctrineMapping\Tests;
 use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\Product;
 use Hereldar\DoctrineMapping\Tests\Entities\ProductVariant;
 use Hereldar\DoctrineMapping\Tests\Entities\User;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Internals\ResolvedElements;
+namespace Hereldar\DoctrineMapping\Internals\Elements;
 
 /**
  * @internal

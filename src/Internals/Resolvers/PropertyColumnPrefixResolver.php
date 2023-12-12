@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Internals\ElementResolvers;
+namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
 use Hereldar\DoctrineMapping\Internals\Exceptions\FalseTypeError;
 use ReflectionProperty;

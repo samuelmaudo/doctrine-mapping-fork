@@ -6,9 +6,9 @@ namespace Hereldar\DoctrineMapping\Tests;
 
 use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\PropertyColumnPrefixResolver;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbedded;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
+use Hereldar\DoctrineMapping\Internals\Resolvers\PropertyColumnPrefixResolver;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbedded;
 use Hereldar\DoctrineMapping\Tests\Entities\User;
 use Hereldar\DoctrineMapping\Tests\Entities\UserId;
 use ReflectionClass;

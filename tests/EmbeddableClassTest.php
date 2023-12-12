@@ -6,7 +6,7 @@ namespace Hereldar\DoctrineMapping\Tests;
 
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EmbeddableResolver;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EmbeddableResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\ProductVariant;
 
 final class EmbeddableClassTest extends TestCase

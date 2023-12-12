@@ -12,12 +12,12 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Mapping\MappingException;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EmbeddableResolver;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbeddable;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEmbedded;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedEntity;
-use Hereldar\DoctrineMapping\Internals\ResolvedElements\ResolvedField;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EmbeddableResolver;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbedded;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEntity;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedField;
 
 abstract class AbstractPhpDriver implements MappingDriver
 {

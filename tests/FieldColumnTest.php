@@ -6,7 +6,7 @@ namespace Hereldar\DoctrineMapping\Tests;
 
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Field;
-use Hereldar\DoctrineMapping\Internals\ElementResolvers\EntityResolver;
+use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\Product;
 
 final class FieldColumnTest extends TestCase
