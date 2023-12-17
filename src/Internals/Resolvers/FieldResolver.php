@@ -7,6 +7,9 @@ namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedField;
+use Hereldar\DoctrineMapping\Internals\Validators\PropertyLengthValidator;
+use Hereldar\DoctrineMapping\Internals\Validators\PropertyPrecisionValidator;
+use Hereldar\DoctrineMapping\Internals\Validators\PropertyScaleValidator;
 use ReflectionClass;
 
 /**
@@ -23,13 +26,20 @@ final class FieldResolver
     ): ResolvedField {
         $property = PropertyResolver::resolve($class, $field->property());
 
+        $column = PropertyColumnResolver::resolve($property, $field->column());
+        $type = PropertyTypeResolver::resolve($property, $field->type());
+        $nullable = PropertyNullableResolver::resolve($property, $field->nullable(), $field->primaryKey());
+        PropertyLengthValidator::validate($property, $field->length());
+        PropertyPrecisionValidator::validate($property, $field->precision());
+        PropertyScaleValidator::validate($property, $field->scale());
+
         return new ResolvedField(
             property: $field->property(),
-            column: PropertyColumnResolver::resolve($property, $field->column()),
-            type: PropertyTypeResolver::resolve($property, $field->type()),
+            column: $column,
+            type: $type,
             primaryKey: $field->primaryKey(),
             unique: $field->unique(),
-            nullable: PropertyNullableResolver::resolve($property, $field->nullable(), $field->primaryKey()),
+            nullable: $nullable,
             insertable: $field->insertable(),
             updatable: $field->updatable(),
             length: $field->length(),

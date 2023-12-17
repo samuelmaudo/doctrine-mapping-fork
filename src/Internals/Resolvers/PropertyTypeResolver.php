@@ -15,8 +15,6 @@ use ReflectionProperty;
 final class PropertyTypeResolver
 {
     /**
-     * @param ?non-empty-string $fieldType
-     *
      * @throws MappingException
      *
      * @return non-empty-string

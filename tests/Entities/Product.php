@@ -13,5 +13,6 @@ final class Product
         public int $id,
         public ?int $categoryId,
         public string $name,
+        public float $price,
     ) {}
 }

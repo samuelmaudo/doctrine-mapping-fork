@@ -34,7 +34,7 @@ final class MappingException extends DoctrineMappingException
      */
     public static function emptyPropertyName(string $className): self
     {
-        return new self("Property name cannot be empty (class {$className})");
+        return new self("Property name cannot be empty (class '{$className}')");
     }
 
     /**
@@ -56,11 +56,38 @@ final class MappingException extends DoctrineMappingException
     }
 
     /**
-     * @param class-string $entityName
-     * @param non-empty-string $fieldName
+     * @param class-string $className
+     * @param non-empty-string $propertyName
      */
-    public static function nullablePrimaryKey(string $entityName, string $fieldName): self
+    public static function nullablePrimaryKey(string $className, string $propertyName): self
     {
-        return new self("Primary key '{$fieldName}' on entity '{$entityName}' is nullable");
+        return new self("Primary key '{$propertyName}' on class '{$className}' is nullable");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function nonPositiveLength(string $className, string $propertyName): self
+    {
+        return new self("Length for property '{$propertyName}' on class '{$className}' is negative or zero");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function nonPositivePrecision(string $className, string $propertyName): self
+    {
+        return new self("Precision for property '{$propertyName}' on class '{$className}' is negative or zero");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function nonPositiveScale(string $className, string $propertyName): self
+    {
+        return new self("Scale for property '{$propertyName}' on class '{$className}' is negative or zero");
     }
 }
