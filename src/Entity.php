@@ -18,8 +18,6 @@ final class Entity
         private string $class,
         private array $properties,
         private ?string $table = null,
-        private bool $insertable = true,
-        private bool $updatable = true,
     ) {}
 
     /**
@@ -31,8 +29,6 @@ final class Entity
         string $class,
         array $properties,
         ?string $table = null,
-        bool $insertable = true,
-        bool $updatable = true,
     ): self {
         return new self(...func_get_args());
     }
@@ -59,15 +55,5 @@ final class Entity
     public function table(): ?string
     {
         return $this->table;
-    }
-
-    public function insertable(): bool
-    {
-        return $this->insertable;
-    }
-
-    public function updatable(): bool
-    {
-        return $this->updatable;
     }
 }
