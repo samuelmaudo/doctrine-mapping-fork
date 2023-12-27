@@ -13,7 +13,7 @@ final class ResolvedField
     /**
      * @param non-empty-string $property
      * @param non-empty-string $column
-     * @param non-empty-string $type
+     * @param ?non-empty-string $type
      * @param ?positive-int $length
      * @param ?non-negative-int $precision
      * @param ?non-negative-int $scale
@@ -21,7 +21,7 @@ final class ResolvedField
     public function __construct(
         public string $property,
         public string $column,
-        public string $type,
+        public ?string $type,
         public bool $primaryKey = false,
         public bool $unique = false,
         public bool $nullable = false,

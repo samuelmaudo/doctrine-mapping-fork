@@ -27,7 +27,6 @@ final class FieldResolver
         $property = PropertyResolver::resolve($class, $field->property());
 
         $column = PropertyColumnResolver::resolve($property, $field->column());
-        $type = PropertyTypeResolver::resolve($property, $field->type());
         $nullable = PropertyNullableResolver::resolve($property, $field->nullable(), $field->primaryKey());
         PropertyLengthValidator::validate($property, $field->length());
         PropertyPrecisionValidator::validate($property, $field->precision());
@@ -36,7 +35,7 @@ final class FieldResolver
         return new ResolvedField(
             property: $field->property(),
             column: $column,
-            type: $type,
+            type: $field->type() ?: null,
             primaryKey: $field->primaryKey(),
             unique: $field->unique(),
             nullable: $nullable,

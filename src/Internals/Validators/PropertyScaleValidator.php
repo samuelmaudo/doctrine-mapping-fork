@@ -14,7 +14,7 @@ final class PropertyScaleValidator
 {
     /**
      * @throws MappingException
-     * @psalm-assert positive-int $scale
+     * @psalm-assert ?positive-int $scale
      */
     public static function validate(
         ReflectionProperty $property,

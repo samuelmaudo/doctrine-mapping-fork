@@ -14,7 +14,7 @@ final class PropertyLengthValidator
 {
     /**
      * @throws MappingException
-     * @psalm-assert positive-int $length
+     * @psalm-assert ?positive-int $length
      */
     public static function validate(
         ReflectionProperty $property,

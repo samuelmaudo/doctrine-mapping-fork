@@ -14,7 +14,7 @@ final class PropertyPrecisionValidator
 {
     /**
      * @throws MappingException
-     * @psalm-assert positive-int $precision
+     * @psalm-assert ?positive-int $precision
      */
     public static function validate(
         ReflectionProperty $property,
