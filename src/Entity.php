@@ -9,11 +9,6 @@ namespace Hereldar\DoctrineMapping;
  */
 final class Entity
 {
-    /**
-     * @param class-string $class
-     * @param non-empty-list<Field|Embedded> $properties
-     * @param ?non-empty-string $table
-     */
     private function __construct(
         private string $class,
         private array $properties,
@@ -33,25 +28,16 @@ final class Entity
         return new self(...func_get_args());
     }
 
-    /**
-     * @return class-string
-     */
     public function class(): string
     {
         return $this->class;
     }
 
-    /**
-     * @return non-empty-list<Field|Embedded>
-     */
     public function properties(): array
     {
         return $this->properties;
     }
 
-    /**
-     * @return ?non-empty-string
-     */
     public function table(): ?string
     {
         return $this->table;

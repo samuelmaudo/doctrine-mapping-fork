@@ -9,14 +9,6 @@ namespace Hereldar\DoctrineMapping;
  */
 final class Field
 {
-    /**
-     * @param non-empty-string $property
-     * @param ?non-empty-string $column
-     * @param ?non-empty-string $type
-     * @param ?positive-int $length
-     * @param ?non-negative-int $precision
-     * @param ?non-negative-int $scale
-     */
     private function __construct(
         private string $property,
         private ?string $column = null,
@@ -59,25 +51,16 @@ final class Field
         return new self(...func_get_args());
     }
 
-    /**
-     * @return non-empty-string
-     */
     public function property(): string
     {
         return $this->property;
     }
 
-    /**
-     * @return ?non-empty-string
-     */
     public function column(): ?string
     {
         return $this->column;
     }
 
-    /**
-     * @return ?non-empty-string
-     */
     public function type(): ?string
     {
         return $this->type;
@@ -108,25 +91,16 @@ final class Field
         return $this->updatable;
     }
 
-    /**
-     * @return ?positive-int
-     */
     public function length(): ?int
     {
         return $this->length;
     }
 
-    /**
-     * @return ?non-negative-int
-     */
     public function precision(): ?int
     {
         return $this->precision;
     }
 
-    /**
-     * @return ?non-negative-int
-     */
     public function scale(): ?int
     {
         return $this->scale;

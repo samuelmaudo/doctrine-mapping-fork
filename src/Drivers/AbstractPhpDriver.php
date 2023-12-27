@@ -18,6 +18,8 @@ use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbedded;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEntity;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedField;
+use Hereldar\DoctrineMapping\Internals\Resolvers\MappedSuperclassResolver;
+use Hereldar\DoctrineMapping\MappedSuperclass;
 
 abstract class AbstractPhpDriver implements MappingDriver
 {
@@ -145,6 +147,8 @@ abstract class AbstractPhpDriver implements MappingDriver
             [$entity, $embeddables] = EntityResolver::resolve($class);
         } elseif ($class instanceof Embeddable) {
             $embeddables = EmbeddableResolver::resolve($class);
+        } elseif ($class instanceof MappedSuperclass) {
+            [$mappedSuperclass, $embeddables] = MappedSuperclassResolver::resolve($class);
         }
 
         $result = [];
@@ -157,6 +161,10 @@ abstract class AbstractPhpDriver implements MappingDriver
             foreach ($embeddables as $embeddable) {
                 $result[$embeddable->class] = $embeddable;
             }
+        }
+
+        if (isset($mappedSuperclass)) {
+            $result[$mappedSuperclass->class] = $mappedSuperclass;
         }
 
         if (!isset($result[$className])) {

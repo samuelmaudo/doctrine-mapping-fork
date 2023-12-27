@@ -7,7 +7,7 @@ namespace Hereldar\DoctrineMapping;
 /**
  * @psalm-immutable
  */
-final class Embeddable
+final class MappedSuperclass
 {
     private function __construct(
         private string $class,
