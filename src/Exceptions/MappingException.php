@@ -61,9 +61,9 @@ final class MappingException extends DoctrineMappingException
      * @param class-string $className
      * @param non-empty-string $propertyName
      */
-    public static function propertyTypeNotFound(string $className, string $propertyName): self
+    public static function missingClassAttribute(string $className, string $propertyName): self
     {
-        return new self("Type could not be found for property '{$propertyName}' on class '{$className}'");
+        return new self("Class attribute for property '{$propertyName}' on class '{$className}' is missing");
     }
 
     /**

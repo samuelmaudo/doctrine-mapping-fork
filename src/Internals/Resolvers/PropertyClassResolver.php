@@ -21,14 +21,14 @@ final class PropertyClassResolver
         ReflectionProperty $property,
         ?string $className = null,
     ): ReflectionClass {
-        if ($className) {
+        if ($className !== null) {
             return ClassResolver::resolve($className);
         }
 
         $propertyType = $property->getType();
 
         if (!$propertyType instanceof ReflectionNamedType) {
-            throw MappingException::propertyTypeNotFound(
+            throw MappingException::missingClassAttribute(
                 $property->class,
                 $property->name,
             );

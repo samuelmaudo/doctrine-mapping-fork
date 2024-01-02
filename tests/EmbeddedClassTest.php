@@ -8,6 +8,7 @@ use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
+use Hereldar\DoctrineMapping\Tests\Entities\Order;
 use Hereldar\DoctrineMapping\Tests\Entities\Product;
 use Hereldar\DoctrineMapping\Tests\Entities\ProductVariant;
 use Hereldar\DoctrineMapping\Tests\Entities\User;
@@ -74,9 +75,24 @@ final class EmbeddedClassTest extends TestCase
             ],
         );
 
-        [$resolvedEntity] = EntityResolver::resolve($entity);
+        self::assertException(
+            MappingException::emptyClassName(),
+            fn () => EntityResolver::resolve($entity),
+        );
+    }
 
-        self::assertSame(UserId::class, $resolvedEntity->properties[0]->class);
-        self::assertSame(UserEmail::class, $resolvedEntity->properties[1]->class);
+    public function testMissingClass(): void
+    {
+        $entity = Entity::of(
+            class: Order::class,
+            properties: [
+                Embedded::of(property: 'id'),
+            ],
+        );
+
+        self::assertException(
+            MappingException::missingClassAttribute(Order::class, 'id'),
+            fn () => EntityResolver::resolve($entity),
+        );
     }
 }
