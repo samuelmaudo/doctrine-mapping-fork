@@ -13,39 +13,39 @@ final class MappedSuperclassClassTest extends TestCase
 {
     public function testExistingClass(): void
     {
-        $mappedSuperclass = MappedSuperclass::of(
+        $superclass = MappedSuperclass::of(
             class: ProductVariant::class,
             properties: [],
         );
 
-        [$resolvedMappedSuperclass] = MappedSuperclassResolver::resolve($mappedSuperclass);
+        [$resolvedSuperclass] = MappedSuperclassResolver::resolve($superclass);
 
-        self::assertSame(ProductVariant::class, $resolvedMappedSuperclass->class);
+        self::assertSame(ProductVariant::class, $resolvedSuperclass->class);
     }
 
     public function testNonExistingClass(): void
     {
-        $mappedSuperclass = MappedSuperclass::of(
+        $superclass = MappedSuperclass::of(
             class: 'NonExistingClass',
             properties: [],
         );
 
         self::assertException(
             MappingException::classNotFound('NonExistingClass'),
-            fn () => MappedSuperclassResolver::resolve($mappedSuperclass),
+            fn () => MappedSuperclassResolver::resolve($superclass),
         );
     }
 
     public function testEmptyClass(): void
     {
-        $mappedSuperclass = MappedSuperclass::of(
+        $superclass = MappedSuperclass::of(
             class: '',
             properties: [],
         );
 
         self::assertException(
             MappingException::emptyClassName(),
-            fn () => MappedSuperclassResolver::resolve($mappedSuperclass),
+            fn () => MappedSuperclassResolver::resolve($superclass),
         );
     }
 
@@ -53,14 +53,14 @@ final class MappedSuperclassClassTest extends TestCase
     {
         $object = new class {};
 
-        $mappedSuperclass = MappedSuperclass::of(
+        $superclass = MappedSuperclass::of(
             class: $object::class,
             properties: [],
         );
 
         self::assertException(
             MappingException::anonymousClass($object::class),
-            fn () => MappedSuperclassResolver::resolve($mappedSuperclass),
+            fn () => MappedSuperclassResolver::resolve($superclass),
         );
     }
 }

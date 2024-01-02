@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Exceptions;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 
 final class MappingException extends DoctrineMappingException
@@ -27,6 +28,16 @@ final class MappingException extends DoctrineMappingException
     public static function anonymousClass(string $className): self
     {
         return new self("Class '{$className}' is anonymous");
+    }
+
+    /**
+     * @param class-string $className
+     */
+    public static function invalidRepositoryClass(string $className): self
+    {
+        $entityRepositoryClass = EntityRepository::class;
+
+        return new self("Class '{$className}' is not a valid repository class because does not extend {$entityRepositoryClass}.");
     }
 
     /**

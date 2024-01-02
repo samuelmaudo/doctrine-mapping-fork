@@ -8,6 +8,7 @@ use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEntity;
+use Hereldar\DoctrineMapping\Internals\Validators\RepositoryClassValidator;
 
 /**
  * @internal
@@ -24,7 +25,15 @@ final class EntityResolver
         $class = ClassResolver::resolve($entity->class());
         $table = ClassTableResolver::resolve($class, $entity->table());
         [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $entity->properties());
+        RepositoryClassValidator::validate($entity->repositoryClass());
 
-        return [new ResolvedEntity($class->name, $table, $fields), $embeddedEmbeddables];
+        $resolvedEntity = new ResolvedEntity(
+            $class->name,
+            $table,
+            $fields,
+            $entity->repositoryClass(),
+        );
+
+        return [$resolvedEntity, $embeddedEmbeddables];
     }
 }

@@ -12,6 +12,7 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Mapping\MappingException;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Entity;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedMappedSuperclass;
 use Hereldar\DoctrineMapping\Internals\Resolvers\EmbeddableResolver;
 use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
@@ -26,8 +27,8 @@ abstract class AbstractPhpDriver implements MappingDriver
     protected FileLocator $locator;
 
     /**
-     * @var array<string, ResolvedEntity|ResolvedEmbeddable>
-     * @psalm-var array<class-string, ResolvedEntity|ResolvedEmbeddable>
+     * @var array<string, ResolvedEntity|ResolvedMappedSuperclass|ResolvedEmbeddable>
+     * @psalm-var array<class-string, ResolvedEntity|ResolvedMappedSuperclass|ResolvedEmbeddable>
      */
     protected array $classCache = [];
 
@@ -61,7 +62,7 @@ abstract class AbstractPhpDriver implements MappingDriver
             $this->loadMappingFile($className);
         }
 
-        /** @var ResolvedEntity|ResolvedEmbeddable $class */
+        /** @var ResolvedEntity|ResolvedMappedSuperclass|ResolvedEmbeddable $class */
         $class = $this->classCache[$className];
 
         if ($class instanceof ResolvedEntity) {
@@ -69,6 +70,8 @@ abstract class AbstractPhpDriver implements MappingDriver
                 'name' => $class->table,
                 'schema' => null,
             ]);
+        } elseif ($class instanceof ResolvedMappedSuperclass) {
+            $metadata->isMappedSuperclass = true;
         } elseif ($class instanceof ResolvedEmbeddable) {
             $metadata->isEmbeddedClass = true;
         }
@@ -145,10 +148,10 @@ abstract class AbstractPhpDriver implements MappingDriver
 
         if ($class instanceof Entity) {
             [$entity, $embeddables] = EntityResolver::resolve($class);
+        } elseif ($class instanceof MappedSuperclass) {
+            [$superclass, $embeddables] = MappedSuperclassResolver::resolve($class);
         } elseif ($class instanceof Embeddable) {
             $embeddables = EmbeddableResolver::resolve($class);
-        } elseif ($class instanceof MappedSuperclass) {
-            [$mappedSuperclass, $embeddables] = MappedSuperclassResolver::resolve($class);
         }
 
         $result = [];
@@ -163,8 +166,8 @@ abstract class AbstractPhpDriver implements MappingDriver
             }
         }
 
-        if (isset($mappedSuperclass)) {
-            $result[$mappedSuperclass->class] = $mappedSuperclass;
+        if (isset($superclass)) {
+            $result[$superclass->class] = $superclass;
         }
 
         if (!isset($result[$className])) {

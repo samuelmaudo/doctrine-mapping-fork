@@ -15,6 +15,7 @@ final class ClassResolver
 {
     /**
      * @throws MappingException
+     * @psalm-assert class-string $className
      */
     public static function resolve(string $className): ReflectionClass
     {
