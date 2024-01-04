@@ -17,7 +17,6 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
     {
         $superclass = MappedSuperclass::of(
             class: ProductVariant::class,
-            properties: [],
         );
 
         [$resolvedSuperclass] = MappedSuperclassResolver::resolve($superclass);
@@ -30,7 +29,6 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
         $superclass = MappedSuperclass::of(
             class: ProductVariant::class,
             repositoryClass: ValidRepository::class,
-            properties: [],
         );
 
         [$resolvedSuperclass] = MappedSuperclassResolver::resolve($superclass);
@@ -43,7 +41,6 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
         $superclass = MappedSuperclass::of(
             class: ProductVariant::class,
             repositoryClass: 'NonExistingClass',
-            properties: [],
         );
 
         self::assertException(
@@ -57,7 +54,6 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
         $superclass = MappedSuperclass::of(
             class: ProductVariant::class,
             repositoryClass: '',
-            properties: [],
         );
 
         self::assertException(
@@ -73,7 +69,6 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
         $superclass = MappedSuperclass::of(
             class: ProductVariant::class,
             repositoryClass: $object::class,
-            properties: [],
         );
 
         self::assertException(
@@ -87,7 +82,6 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
         $superclass = MappedSuperclass::of(
             class: ProductVariant::class,
             repositoryClass: InvalidRepository::class,
-            properties: [],
         );
 
         self::assertException(

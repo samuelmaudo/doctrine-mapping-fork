@@ -16,23 +16,21 @@ final class EmbeddedPropertyTest extends TestCase
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id'),
-            ],
+        )->withFields(
+            Embedded::of('id'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame('id', $resolvedEntity->properties[0]->property);
+        self::assertSame('id', $resolvedEntity->fields[0]->property);
     }
 
     public function testNonExistingProperty(): void
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'nonExistingProperty'),
-            ],
+        )->withFields(
+            Embedded::of('nonExistingProperty'),
         );
 
         self::assertException(
@@ -45,9 +43,8 @@ final class EmbeddedPropertyTest extends TestCase
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: ''),
-            ],
+        )->withFields(
+            Embedded::of(''),
         );
 
         self::assertException(

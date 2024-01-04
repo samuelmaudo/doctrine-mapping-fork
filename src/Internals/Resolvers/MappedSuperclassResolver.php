@@ -23,13 +23,13 @@ final class MappedSuperclassResolver
     public static function resolve(MappedSuperclass $superclass): array
     {
         $class = ClassResolver::resolve($superclass->class());
-        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $superclass->properties());
         RepositoryClassValidator::validate($superclass->repositoryClass());
+        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $superclass->fields());
 
         $resolvedSuperclass = new ResolvedMappedSuperclass(
             $class->name,
-            $fields,
             $superclass->repositoryClass(),
+            $fields,
         );
 
         return [$resolvedSuperclass, $embeddedEmbeddables];

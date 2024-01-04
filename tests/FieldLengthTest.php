@@ -18,51 +18,48 @@ final class FieldLengthTest extends TestCase
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', properties: [
-                    Field::of(property: 'value', length: 36)
-                ]),
-                Embedded::of(property: 'email', properties: [
-                    Field::of(property: 'value', length: 100)
-                ]),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id')->withFields(
+                Field::of(property: 'value', length: 36),
+            ),
+            Embedded::of(property: 'email')->withFields(
+                Field::of(property: 'value', length: 100),
+            ),
         );
 
         [, $embeddedEmbeddables] = EntityResolver::resolve($entity);
 
-        self::assertSame(36, $embeddedEmbeddables[0]->properties[0]->length);
-        self::assertSame(100, $embeddedEmbeddables[1]->properties[0]->length);
+        self::assertSame(36, $embeddedEmbeddables[0]->fields[0]->length);
+        self::assertSame(100, $embeddedEmbeddables[1]->fields[0]->length);
     }
 
     public function testUndefinedLength(): void
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', properties: [
-                    Field::of(property: 'value')
-                ]),
-                Embedded::of(property: 'email', properties: [
-                    Field::of(property: 'value')
-                ]),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id')->withFields(
+                Field::of(property: 'value'),
+            ),
+            Embedded::of(property: 'email')->withFields(
+                Field::of(property: 'value'),
+            ),
         );
 
         [, $embeddedEmbeddables] = EntityResolver::resolve($entity);
 
-        self::assertNull($embeddedEmbeddables[0]->properties[0]->length);
-        self::assertNull($embeddedEmbeddables[1]->properties[0]->length);
+        self::assertNull($embeddedEmbeddables[0]->fields[0]->length);
+        self::assertNull($embeddedEmbeddables[1]->fields[0]->length);
     }
 
     public function testZeroLength(): void
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', properties: [
-                    Field::of(property: 'value', length: 0)
-                ]),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id')->withFields(
+                Field::of(property: 'value', length: 0),
+            ),
         );
 
         self::assertException(
@@ -75,11 +72,10 @@ final class FieldLengthTest extends TestCase
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', properties: [
-                    Field::of(property: 'value', length: -5)
-                ]),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id')->withFields(
+                Field::of(property: 'value', length: -5),
+            ),
         );
 
         self::assertException(

@@ -13,24 +13,36 @@ final class Entity
 {
     private function __construct(
         private string $class,
-        private array $properties,
-        private ?string $table = null,
-        private ?string $repositoryClass = null,
+        private ?string $repositoryClass,
+        private ?string $table,
+        private array $fields = [],
     ) {}
 
     /**
      * @param class-string $class
-     * @param non-empty-list<Field|Embedded> $properties
-     * @param ?non-empty-string $table
      * @param ?class-string<EntityRepository> $repositoryClass
+     * @param ?non-empty-string $table
      */
     public static function of(
         string $class,
-        array $properties,
-        ?string $table = null,
         ?string $repositoryClass = null,
+        ?string $table = null,
     ): self {
-        return new self(...func_get_args());
+        return new self($class, $repositoryClass, $table);
+    }
+
+    /**
+     * @param non-empty-list<Field|Embedded> $fields
+     */
+    public function withFields(
+        Field|Embedded ...$fields,
+    ): self {
+        return new self(
+            $this->class,
+            $this->repositoryClass,
+            $this->table,
+            $fields,
+        );
     }
 
     public function class(): string
@@ -38,9 +50,9 @@ final class Entity
         return $this->class;
     }
 
-    public function properties(): array
+    public function repositoryClass(): ?string
     {
-        return $this->properties;
+        return $this->repositoryClass;
     }
 
     public function table(): ?string
@@ -48,8 +60,8 @@ final class Entity
         return $this->table;
     }
 
-    public function repositoryClass(): ?string
+    public function fields(): array
     {
-        return $this->repositoryClass;
+        return $this->fields;
     }
 }

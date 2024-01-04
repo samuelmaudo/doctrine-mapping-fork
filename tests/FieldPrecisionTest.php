@@ -16,37 +16,34 @@ final class FieldPrecisionTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'price', precision: 10),
-            ],
+        )->withFields(
+            Field::of(property: 'price', precision: 10),
         );
 
         [$entity] = EntityResolver::resolve($entity);
 
-        self::assertSame(10, $entity->properties[0]->precision);
+        self::assertSame(10, $entity->fields[0]->precision);
     }
 
     public function testUndefinedPrecision(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'price'),
-            ],
+        )->withFields(
+            Field::of(property: 'price'),
         );
 
         [$entity] = EntityResolver::resolve($entity);
 
-        self::assertNull($entity->properties[0]->precision);
+        self::assertNull($entity->fields[0]->precision);
     }
 
     public function testZeroPrecision(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'price', precision: 0),
-            ],
+        )->withFields(
+            Field::of(property: 'price', precision: 0),
         );
 
         self::assertException(
@@ -59,9 +56,8 @@ final class FieldPrecisionTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'price', precision: -5),
-            ],
+        )->withFields(
+            Field::of(property: 'price', precision: -5),
         );
 
         self::assertException(

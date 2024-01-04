@@ -33,15 +33,15 @@ final class EmbeddedResolver
             columnPrefix: $columnPrefix,
         );
 
-        if (!$embedded->properties()) {
+        if (!$embedded->fields()) {
             return [$resolvedEmbedded, []];
         }
 
-        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $embedded->properties());
+        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $embedded->fields());
 
         $resolvedEmbeddable = new ResolvedEmbeddable(
             class: $class->name,
-            properties: $fields,
+            fields: $fields,
         );
 
         return [$resolvedEmbedded, [$resolvedEmbeddable, ...$embeddedEmbeddables]];

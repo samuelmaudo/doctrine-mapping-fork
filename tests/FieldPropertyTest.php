@@ -16,23 +16,21 @@ final class FieldPropertyTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id'),
-            ],
+        )->withFields(
+            Field::of('id'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame('id', $resolvedEntity->properties[0]->property);
+        self::assertSame('id', $resolvedEntity->fields[0]->property);
     }
 
     public function testNonExistingProperty(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'nonExistingProperty'),
-            ],
+        )->withFields(
+            Field::of('nonExistingProperty'),
         );
 
         self::assertException(
@@ -45,9 +43,8 @@ final class FieldPropertyTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: ''),
-            ],
+        )->withFields(
+            Field::of(''),
         );
 
         self::assertException(

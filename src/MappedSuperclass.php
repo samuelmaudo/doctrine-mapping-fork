@@ -13,21 +13,33 @@ final class MappedSuperclass
 {
     private function __construct(
         private string $class,
-        private array $properties,
-        private ?string $repositoryClass = null,
-    ) {}
+        private ?string $repositoryClass,
+        private array $fields = [],
+    ) {
+    }
 
     /**
      * @param class-string $class
-     * @param non-empty-list<Field|Embedded> $properties
      * @param ?class-string<EntityRepository> $repositoryClass
      */
     public static function of(
         string $class,
-        array $properties,
         ?string $repositoryClass = null,
     ): self {
-        return new self(...func_get_args());
+        return new self($class, $repositoryClass);
+    }
+
+    /**
+     * @param non-empty-list<Field|Embedded> $fields
+     */
+    public function withFields(
+        Field|Embedded ...$fields,
+    ): self {
+        return new self(
+            $this->class,
+            $this->repositoryClass,
+            $fields,
+        );
     }
 
     public function class(): string
@@ -35,13 +47,13 @@ final class MappedSuperclass
         return $this->class;
     }
 
-    public function properties(): array
-    {
-        return $this->properties;
-    }
-
     public function repositoryClass(): ?string
     {
         return $this->repositoryClass;
+    }
+
+    public function fields(): array
+    {
+        return $this->fields;
     }
 }

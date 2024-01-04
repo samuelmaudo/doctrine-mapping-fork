@@ -15,31 +15,29 @@ final class FieldUniqueTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', unique: true),
-                Field::of(property: 'categoryId', unique: false),
-            ],
+        )->withFields(
+            Field::of(property: 'id', unique: true),
+            Field::of(property: 'categoryId', unique: false),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertTrue($resolvedEntity->properties[0]->unique);
-        self::assertFalse($resolvedEntity->properties[1]->unique);
+        self::assertTrue($resolvedEntity->fields[0]->unique);
+        self::assertFalse($resolvedEntity->fields[1]->unique);
     }
 
     public function testUndefinedUnique(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id'),
-                Field::of(property: 'categoryId'),
-            ],
+        )->withFields(
+            Field::of(property: 'id'),
+            Field::of(property: 'categoryId'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertFalse($resolvedEntity->properties[0]->unique);
-        self::assertFalse($resolvedEntity->properties[1]->unique);
+        self::assertFalse($resolvedEntity->fields[0]->unique);
+        self::assertFalse($resolvedEntity->fields[1]->unique);
     }
 }

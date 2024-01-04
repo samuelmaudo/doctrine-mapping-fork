@@ -23,15 +23,15 @@ final class EntityResolver
     public static function resolve(Entity $entity): array
     {
         $class = ClassResolver::resolve($entity->class());
-        $table = ClassTableResolver::resolve($class, $entity->table());
-        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $entity->properties());
         RepositoryClassValidator::validate($entity->repositoryClass());
+        $table = ClassTableResolver::resolve($class, $entity->table());
+        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $entity->fields());
 
         $resolvedEntity = new ResolvedEntity(
             $class->name,
+            $entity->repositoryClass(),
             $table,
             $fields,
-            $entity->repositoryClass(),
         );
 
         return [$resolvedEntity, $embeddedEmbeddables];

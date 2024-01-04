@@ -11,18 +11,25 @@ final class Embeddable
 {
     private function __construct(
         private string $class,
-        private array $properties,
+        private array $fields = [],
     ) {}
 
     /**
      * @param class-string $class
-     * @param non-empty-list<Field|Embedded> $properties
      */
     public static function of(
         string $class,
-        array $properties,
     ): self {
-        return new self(...func_get_args());
+        return new self($class);
+    }
+
+    /**
+     * @param non-empty-list<Field|Embedded> $fields
+     */
+    public function withFields(
+        Field|Embedded ...$fields,
+    ): self {
+        return new self($this->class, $fields);
     }
 
     public function class(): string
@@ -30,8 +37,8 @@ final class Embeddable
         return $this->class;
     }
 
-    public function properties(): array
+    public function fields(): array
     {
-        return $this->properties;
+        return $this->fields;
     }
 }

@@ -62,44 +62,44 @@ abstract class AbstractPhpDriver implements MappingDriver
             $this->loadMappingFile($className);
         }
 
-        /** @var ResolvedEntity|ResolvedMappedSuperclass|ResolvedEmbeddable $class */
-        $class = $this->classCache[$className];
+        /** @var ResolvedEntity|ResolvedMappedSuperclass|ResolvedEmbeddable $entity */
+        $entity = $this->classCache[$className];
 
-        if ($class instanceof ResolvedEntity) {
+        if ($entity instanceof ResolvedEntity) {
             $metadata->setPrimaryTable([
-                'name' => $class->table,
+                'name' => $entity->table,
                 'schema' => null,
             ]);
-        } elseif ($class instanceof ResolvedMappedSuperclass) {
+        } elseif ($entity instanceof ResolvedMappedSuperclass) {
             $metadata->isMappedSuperclass = true;
-        } elseif ($class instanceof ResolvedEmbeddable) {
+        } elseif ($entity instanceof ResolvedEmbeddable) {
             $metadata->isEmbeddedClass = true;
         }
 
-        foreach ($class->properties as $property) {
-            if ($property instanceof ResolvedField) {
+        foreach ($entity->fields as $field) {
+            if ($field instanceof ResolvedField) {
                 $metadata->mapField([
-                    'fieldName' => $property->property,
-                    'columnName' => $property->column,
-                    'type' => $property->type,
-                    'id' => $property->primaryKey,
-                    'unique' => $property->unique,
-                    'nullable' => $property->nullable,
-                    'notInsertable' => ($property->insertable === false),
-                    'notUpdatable' => ($property->updatable === false),
-                    'length' => $property->length,
-                    'precision' => $property->precision,
-                    'scale' => $property->scale,
+                    'fieldName' => $field->property,
+                    'columnName' => $field->column,
+                    'type' => $field->type,
+                    'id' => $field->primaryKey,
+                    'unique' => $field->unique,
+                    'nullable' => $field->nullable,
+                    'notInsertable' => ($field->insertable === false),
+                    'notUpdatable' => ($field->updatable === false),
+                    'length' => $field->length,
+                    'precision' => $field->precision,
+                    'scale' => $field->scale,
                     'options' => [
-                        'unsigned' => $property->unsigned,
-                        'fixed' => $property->fixed,
+                        'unsigned' => $field->unsigned,
+                        'fixed' => $field->fixed,
                     ],
                 ]);
-            } elseif ($property instanceof ResolvedEmbedded) {
+            } elseif ($field instanceof ResolvedEmbedded) {
                 $metadata->mapEmbedded([
-                    'fieldName' => $property->property,
-                    'class' => $property->class,
-                    'columnPrefix' => $property->columnPrefix,
+                    'fieldName' => $field->property,
+                    'class' => $field->class,
+                    'columnPrefix' => $field->columnPrefix,
                 ]);
             }
         }

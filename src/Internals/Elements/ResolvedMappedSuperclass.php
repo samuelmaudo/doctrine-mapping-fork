@@ -14,12 +14,12 @@ final class ResolvedMappedSuperclass
 {
     /**
      * @param class-string $class
-     * @param list<ResolvedField|ResolvedEmbedded> $properties
      * @param ?class-string<EntityRepository> $repositoryClass
+     * @param list<ResolvedField|ResolvedEmbedded> $fields
      */
     public function __construct(
         public string $class,
-        public array $properties,
         public ?string $repositoryClass,
+        public array $fields,
     ) {}
 }

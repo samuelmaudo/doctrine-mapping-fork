@@ -13,10 +13,7 @@ final class MappedSuperclassClassTest extends TestCase
 {
     public function testExistingClass(): void
     {
-        $superclass = MappedSuperclass::of(
-            class: ProductVariant::class,
-            properties: [],
-        );
+        $superclass = MappedSuperclass::of(ProductVariant::class);
 
         [$resolvedSuperclass] = MappedSuperclassResolver::resolve($superclass);
 
@@ -25,10 +22,7 @@ final class MappedSuperclassClassTest extends TestCase
 
     public function testNonExistingClass(): void
     {
-        $superclass = MappedSuperclass::of(
-            class: 'NonExistingClass',
-            properties: [],
-        );
+        $superclass = MappedSuperclass::of('NonExistingClass');
 
         self::assertException(
             MappingException::classNotFound('NonExistingClass'),
@@ -38,10 +32,7 @@ final class MappedSuperclassClassTest extends TestCase
 
     public function testEmptyClass(): void
     {
-        $superclass = MappedSuperclass::of(
-            class: '',
-            properties: [],
-        );
+        $superclass = MappedSuperclass::of(class: '');
 
         self::assertException(
             MappingException::emptyClassName(),
@@ -53,10 +44,7 @@ final class MappedSuperclassClassTest extends TestCase
     {
         $object = new class {};
 
-        $superclass = MappedSuperclass::of(
-            class: $object::class,
-            properties: [],
-        );
+        $superclass = MappedSuperclass::of($object::class);
 
         self::assertException(
             MappingException::anonymousClass($object::class),

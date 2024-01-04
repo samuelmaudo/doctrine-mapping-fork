@@ -20,7 +20,7 @@ final class EmbeddableResolver
     public static function resolve(Embeddable $embeddable): array
     {
         $class = ClassResolver::resolve($embeddable->class());
-        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $embeddable->properties());
+        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $embeddable->fields());
 
         return [new ResolvedEmbeddable($class->name, $fields), ...$embeddedEmbeddables];
     }

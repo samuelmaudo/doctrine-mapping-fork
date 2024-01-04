@@ -12,10 +12,10 @@ final class ResolvedEmbeddable
 {
     /**
      * @param class-string $class
-     * @param list<ResolvedField|ResolvedEmbedded> $properties
+     * @param list<ResolvedField|ResolvedEmbedded> $fields
      */
     public function __construct(
         public string $class,
-        public array $properties,
+        public array $fields,
     ) {}
 }

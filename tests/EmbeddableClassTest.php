@@ -13,10 +13,7 @@ final class EmbeddableClassTest extends TestCase
 {
     public function testExistingClass(): void
     {
-        $embeddable = Embeddable::of(
-            class: ProductVariant::class,
-            properties: [],
-        );
+        $embeddable = Embeddable::of(ProductVariant::class);
 
         [$resolvedEmbeddable] = EmbeddableResolver::resolve($embeddable);
 
@@ -25,10 +22,7 @@ final class EmbeddableClassTest extends TestCase
 
     public function testNonExistingClass(): void
     {
-        $embeddable = Embeddable::of(
-            class: 'NonExistingClass',
-            properties: [],
-        );
+        $embeddable = Embeddable::of('NonExistingClass');
 
         self::assertException(
             MappingException::classNotFound('NonExistingClass'),
@@ -38,10 +32,7 @@ final class EmbeddableClassTest extends TestCase
 
     public function testEmptyClass(): void
     {
-        $embeddable = Embeddable::of(
-            class: '',
-            properties: [],
-        );
+        $embeddable = Embeddable::of('');
 
         self::assertException(
             MappingException::emptyClassName(),
@@ -53,10 +44,7 @@ final class EmbeddableClassTest extends TestCase
     {
         $object = new class {};
 
-        $embeddable = Embeddable::of(
-            class: $object::class,
-            properties: [],
-        );
+        $embeddable = Embeddable::of($object::class);
 
         self::assertException(
             MappingException::anonymousClass($object::class),

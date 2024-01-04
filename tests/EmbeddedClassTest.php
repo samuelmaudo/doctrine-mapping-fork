@@ -21,26 +21,24 @@ final class EmbeddedClassTest extends TestCase
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', class: Product::class),
-                Embedded::of(property: 'email', class: ProductVariant::class),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id', class: Product::class),
+            Embedded::of(property: 'email', class: ProductVariant::class),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame(Product::class, $resolvedEntity->properties[0]->class);
-        self::assertSame(ProductVariant::class, $resolvedEntity->properties[1]->class);
+        self::assertSame(Product::class, $resolvedEntity->fields[0]->class);
+        self::assertSame(ProductVariant::class, $resolvedEntity->fields[1]->class);
     }
 
     public function testNonExistingClass(): void
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', class: 'NonExistingClass'),
-                Embedded::of(property: 'email', class: 'NonExistingClass'),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id', class: 'NonExistingClass'),
+            Embedded::of(property: 'email', class: 'NonExistingClass'),
         );
 
         self::assertException(
@@ -53,26 +51,24 @@ final class EmbeddedClassTest extends TestCase
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id'),
-                Embedded::of(property: 'email'),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id'),
+            Embedded::of(property: 'email'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame(UserId::class, $resolvedEntity->properties[0]->class);
-        self::assertSame(UserEmail::class, $resolvedEntity->properties[1]->class);
+        self::assertSame(UserId::class, $resolvedEntity->fields[0]->class);
+        self::assertSame(UserEmail::class, $resolvedEntity->fields[1]->class);
     }
 
     public function testEmptyClass(): void
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', class: ''),
-                Embedded::of(property: 'email', class: ''),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id', class: ''),
+            Embedded::of(property: 'email', class: ''),
         );
 
         self::assertException(
@@ -85,9 +81,8 @@ final class EmbeddedClassTest extends TestCase
     {
         $entity = Entity::of(
             class: Order::class,
-            properties: [
-                Embedded::of(property: 'id'),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id'),
         );
 
         self::assertException(

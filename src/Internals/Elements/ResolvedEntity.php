@@ -14,14 +14,14 @@ final class ResolvedEntity
 {
     /**
      * @param class-string $class
-     * @param non-empty-string $table
-     * @param list<ResolvedField|ResolvedEmbedded> $properties
      * @param ?class-string<EntityRepository> $repositoryClass
+     * @param non-empty-string $table
+     * @param list<ResolvedField|ResolvedEmbedded> $fields
      */
     public function __construct(
         public string $class,
-        public string $table,
-        public array $properties,
         public ?string $repositoryClass,
+        public string $table,
+        public array $fields,
     ) {}
 }

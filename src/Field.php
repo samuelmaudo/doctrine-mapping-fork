@@ -11,18 +11,18 @@ final class Field
 {
     private function __construct(
         private string $property,
-        private ?string $column = null,
-        private ?string $type = null,
-        private bool $primaryKey = false,
-        private bool $unique = false,
-        private ?bool $nullable = null,
-        private bool $insertable = true,
-        private bool $updatable = true,
-        private ?int $length = null,
-        private ?int $precision = null,
-        private ?int $scale = null,
-        private ?bool $unsigned = null,
-        private ?bool $fixed = null,
+        private ?string $column,
+        private ?string $type,
+        private bool $primaryKey,
+        private bool $unique,
+        private ?bool $nullable,
+        private bool $insertable,
+        private bool $updatable,
+        private ?int $length,
+        private ?int $precision,
+        private ?int $scale,
+        private ?bool $unsigned,
+        private ?bool $fixed,
     ) {}
 
     /**
@@ -48,7 +48,21 @@ final class Field
         ?bool $unsigned = null,
         ?bool $fixed = null,
     ): self {
-        return new self(...func_get_args());
+        return new self(
+            $property,
+            $column,
+            $type,
+            $primaryKey,
+            $unique,
+            $nullable,
+            $insertable,
+            $updatable,
+            $length,
+            $precision,
+            $scale,
+            $unsigned,
+            $fixed,
+        );
     }
 
     public function property(): string

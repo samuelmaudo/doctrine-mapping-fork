@@ -13,10 +13,7 @@ final class EntityClassTest extends TestCase
 {
     public function testExistingClass(): void
     {
-        $entity = Entity::of(
-            class: ProductVariant::class,
-            properties: [],
-        );
+        $entity = Entity::of(ProductVariant::class);
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
@@ -25,10 +22,7 @@ final class EntityClassTest extends TestCase
 
     public function testNonExistingClass(): void
     {
-        $entity = Entity::of(
-            class: 'NonExistingClass',
-            properties: [],
-        );
+        $entity = Entity::of('NonExistingClass');
 
         self::assertException(
             MappingException::classNotFound('NonExistingClass'),
@@ -38,10 +32,7 @@ final class EntityClassTest extends TestCase
 
     public function testEmptyClass(): void
     {
-        $entity = Entity::of(
-            class: '',
-            properties: [],
-        );
+        $entity = Entity::of('');
 
         self::assertException(
             MappingException::emptyClassName(),
@@ -53,10 +44,7 @@ final class EntityClassTest extends TestCase
     {
         $object = new class {};
 
-        $entity = Entity::of(
-            class: $object::class,
-            properties: [],
-        );
+        $entity = Entity::of($object::class);
 
         self::assertException(
             MappingException::anonymousClass($object::class),

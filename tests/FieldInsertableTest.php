@@ -15,31 +15,29 @@ final class FieldInsertableTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', insertable: true),
-                Field::of(property: 'categoryId', insertable: false),
-            ],
+        )->withFields(
+            Field::of(property: 'id', insertable: true),
+            Field::of(property: 'categoryId', insertable: false),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertTrue($resolvedEntity->properties[0]->insertable);
-        self::assertFalse($resolvedEntity->properties[1]->insertable);
+        self::assertTrue($resolvedEntity->fields[0]->insertable);
+        self::assertFalse($resolvedEntity->fields[1]->insertable);
     }
 
     public function testUndefinedInsertable(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id'),
-                Field::of(property: 'categoryId'),
-            ],
+        )->withFields(
+            Field::of(property: 'id'),
+            Field::of(property: 'categoryId'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertTrue($resolvedEntity->properties[0]->insertable);
-        self::assertTrue($resolvedEntity->properties[1]->insertable);
+        self::assertTrue($resolvedEntity->fields[0]->insertable);
+        self::assertTrue($resolvedEntity->fields[1]->insertable);
     }
 }

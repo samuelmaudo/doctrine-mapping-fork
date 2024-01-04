@@ -15,47 +15,44 @@ final class FieldTypeTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', type: 'integer'),
-                Field::of(property: 'name', type: 'string'),
-            ],
+        )->withFields(
+            Field::of(property: 'id', type: 'integer'),
+            Field::of(property: 'name', type: 'string'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame('integer', $resolvedEntity->properties[0]->type);
-        self::assertSame('string', $resolvedEntity->properties[1]->type);
+        self::assertSame('integer', $resolvedEntity->fields[0]->type);
+        self::assertSame('string', $resolvedEntity->fields[1]->type);
     }
 
     public function testUndefinedType(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id'),
-                Field::of(property: 'name'),
-            ],
+        )->withFields(
+            Field::of(property: 'id'),
+            Field::of(property: 'name'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertNull($resolvedEntity->properties[0]->type);
-        self::assertNull($resolvedEntity->properties[1]->type);
+        self::assertNull($resolvedEntity->fields[0]->type);
+        self::assertNull($resolvedEntity->fields[1]->type);
     }
 
     public function testEmptyType(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', type: ''),
-                Field::of(property: 'name', type: ''),
-            ],
+        )->withFields(
+            Field::of(property: 'id', type: ''),
+            Field::of(property: 'name', type: ''),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertNull($resolvedEntity->properties[0]->type);
-        self::assertNull($resolvedEntity->properties[1]->type);
+        self::assertNull($resolvedEntity->fields[0]->type);
+        self::assertNull($resolvedEntity->fields[1]->type);
     }
 }

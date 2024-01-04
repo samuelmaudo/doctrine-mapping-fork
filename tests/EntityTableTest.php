@@ -14,7 +14,6 @@ final class EntityTableTest extends TestCase
     {
         $entity = Entity::of(
             class: ProductVariant::class,
-            properties: [],
             table: 'product_variant_table',
         );
 
@@ -27,7 +26,6 @@ final class EntityTableTest extends TestCase
     {
         $entity = Entity::of(
             class: ProductVariant::class,
-            properties: [],
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
@@ -39,7 +37,6 @@ final class EntityTableTest extends TestCase
     {
         $entity = Entity::of(
             class: ProductVariant::class,
-            properties: [],
             table: '',
         );
 

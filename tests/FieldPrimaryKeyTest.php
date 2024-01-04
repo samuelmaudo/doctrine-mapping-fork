@@ -15,31 +15,29 @@ final class FieldPrimaryKeyTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', primaryKey: true),
-                Field::of(property: 'categoryId', primaryKey: false),
-            ],
+        )->withFields(
+            Field::of(property: 'id', primaryKey: true),
+            Field::of(property: 'categoryId', primaryKey: false),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertTrue($resolvedEntity->properties[0]->primaryKey);
-        self::assertFalse($resolvedEntity->properties[1]->primaryKey);
+        self::assertTrue($resolvedEntity->fields[0]->primaryKey);
+        self::assertFalse($resolvedEntity->fields[1]->primaryKey);
     }
 
     public function testUndefinedPrimaryKey(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id'),
-                Field::of(property: 'categoryId'),
-            ],
+        )->withFields(
+            Field::of(property: 'id'),
+            Field::of(property: 'categoryId'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertFalse($resolvedEntity->properties[0]->primaryKey);
-        self::assertFalse($resolvedEntity->properties[1]->primaryKey);
+        self::assertFalse($resolvedEntity->fields[0]->primaryKey);
+        self::assertFalse($resolvedEntity->fields[1]->primaryKey);
     }
 }

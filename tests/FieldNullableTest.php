@@ -16,41 +16,38 @@ final class FieldNullableTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', nullable: true),
-                Field::of(property: 'categoryId', nullable: false),
-            ],
+        )->withFields(
+            Field::of(property: 'id', nullable: true),
+            Field::of(property: 'categoryId', nullable: false),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertTrue($resolvedEntity->properties[0]->nullable);
-        self::assertFalse($resolvedEntity->properties[1]->nullable);
+        self::assertTrue($resolvedEntity->fields[0]->nullable);
+        self::assertFalse($resolvedEntity->fields[1]->nullable);
     }
 
     public function testUndefinedNullable(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id'),
-                Field::of(property: 'categoryId'),
-            ],
+        )->withFields(
+            Field::of(property: 'id'),
+            Field::of(property: 'categoryId'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertFalse($resolvedEntity->properties[0]->nullable);
-        self::assertTrue($resolvedEntity->properties[1]->nullable);
+        self::assertFalse($resolvedEntity->fields[0]->nullable);
+        self::assertTrue($resolvedEntity->fields[1]->nullable);
     }
 
     public function testNullablePrimaryKey(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', primaryKey: true, nullable: true),
-            ],
+        )->withFields(
+            Field::of(property: 'id', primaryKey: true, nullable: true),
         );
 
         self::assertException(
@@ -60,9 +57,8 @@ final class FieldNullableTest extends TestCase
 
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'categoryId', primaryKey: true),
-            ],
+        )->withFields(
+            Field::of(property: 'categoryId', primaryKey: true),
         );
 
         self::assertException(

@@ -16,39 +16,37 @@ final class FieldFixedTest extends TestCase
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', properties: [
-                    Field::of(property: 'value', fixed: true)
-                ]),
-                Embedded::of(property: 'email', properties: [
-                    Field::of(property: 'value', fixed: false)
-                ]),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id')->withFields(
+                Field::of(property: 'value', fixed: true),
+            ),
+            Embedded::of(property: 'email')->withFields(
+                Field::of(property: 'value', fixed: false),
+            ),
         );
 
         [, $embeddedEmbeddables] = EntityResolver::resolve($entity);
 
-        self::assertTrue($embeddedEmbeddables[0]->properties[0]->fixed);
-        self::assertFalse($embeddedEmbeddables[1]->properties[0]->fixed);
+        self::assertTrue($embeddedEmbeddables[0]->fields[0]->fixed);
+        self::assertFalse($embeddedEmbeddables[1]->fields[0]->fixed);
     }
 
     public function testUndefinedFixed(): void
     {
         $entity = Entity::of(
             class: User::class,
-            properties: [
-                Embedded::of(property: 'id', properties: [
-                    Field::of(property: 'value')
-                ]),
-                Embedded::of(property: 'email', properties: [
-                    Field::of(property: 'value')
-                ]),
-            ],
+        )->withFields(
+            Embedded::of(property: 'id')->withFields(
+                Field::of(property: 'value'),
+            ),
+            Embedded::of(property: 'email')->withFields(
+                Field::of(property: 'value'),
+            ),
         );
 
         [, $embeddedEmbeddables] = EntityResolver::resolve($entity);
 
-        self::assertNull($embeddedEmbeddables[0]->properties[0]->fixed);
-        self::assertNull($embeddedEmbeddables[1]->properties[0]->fixed);
+        self::assertNull($embeddedEmbeddables[0]->fields[0]->fixed);
+        self::assertNull($embeddedEmbeddables[1]->fields[0]->fixed);
     }
 }

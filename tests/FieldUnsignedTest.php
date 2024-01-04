@@ -15,31 +15,29 @@ final class FieldUnsignedTest extends TestCase
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id', unsigned: true),
-                Field::of(property: 'categoryId', unsigned: false),
-            ],
+        )->withFields(
+            Field::of(property: 'id', unsigned: true),
+            Field::of(property: 'categoryId', unsigned: false),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertTrue($resolvedEntity->properties[0]->unsigned);
-        self::assertFalse($resolvedEntity->properties[1]->unsigned);
+        self::assertTrue($resolvedEntity->fields[0]->unsigned);
+        self::assertFalse($resolvedEntity->fields[1]->unsigned);
     }
 
     public function testUndefinedUnsigned(): void
     {
         $entity = Entity::of(
             class: Product::class,
-            properties: [
-                Field::of(property: 'id'),
-                Field::of(property: 'categoryId'),
-            ],
+        )->withFields(
+            Field::of(property: 'id'),
+            Field::of(property: 'categoryId'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertNull($resolvedEntity->properties[0]->unsigned);
-        self::assertNull($resolvedEntity->properties[1]->unsigned);
+        self::assertNull($resolvedEntity->fields[0]->unsigned);
+        self::assertNull($resolvedEntity->fields[1]->unsigned);
     }
 }
