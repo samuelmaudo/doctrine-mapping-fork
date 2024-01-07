@@ -24,6 +24,24 @@ abstract class TestCase extends PHPUnitTestCase
 {
     private ?FakerGenerator $fakerGenerator = null;
 
+    public static function assertEntity(ClassMetadata $metadata): void
+    {
+        self::assertFalse($metadata->isMappedSuperclass);
+        self::assertFalse($metadata->isEmbeddedClass);
+    }
+
+    public static function assertMappedSuperclass(ClassMetadata $metadata): void
+    {
+        self::assertTrue($metadata->isMappedSuperclass);
+        self::assertFalse($metadata->isEmbeddedClass);
+    }
+
+    public static function assertEmbeddedClass(ClassMetadata $metadata): void
+    {
+        self::assertFalse($metadata->isMappedSuperclass);
+        self::assertTrue($metadata->isEmbeddedClass);
+    }
+
     /**
      * @param Throwable|class-string<Throwable> $expectedException
      *

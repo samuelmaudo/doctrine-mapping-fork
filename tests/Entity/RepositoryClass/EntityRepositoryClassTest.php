@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Tests\MappedSuperclass\RepositoryClass;
+namespace Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass;
 
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
-final class MappedSuperclassRepositoryClassTest extends TestCase
+final class EntityRepositoryClassTest extends TestCase
 {
     public function testUndefinedRepositoryClass(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedRepositoryClass::class, __DIR__);
 
         self::assertSame(UndefinedRepositoryClass::class, $metadata->getName());
-        self::assertMappedSuperclass($metadata);
+        self::assertEntity($metadata);
         self::assertNull($metadata->customRepositoryClassName);
     }
 
@@ -23,7 +23,7 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
         $metadata = $this->loadClassMetadata(ExistingRepositoryClass::class, __DIR__);
 
         self::assertSame(ExistingRepositoryClass::class, $metadata->getName());
-        self::assertMappedSuperclass($metadata);
+        self::assertEntity($metadata);
         self::assertSame(ExistingRepository::class, $metadata->customRepositoryClassName);
     }
 

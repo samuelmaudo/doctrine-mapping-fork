@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
+use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use ReflectionClass;
 
 use function Hereldar\DoctrineMapping\Internals\to_snake_case;
@@ -22,6 +23,10 @@ final class ClassTableResolver
     ): string {
         if ($table) {
             return $table;
+        }
+
+        if ($table === '') {
+            throw MappingException::emptyTable($class->name);
         }
 
         return to_snake_case($class->getShortName());

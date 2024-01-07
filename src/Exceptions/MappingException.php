@@ -43,6 +43,14 @@ final class MappingException extends DoctrineMappingException
     /**
      * @param class-string $className
      */
+    public static function emptyTable(string $className): self
+    {
+        return new self("Table for class '{$className}' is empty");
+    }
+
+    /**
+     * @param class-string $className
+     */
     public static function emptyPropertyName(string $className): self
     {
         return new self("Property name cannot be empty (class '{$className}')");
