@@ -54,7 +54,7 @@ abstract class AbstractPhpDriver implements MappingDriver
      * @throws MappingException
      * @throws OrmMappingException
      */
-    public function loadMetadataForClass(string $className, ClassMetadata $metadata): void
+    public function loadMetadataForClass($className, ClassMetadata $metadata): void
     {
         assert($metadata instanceof ClassMetadataInfo);
 
