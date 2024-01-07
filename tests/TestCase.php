@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
+use Doctrine\ORM\Mapping\NamingStrategy;
+use Doctrine\ORM\Mapping\TypedFieldMapper;
+use Doctrine\Persistence\Mapping\MappingException as PersistenceMappingException;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
+use Hereldar\DoctrineMapping\Drivers\PhpDriver;
+use Hereldar\DoctrineMapping\Drivers\SimplifiedPhpDriver;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
@@ -14,7 +22,7 @@ use Throwable;
 
 abstract class TestCase extends PHPUnitTestCase
 {
-    private FakerGenerator|null $random = null;
+    private ?FakerGenerator $fakerGenerator = null;
 
     /**
      * @param Throwable|class-string<Throwable> $expectedException
@@ -24,7 +32,7 @@ abstract class TestCase extends PHPUnitTestCase
      */
     public static function assertException(
         Throwable|string $expectedException,
-        callable $callback
+        callable $callback,
     ): void {
         $exception = null;
 
@@ -36,26 +44,81 @@ abstract class TestCase extends PHPUnitTestCase
         if (\is_string($expectedException)) {
             static::assertThat(
                 $exception,
-                new ExceptionConstraint($expectedException)
+                new ExceptionConstraint($expectedException),
             );
         } else {
             static::assertThat(
                 $exception,
-                new ExceptionConstraint($expectedException::class)
+                new ExceptionConstraint($expectedException::class),
             );
             static::assertThat(
                 $exception,
-                new ExceptionMessage($expectedException->getMessage())
+                new ExceptionMessage($expectedException->getMessage()),
             );
             static::assertThat(
                 $exception,
-                new ExceptionCode($expectedException->getCode())
+                new ExceptionCode($expectedException->getCode()),
             );
         }
     }
 
-    protected function random(): FakerGenerator
+    protected function makeDriver(
+        string $directory,
+        string $fileExtension = PhpDriver::DEFAULT_FILE_EXTENSION,
+    ): PhpDriver {
+        return new PhpDriver($directory, $fileExtension);
+    }
+
+    protected function makeSimplifiedDriver(
+        string $directory,
+        string $namespace,
+        string $fileExtension = SimplifiedPhpDriver::DEFAULT_FILE_EXTENSION,
+    ): SimplifiedPhpDriver {
+        return new SimplifiedPhpDriver([$directory => $namespace], $fileExtension);
+    }
+
+    /**
+     * @template T of object
+     * @param class-string<T> $className
+     * @return ClassMetadata<T>
+     */
+    protected function makeClassMetadata(
+        string $className,
+        ?NamingStrategy $namingStrategy = null,
+        ?TypedFieldMapper $typedFieldMapper = null,
+    ): ClassMetadata {
+        $metadata = new ClassMetadata($className, $namingStrategy, $typedFieldMapper);
+        $metadata->initializeReflection(new RuntimeReflectionService());
+        return $metadata;
+    }
+
+    /**
+     * @template T of object
+     *
+     * @param class-string<T> $className
+     *
+     * @throws OrmMappingException
+     * @throws PersistenceMappingException
+     *
+     * @return ClassMetadata<T>
+     */
+    protected function loadClassMetadata(
+        string $className,
+        string $directory,
+        ?string $namespace = null,
+    ): ClassMetadata {
+        $namespace ??= substr($className, 0, strrpos($className, '\\'));
+
+        $driver = $this->makeSimplifiedDriver($directory, $namespace);
+        $metadata = $this->makeClassMetadata($className);
+
+        $driver->loadMetadataForClass($className, $metadata);
+
+        return $metadata;
+    }
+
+    protected function fake(): FakerGenerator
     {
-        return $this->random ??= FakerFactory::create();
+        return $this->fakerGenerator ??= FakerFactory::create();
     }
 }

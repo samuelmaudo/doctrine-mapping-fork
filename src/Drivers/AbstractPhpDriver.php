@@ -66,11 +66,13 @@ abstract class AbstractPhpDriver implements MappingDriver
         $entity = $this->classCache[$className];
 
         if ($entity instanceof ResolvedEntity) {
+            $metadata->setCustomRepositoryClass($entity->repositoryClass);
             $metadata->setPrimaryTable([
                 'name' => $entity->table,
                 'schema' => null,
             ]);
         } elseif ($entity instanceof ResolvedMappedSuperclass) {
+            $metadata->setCustomRepositoryClass($entity->repositoryClass);
             $metadata->isMappedSuperclass = true;
         } elseif ($entity instanceof ResolvedEmbeddable) {
             $metadata->isEmbeddedClass = true;
@@ -178,8 +180,7 @@ abstract class AbstractPhpDriver implements MappingDriver
         }
 
         if (!isset($result[$className])) {
-            $fileName = str_replace('\\', '.', $className).$this->locator->getFileExtension();
-            throw MappingException::invalidMappingFile($className, $fileName);
+            throw MappingException::invalidMappingFile($className, basename($fileName));
         }
 
         foreach ($result as $clsName => $cls) {
