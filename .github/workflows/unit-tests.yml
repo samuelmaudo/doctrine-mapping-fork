@@ -4,16 +4,11 @@ on: [pull_request, push]
 
 jobs:
   phpunit:
-    name: Unit Tests - PHP ${{ matrix.php }} Doctrine ${{ matrix.doctrine }} (${{ matrix.dependencies }}) Ubuntu
+    name: Unit Tests - Doctrine ${{ matrix.doctrine }} PHP ${{ matrix.php }} Ubuntu
 
     strategy:
       fail-fast: false
       matrix:
-        php:
-          - '8.0'
-          - '8.1'
-          - '8.2'
-          - '8.3'
         doctrine:
           - '~2.12.0'
           - '~2.13.0'
@@ -23,8 +18,12 @@ jobs:
           - '~2.17.0'
           - '~2.18.0'
           - '~3.0.0'
+        php:
+          - '8.0'
+          - '8.1'
+          - '8.2'
+          - '8.3'
         dependencies:
-          - 'lowest'
           - 'highest'
         exclude:
           - php: '8.0'
