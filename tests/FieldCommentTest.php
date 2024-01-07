@@ -10,24 +10,24 @@ use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\Product;
 
-final class FieldTypeTest extends TestCase
+final class FieldCommentTest extends TestCase
 {
-    public function testDefinedType(): void
+    public function testDefinedComment(): void
     {
         $entity = Entity::of(
             class: Product::class,
         )->withFields(
-            Field::of(property: 'id', type: 'integer'),
-            Field::of(property: 'name', type: 'string'),
+            Field::of(property: 'id', comment: 'integer'),
+            Field::of(property: 'name', comment: 'string'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame('integer', $resolvedEntity->fields[0]->type);
-        self::assertSame('string', $resolvedEntity->fields[1]->type);
+        self::assertSame('integer', $resolvedEntity->fields[0]->comment);
+        self::assertSame('string', $resolvedEntity->fields[1]->comment);
     }
 
-    public function testUndefinedType(): void
+    public function testUndefinedComment(): void
     {
         $entity = Entity::of(
             class: Product::class,
@@ -38,20 +38,20 @@ final class FieldTypeTest extends TestCase
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertNull($resolvedEntity->fields[0]->type);
-        self::assertNull($resolvedEntity->fields[1]->type);
+        self::assertNull($resolvedEntity->fields[0]->comment);
+        self::assertNull($resolvedEntity->fields[1]->comment);
     }
 
-    public function testEmptyType(): void
+    public function testEmptyComment(): void
     {
         $entity = Entity::of(
             class: Product::class,
         )->withFields(
-            Field::of(property: 'id', type: ''),
+            Field::of(property: 'id', comment: ''),
         );
 
         self::assertException(
-            MappingException::emptyType(Product::class, 'id'),
+            MappingException::emptyComment(Product::class, 'id'),
             fn () => EntityResolver::resolve($entity),
         );
     }

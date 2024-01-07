@@ -19,9 +19,19 @@ final class PropertyScaleValidator
     public static function validate(
         ReflectionProperty $property,
         ?int $scale,
+        ?int $precision,
     ): void {
-        if ($scale !== null && $scale < 1) {
+        if ($scale === null) {
+            return;
+        }
+        if ($scale < 1) {
             throw MappingException::nonPositiveScale(
+                $property->class,
+                $property->name,
+            );
+        }
+        if ($scale > $precision) {
+            throw MappingException::scaleGreaterThanPrecision(
                 $property->class,
                 $property->name,
             );

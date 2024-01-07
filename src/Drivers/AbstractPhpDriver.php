@@ -81,18 +81,25 @@ abstract class AbstractPhpDriver implements MappingDriver
                 $metadata->mapField([
                     'fieldName' => $field->property,
                     'columnName' => $field->column,
+                    'columnDefinition' => $field->columnDefinition,
                     'type' => $field->type,
+                    'enumType' => $field->enumType,
                     'id' => $field->primaryKey,
                     'unique' => $field->unique,
                     'nullable' => $field->nullable,
                     'notInsertable' => ($field->insertable === false),
                     'notUpdatable' => ($field->updatable === false),
+                    'generated' => $field->generated,
                     'length' => $field->length,
                     'precision' => $field->precision,
                     'scale' => $field->scale,
                     'options' => [
+                        'default' => $field->default,
                         'unsigned' => $field->unsigned,
                         'fixed' => $field->fixed,
+                        'charset' => $field->charset,
+                        'collation' => $field->collation,
+                        'comment' => $field->comment,
                     ],
                 ]);
             } elseif ($field instanceof ResolvedEmbedded) {

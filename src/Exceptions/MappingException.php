@@ -70,6 +70,24 @@ final class MappingException extends DoctrineMappingException
      * @param class-string $className
      * @param non-empty-string $propertyName
      */
+    public static function emptyColumnDefinition(string $className, string $propertyName): self
+    {
+        return new self("Column definition for property '{$propertyName}' on class '{$className}' is empty");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function emptyType(string $className, string $propertyName): self
+    {
+        return new self("Type for property '{$propertyName}' on class '{$className}' is empty");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
     public static function nullablePrimaryKey(string $className, string $propertyName): self
     {
         return new self("Primary key '{$propertyName}' on class '{$className}' is nullable");
@@ -97,8 +115,53 @@ final class MappingException extends DoctrineMappingException
      * @param class-string $className
      * @param non-empty-string $propertyName
      */
+    public static function missingPrecision(string $className, string $propertyName): self
+    {
+        return new self("Precision for property '{$propertyName}' on class '{$className}' is missing");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
     public static function nonPositiveScale(string $className, string $propertyName): self
     {
         return new self("Scale for property '{$propertyName}' on class '{$className}' is negative or zero");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function scaleGreaterThanPrecision(string $className, string $propertyName): self
+    {
+        return new self("Scale for property '{$propertyName}' on class '{$className}' is greater than precision");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function emptyCharset(string $className, string $propertyName): self
+    {
+        return new self("Charset for property '{$propertyName}' on class '{$className}' is empty");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function emptyCollation(string $className, string $propertyName): self
+    {
+        return new self("Collation for property '{$propertyName}' on class '{$className}' is empty");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function emptyComment(string $className, string $propertyName): self
+    {
+        return new self("Comment for property '{$propertyName}' on class '{$className}' is empty");
     }
 }

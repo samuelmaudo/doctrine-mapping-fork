@@ -14,36 +14,30 @@ final class FieldScaleTest extends TestCase
 {
     public function testDefinedScale(): void
     {
-        $entity = Entity::of(
-            class: Product::class,
-        )->withFields(
-            Field::of(property: 'price', scale: 10),
+        $entity = Entity::of(Product::class)->withFields(
+            Field::of('price', precision: 10, scale: 5),
         );
 
-        [$entity] = EntityResolver::resolve($entity);
+        [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame(10, $entity->fields[0]->scale);
+        self::assertSame(5, $resolvedEntity->fields[0]->scale);
     }
 
     public function testUndefinedScale(): void
     {
-        $entity = Entity::of(
-            class: Product::class,
-        )->withFields(
-            Field::of(property: 'price'),
+        $entity = Entity::of(Product::class)->withFields(
+            Field::of('price', 'price', precision: 10),
         );
 
-        [$entity] = EntityResolver::resolve($entity);
+        [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertNull($entity->fields[0]->scale);
+        self::assertNull($resolvedEntity->fields[0]->scale);
     }
 
     public function testZeroScale(): void
     {
-        $entity = Entity::of(
-            class: Product::class,
-        )->withFields(
-            Field::of(property: 'price', scale: 0),
+        $entity = Entity::of(Product::class)->withFields(
+            Field::of('price', precision: 10, scale: 0),
         );
 
         self::assertException(
@@ -54,14 +48,24 @@ final class FieldScaleTest extends TestCase
 
     public function testNegativeScale(): void
     {
-        $entity = Entity::of(
-            class: Product::class,
-        )->withFields(
-            Field::of(property: 'price', scale: -5),
+        $entity = Entity::of(Product::class)->withFields(
+            Field::of('price', precision: 10, scale: -5),
         );
 
         self::assertException(
             MappingException::nonPositiveScale(Product::class, 'price'),
+            fn () => EntityResolver::resolve($entity),
+        );
+    }
+
+    public function testScaleGreaterThanPrecision(): void
+    {
+        $entity = Entity::of(Product::class)->withFields(
+            Field::of('price', precision: 5, scale: 10),
+        );
+
+        self::assertException(
+            MappingException::scaleGreaterThanPrecision(Product::class, 'price'),
             fn () => EntityResolver::resolve($entity),
         );
     }

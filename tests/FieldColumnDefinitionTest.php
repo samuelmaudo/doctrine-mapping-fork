@@ -10,24 +10,24 @@ use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
 use Hereldar\DoctrineMapping\Tests\Entities\Product;
 
-final class FieldTypeTest extends TestCase
+final class FieldColumnDefinitionTest extends TestCase
 {
-    public function testDefinedType(): void
+    public function testDefinedColumnDefinition(): void
     {
         $entity = Entity::of(
             class: Product::class,
         )->withFields(
-            Field::of(property: 'id', type: 'integer'),
-            Field::of(property: 'name', type: 'string'),
+            Field::of(property: 'id', columnDefinition: 'integer'),
+            Field::of(property: 'name', columnDefinition: 'string'),
         );
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertSame('integer', $resolvedEntity->fields[0]->type);
-        self::assertSame('string', $resolvedEntity->fields[1]->type);
+        self::assertSame('integer', $resolvedEntity->fields[0]->columnDefinition);
+        self::assertSame('string', $resolvedEntity->fields[1]->columnDefinition);
     }
 
-    public function testUndefinedType(): void
+    public function testUndefinedColumnDefinition(): void
     {
         $entity = Entity::of(
             class: Product::class,
@@ -38,20 +38,20 @@ final class FieldTypeTest extends TestCase
 
         [$resolvedEntity] = EntityResolver::resolve($entity);
 
-        self::assertNull($resolvedEntity->fields[0]->type);
-        self::assertNull($resolvedEntity->fields[1]->type);
+        self::assertNull($resolvedEntity->fields[0]->columnDefinition);
+        self::assertNull($resolvedEntity->fields[1]->columnDefinition);
     }
 
-    public function testEmptyType(): void
+    public function testEmptyColumnDefinition(): void
     {
         $entity = Entity::of(
             class: Product::class,
         )->withFields(
-            Field::of(property: 'id', type: ''),
+            Field::of(property: 'id', columnDefinition: ''),
         );
 
         self::assertException(
-            MappingException::emptyType(Product::class, 'id'),
+            MappingException::emptyColumnDefinition(Product::class, 'id'),
             fn () => EntityResolver::resolve($entity),
         );
     }
