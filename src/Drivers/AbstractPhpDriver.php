@@ -132,7 +132,7 @@ abstract class AbstractPhpDriver implements MappingDriver
     /**
      * {@inheritDoc}
      */
-    public function isTransient(string $className): bool
+    public function isTransient($className): bool
     {
         if (isset($this->classCache[$className])) {
             return false;
