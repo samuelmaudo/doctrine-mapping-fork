@@ -36,7 +36,7 @@ abstract class TestCase extends PHPUnitTestCase
         self::assertFalse($metadata->isEmbeddedClass);
     }
 
-    public static function assertEmbeddedClass(ClassMetadata $metadata): void
+    public static function assertEmbeddable(ClassMetadata $metadata): void
     {
         self::assertFalse($metadata->isMappedSuperclass);
         self::assertTrue($metadata->isEmbeddedClass);
