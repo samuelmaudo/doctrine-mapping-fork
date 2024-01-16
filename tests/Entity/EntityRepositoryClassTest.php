@@ -2,16 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass;
+namespace Hereldar\DoctrineMapping\Tests\Entity;
 
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\AnonymousRepositoryClass;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\EmptyRepositoryClass;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\ExistingRepository;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\ExistingRepositoryClass;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\InvalidRepository;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\InvalidRepositoryClass;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\NonExistingRepositoryClass;
+use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\UndefinedRepositoryClass;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class EntityRepositoryClassTest extends TestCase
 {
     public function testUndefinedRepositoryClass(): void
     {
-        $metadata = $this->loadClassMetadata(UndefinedRepositoryClass::class, __DIR__);
+        $metadata = $this->loadClassMetadata(UndefinedRepositoryClass::class);
 
         self::assertSame(UndefinedRepositoryClass::class, $metadata->getName());
         self::assertEntity($metadata);
@@ -20,7 +28,7 @@ final class EntityRepositoryClassTest extends TestCase
 
     public function testExistingRepositoryClass(): void
     {
-        $metadata = $this->loadClassMetadata(ExistingRepositoryClass::class, __DIR__);
+        $metadata = $this->loadClassMetadata(ExistingRepositoryClass::class);
 
         self::assertSame(ExistingRepositoryClass::class, $metadata->getName());
         self::assertEntity($metadata);
@@ -31,7 +39,7 @@ final class EntityRepositoryClassTest extends TestCase
     {
         self::assertException(
             MappingException::classNotFound('NonExistingRepository'),
-            fn () => $this->loadClassMetadata(NonExistingRepositoryClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(NonExistingRepositoryClass::class),
         );
     }
 
@@ -39,7 +47,7 @@ final class EntityRepositoryClassTest extends TestCase
     {
         self::assertException(
             MappingException::emptyClassName(),
-            fn () => $this->loadClassMetadata(EmptyRepositoryClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(EmptyRepositoryClass::class),
         );
     }
 
@@ -47,7 +55,7 @@ final class EntityRepositoryClassTest extends TestCase
     {
         self::assertException(
             MappingException::class,
-            fn () => $this->loadClassMetadata(AnonymousRepositoryClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(AnonymousRepositoryClass::class),
         );
     }
 
@@ -55,7 +63,7 @@ final class EntityRepositoryClassTest extends TestCase
     {
         self::assertException(
             MappingException::invalidRepositoryClass(InvalidRepository::class),
-            fn () => $this->loadClassMetadata(InvalidRepositoryClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(InvalidRepositoryClass::class),
         );
     }
 }

@@ -2,16 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Tests\Entity\Table;
+namespace Hereldar\DoctrineMapping\Tests\Entity;
 
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Tests\Entity\Table\DefinedTable;
+use Hereldar\DoctrineMapping\Tests\Entity\Table\EmptyTable;
+use Hereldar\DoctrineMapping\Tests\Entity\Table\UndefinedTable;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class EntityTableTest extends TestCase
 {
     public function testDefinedTable(): void
     {
-        $metadata = $this->loadClassMetadata(DefinedTable::class, __DIR__);
+        $metadata = $this->loadClassMetadata(DefinedTable::class);
 
         self::assertSame(DefinedTable::class, $metadata->getName());
         self::assertEntity($metadata);
@@ -20,7 +23,7 @@ final class EntityTableTest extends TestCase
 
     public function testUndefinedTable(): void
     {
-        $metadata = $this->loadClassMetadata(UndefinedTable::class, __DIR__);
+        $metadata = $this->loadClassMetadata(UndefinedTable::class);
 
         self::assertSame(UndefinedTable::class, $metadata->getName());
         self::assertEntity($metadata);
@@ -31,7 +34,7 @@ final class EntityTableTest extends TestCase
     {
         self::assertException(
             MappingException::emptyTable(EmptyTable::class),
-            fn () => $this->loadClassMetadata(EmptyTable::class, __DIR__),
+            fn () => $this->loadClassMetadata(EmptyTable::class),
         );
     }
 }

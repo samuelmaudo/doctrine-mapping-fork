@@ -122,9 +122,10 @@ abstract class TestCase extends PHPUnitTestCase
      */
     protected function loadClassMetadata(
         string $className,
-        string $directory,
+        ?string $directory = null,
         ?string $namespace = null,
     ): ClassMetadata {
+        $directory ??= $this->getMetadataDirectory();
         $namespace ??= substr($className, 0, strrpos($className, '\\'));
 
         $driver = $this->makeSimplifiedDriver($directory, $namespace);
@@ -133,6 +134,22 @@ abstract class TestCase extends PHPUnitTestCase
         $driver->loadMetadataForClass($className, $metadata);
 
         return $metadata;
+    }
+
+    protected function getMetadataDirectory(): string
+    {
+        $className = $this::class;
+
+        $lastBackslash = strrpos($className, '\\');
+        $classShortName = substr($className, $lastBackslash + 1);
+
+        $namespace = substr($className, 0, $lastBackslash);
+        $secondLastBackslash = strrpos($namespace, '\\', -1);
+        $directory = substr($namespace, $secondLastBackslash + 1);
+
+        $subdirectory = substr($classShortName, strlen($directory), -4);
+
+        return __DIR__."/{$directory}/{$subdirectory}";
     }
 
     protected function fake(): FakerGenerator

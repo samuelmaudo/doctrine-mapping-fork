@@ -2,16 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Tests\Embedded\Class;
+namespace Hereldar\DoctrineMapping\Tests\Embedded;
 
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\AnonymousClass;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\EmptyClass;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\ExistingClass;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\ExistingField;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\ExistingId;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\MissingClass;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\NonExistingClass;
+use Hereldar\DoctrineMapping\Tests\Embedded\Class\UndefinedClass;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class EmbeddedClassTest extends TestCase
 {
     public function testExistingClass(): void
     {
-        $metadata = $this->loadClassMetadata(ExistingClass::class, __DIR__);
+        $metadata = $this->loadClassMetadata(ExistingClass::class);
 
         self::assertSame(ExistingClass::class, $metadata->getName());
 
@@ -26,7 +34,7 @@ final class EmbeddedClassTest extends TestCase
     {
         self::assertException(
             MappingException::classNotFound('NonExisting'),
-            fn () => $this->loadClassMetadata(NonExistingClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(NonExistingClass::class),
         );
     }
 
@@ -34,7 +42,7 @@ final class EmbeddedClassTest extends TestCase
     {
         self::assertException(
             MappingException::emptyClassName(),
-            fn () => $this->loadClassMetadata(EmptyClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(EmptyClass::class),
         );
     }
 
@@ -42,13 +50,13 @@ final class EmbeddedClassTest extends TestCase
     {
         self::assertException(
             MappingException::class,
-            fn () => $this->loadClassMetadata(AnonymousClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(AnonymousClass::class),
         );
     }
 
     public function testUndefinedClass(): void
     {
-        $metadata = $this->loadClassMetadata(UndefinedClass::class, __DIR__);
+        $metadata = $this->loadClassMetadata(UndefinedClass::class);
 
         self::assertSame(UndefinedClass::class, $metadata->getName());
 
@@ -63,7 +71,7 @@ final class EmbeddedClassTest extends TestCase
     {
         self::assertException(
             MappingException::missingClassAttribute(MissingClass::class, 'id'),
-            fn () => $this->loadClassMetadata(MissingClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(MissingClass::class),
         );
     }
 }

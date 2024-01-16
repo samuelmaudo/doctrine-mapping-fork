@@ -2,27 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping\Tests\Entity\Class;
+namespace Hereldar\DoctrineMapping\Tests\Embeddable;
 
 use Doctrine\Persistence\Mapping\MappingException as PersistenceMappingException;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Tests\Embeddable\Class\AnonymousClass;
+use Hereldar\DoctrineMapping\Tests\Embeddable\Class\EmptyClass;
+use Hereldar\DoctrineMapping\Tests\Embeddable\Class\ExistingClass;
+use Hereldar\DoctrineMapping\Tests\Embeddable\Class\MistakenClass;
+use Hereldar\DoctrineMapping\Tests\Embeddable\Class\NonExistingClass;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
-final class EntityClassTest extends TestCase
+final class EmbeddableClassTest extends TestCase
 {
     public function testExistingClass(): void
     {
-        $metadata = $this->loadClassMetadata(ExistingClass::class, __DIR__);
+        $metadata = $this->loadClassMetadata(ExistingClass::class);
 
         self::assertSame(ExistingClass::class, $metadata->getName());
-        self::assertEntity($metadata);
+        self::assertEmbeddable($metadata);
     }
 
     public function testMistakenClass(): void
     {
         self::assertException(
             PersistenceMappingException::invalidMappingFile(MistakenClass::class, 'MistakenClass.orm.php'),
-            fn () => $this->loadClassMetadata(MistakenClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(MistakenClass::class),
         );
     }
 
@@ -30,7 +35,7 @@ final class EntityClassTest extends TestCase
     {
         self::assertException(
             MappingException::classNotFound('NonExisting'),
-            fn () => $this->loadClassMetadata(NonExistingClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(NonExistingClass::class),
         );
     }
 
@@ -38,7 +43,7 @@ final class EntityClassTest extends TestCase
     {
         self::assertException(
             MappingException::emptyClassName(),
-            fn () => $this->loadClassMetadata(EmptyClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(EmptyClass::class),
         );
     }
 
@@ -46,7 +51,7 @@ final class EntityClassTest extends TestCase
     {
         self::assertException(
             MappingException::class,
-            fn () => $this->loadClassMetadata(AnonymousClass::class, __DIR__),
+            fn () => $this->loadClassMetadata(AnonymousClass::class),
         );
     }
 }
