@@ -29,14 +29,14 @@ return Entity::of(
     class: User::class,
     table: 'cms_users',
 )->withFields(
-    Id::of(property: 'id', column: 'id', type: 'integer'),
-    Field::of(property: 'name', column: 'name', type: 'string', length: '50', nullable: 'true', unique: 'true'),
-    Field::of(property: 'email', column: 'user_email', type: 'string', columnDefinition: 'CHAR(32) NOT NULL'),
+    Id::of(property: 'id', type: 'integer'),
+    Field::of(property: 'name', type: 'string', length: '50', nullable: true, unique: true),
+    Field::of(property: 'email', type: 'string', column: 'user_email', columnDefinition: 'CHAR(32) NOT NULL'),
 )->withIndexes(
-    Index::of(name: 'name_idx', columns: 'name'),
+    Index::of(columns: 'name', name: 'name_idx'),
     Index::of(columns: 'user_email'),
 )->withUniqueConstrains(
-    UniqueConstrain::of(name: 'search_idx', columns: ['name', 'user_email']),
+    UniqueConstrain::of(columns: ['name', 'user_email'], name: 'search_idx'),
 );
 ```
 
