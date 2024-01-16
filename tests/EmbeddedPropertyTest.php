@@ -47,9 +47,8 @@ final class EmbeddedPropertyTest extends TestCase
             Embedded::of(''),
         );
 
-        self::assertException(
-            MappingException::emptyPropertyName(User::class),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::emptyPropertyName(User::class));
+
+        EntityResolver::resolve($entity);
     }
 }

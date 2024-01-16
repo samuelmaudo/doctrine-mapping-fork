@@ -47,9 +47,8 @@ final class FieldPropertyTest extends TestCase
             Field::of(''),
         );
 
-        self::assertException(
-            MappingException::emptyPropertyName(Product::class),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::emptyPropertyName(Product::class));
+
+        EntityResolver::resolve($entity);
     }
 }

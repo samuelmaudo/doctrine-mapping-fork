@@ -79,6 +79,17 @@ abstract class TestCase extends PHPUnitTestCase
             );
         }
     }
+    /**
+     * @psalm-param \Exception|class-string<\Throwable> $exception
+     */
+    public function expectException(string|\Exception $exception): void
+    {
+        if (is_string($exception)) {
+            parent::expectException($exception);
+        } else {
+            parent::expectExceptionObject($exception);
+        }
+    }
 
     protected function makeDriver(
         string $directory,

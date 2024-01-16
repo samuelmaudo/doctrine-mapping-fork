@@ -32,9 +32,8 @@ final class EntityTableTest extends TestCase
 
     public function testEmptyTable(): void
     {
-        self::assertException(
-            MappingException::emptyTable(EmptyTable::class),
-            fn () => $this->loadClassMetadata(EmptyTable::class),
-        );
+        $this->expectException(MappingException::emptyTable(EmptyTable::class));
+
+        $this->loadClassMetadata(EmptyTable::class);
     }
 }

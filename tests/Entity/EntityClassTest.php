@@ -33,25 +33,22 @@ final class EntityClassTest extends TestCase
 
     public function testNonExistingClass(): void
     {
-        self::assertException(
-            MappingException::classNotFound('NonExisting'),
-            fn () => $this->loadClassMetadata(NonExistingClass::class),
-        );
+        $this->expectException(MappingException::classNotFound('NonExisting'));
+
+        $this->loadClassMetadata(NonExistingClass::class);
     }
 
     public function testEmptyClass(): void
     {
-        self::assertException(
-            MappingException::emptyClassName(),
-            fn () => $this->loadClassMetadata(EmptyClass::class),
-        );
+        $this->expectException(MappingException::emptyClassName());
+
+        $this->loadClassMetadata(EmptyClass::class);
     }
 
     public function testAnonymousClass(): void
     {
-        self::assertException(
-            MappingException::class,
-            fn () => $this->loadClassMetadata(AnonymousClass::class),
-        );
+        $this->expectException(MappingException::class);
+
+        $this->loadClassMetadata(AnonymousClass::class);
     }
 }

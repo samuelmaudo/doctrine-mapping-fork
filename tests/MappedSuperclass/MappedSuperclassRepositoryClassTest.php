@@ -37,33 +37,29 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
 
     public function testNonExistingRepositoryClass(): void
     {
-        self::assertException(
-            MappingException::classNotFound('NonExistingRepository'),
-            fn () => $this->loadClassMetadata(NonExistingRepositoryClass::class),
-        );
+        $this->expectException(MappingException::classNotFound('NonExistingRepository'));
+
+        $this->loadClassMetadata(NonExistingRepositoryClass::class);
     }
 
     public function testEmptyRepositoryClass(): void
     {
-        self::assertException(
-            MappingException::emptyClassName(),
-            fn () => $this->loadClassMetadata(EmptyRepositoryClass::class),
-        );
+        $this->expectException(MappingException::emptyClassName());
+
+        $this->loadClassMetadata(EmptyRepositoryClass::class);
     }
 
     public function testAnonymousRepositoryClass(): void
     {
-        self::assertException(
-            MappingException::class,
-            fn () => $this->loadClassMetadata(AnonymousRepositoryClass::class),
-        );
+        $this->expectException(MappingException::class);
+
+        $this->loadClassMetadata(AnonymousRepositoryClass::class);
     }
 
     public function testInvalidRepositoryClass(): void
     {
-        self::assertException(
-            MappingException::invalidRepositoryClass(InvalidRepository::class),
-            fn () => $this->loadClassMetadata(InvalidRepositoryClass::class),
-        );
+        $this->expectException(MappingException::invalidRepositoryClass(InvalidRepository::class));
+
+        $this->loadClassMetadata(InvalidRepositoryClass::class);
     }
 }
