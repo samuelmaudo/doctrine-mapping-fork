@@ -33,10 +33,9 @@ final class EmbeddedPropertyTest extends TestCase
             Embedded::of('nonExistingProperty'),
         );
 
-        self::assertException(
-            MappingException::propertyNotFound(User::class, 'nonExistingProperty'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::propertyNotFound(User::class, 'nonExistingProperty'));
+
+        EntityResolver::resolve($entity);
     }
 
     public function testEmptyProperty(): void

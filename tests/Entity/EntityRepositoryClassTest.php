@@ -58,7 +58,9 @@ final class EntityRepositoryClassTest extends TestCase
 
     public function testInvalidRepositoryClass(): void
     {
-        $this->expectException(MappingException::invalidRepositoryClass(InvalidRepository::class));
+        $this->expectException(
+            MappingException::invalidRepositoryClass(InvalidRepository::class)
+        );
 
         $this->loadClassMetadata(InvalidRepositoryClass::class);
     }

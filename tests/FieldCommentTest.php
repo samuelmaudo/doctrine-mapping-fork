@@ -50,9 +50,8 @@ final class FieldCommentTest extends TestCase
             Field::of(property: 'id', comment: ''),
         );
 
-        self::assertException(
-            MappingException::emptyComment(Product::class, 'id'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::emptyComment(Product::class, 'id'));
+
+        EntityResolver::resolve($entity);
     }
 }

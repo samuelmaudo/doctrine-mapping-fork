@@ -33,10 +33,14 @@ final class FieldPropertyTest extends TestCase
             Field::of('nonExistingProperty'),
         );
 
-        self::assertException(
-            MappingException::propertyNotFound(Product::class, 'nonExistingProperty'),
-            fn () => EntityResolver::resolve($entity),
+        $this->expectException(
+            MappingException::propertyNotFound(
+                Product::class,
+                'nonExistingProperty',
+            )
         );
+
+        EntityResolver::resolve($entity);
     }
 
     public function testEmptyProperty(): void

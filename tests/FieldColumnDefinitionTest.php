@@ -50,9 +50,8 @@ final class FieldColumnDefinitionTest extends TestCase
             Field::of(property: 'id', columnDefinition: ''),
         );
 
-        self::assertException(
-            MappingException::emptyColumnDefinition(Product::class, 'id'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::emptyColumnDefinition(Product::class, 'id'));
+
+        EntityResolver::resolve($entity);
     }
 }

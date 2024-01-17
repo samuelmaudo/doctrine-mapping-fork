@@ -50,9 +50,8 @@ final class FieldCollationTest extends TestCase
             Field::of(property: 'id', collation: ''),
         );
 
-        self::assertException(
-            MappingException::emptyCollation(Product::class, 'id'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::emptyCollation(Product::class, 'id'));
+
+        EntityResolver::resolve($entity);
     }
 }

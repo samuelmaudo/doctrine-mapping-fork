@@ -40,10 +40,9 @@ final class FieldScaleTest extends TestCase
             Field::of('price', precision: 10, scale: 0),
         );
 
-        self::assertException(
-            MappingException::nonPositiveScale(Product::class, 'price'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::nonPositiveScale(Product::class, 'price'));
+
+        EntityResolver::resolve($entity);
     }
 
     public function testNegativeScale(): void
@@ -52,10 +51,9 @@ final class FieldScaleTest extends TestCase
             Field::of('price', precision: 10, scale: -5),
         );
 
-        self::assertException(
-            MappingException::nonPositiveScale(Product::class, 'price'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::nonPositiveScale(Product::class, 'price'));
+
+        EntityResolver::resolve($entity);
     }
 
     public function testScaleGreaterThanPrecision(): void
@@ -64,9 +62,8 @@ final class FieldScaleTest extends TestCase
             Field::of('price', precision: 5, scale: 10),
         );
 
-        self::assertException(
-            MappingException::scaleGreaterThanPrecision(Product::class, 'price'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::scaleGreaterThanPrecision(Product::class, 'price'));
+
+        EntityResolver::resolve($entity);
     }
 }

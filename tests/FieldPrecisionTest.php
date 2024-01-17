@@ -40,10 +40,9 @@ final class FieldPrecisionTest extends TestCase
             Field::of('price', precision: 0),
         );
 
-        self::assertException(
-            MappingException::nonPositivePrecision(Product::class, 'price'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::nonPositivePrecision(Product::class, 'price'));
+
+        EntityResolver::resolve($entity);
     }
 
     public function testNegativePrecision(): void
@@ -52,10 +51,9 @@ final class FieldPrecisionTest extends TestCase
             Field::of('price', precision: -5),
         );
 
-        self::assertException(
-            MappingException::nonPositivePrecision(Product::class, 'price'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::nonPositivePrecision(Product::class, 'price'));
+
+        EntityResolver::resolve($entity);
     }
 
     public function testMissingPrecision(): void
@@ -64,9 +62,8 @@ final class FieldPrecisionTest extends TestCase
             Field::of('price', scale: 5),
         );
 
-        self::assertException(
-            MappingException::missingPrecision(Product::class, 'price'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::missingPrecision(Product::class, 'price'));
+
+        EntityResolver::resolve($entity);
     }
 }

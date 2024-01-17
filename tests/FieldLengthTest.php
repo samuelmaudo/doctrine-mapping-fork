@@ -62,10 +62,9 @@ final class FieldLengthTest extends TestCase
             ),
         );
 
-        self::assertException(
-            MappingException::nonPositiveLength(UserId::class, 'value'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::nonPositiveLength(UserId::class, 'value'));
+
+        EntityResolver::resolve($entity);
     }
 
     public function testNegativeLength(): void
@@ -78,9 +77,8 @@ final class FieldLengthTest extends TestCase
             ),
         );
 
-        self::assertException(
-            MappingException::nonPositiveLength(UserId::class, 'value'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::nonPositiveLength(UserId::class, 'value'));
+
+        EntityResolver::resolve($entity);
     }
 }

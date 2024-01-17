@@ -25,10 +25,14 @@ final class EntityClassTest extends TestCase
 
     public function testMistakenClass(): void
     {
-        self::assertException(
-            PersistenceMappingException::invalidMappingFile(MistakenClass::class, 'MistakenClass.orm.php'),
-            fn () => $this->loadClassMetadata(MistakenClass::class),
+        $this->expectException(
+            PersistenceMappingException::invalidMappingFile(
+                MistakenClass::class,
+                'MistakenClass.orm.php',
+            )
         );
+
+        $this->loadClassMetadata(MistakenClass::class);
     }
 
     public function testNonExistingClass(): void

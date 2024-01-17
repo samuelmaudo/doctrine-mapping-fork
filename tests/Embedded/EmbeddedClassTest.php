@@ -66,9 +66,8 @@ final class EmbeddedClassTest extends TestCase
 
     public function testMissingClass(): void
     {
-        self::assertException(
-            MappingException::missingClassAttribute(MissingClass::class, 'id'),
-            fn () => $this->loadClassMetadata(MissingClass::class),
-        );
+        $this->expectException(MappingException::missingClassAttribute(MissingClass::class, 'id'));
+
+        $this->loadClassMetadata(MissingClass::class);
     }
 }

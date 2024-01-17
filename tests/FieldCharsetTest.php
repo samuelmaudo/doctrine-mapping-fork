@@ -50,9 +50,8 @@ final class FieldCharsetTest extends TestCase
             Field::of(property: 'id', charset: ''),
         );
 
-        self::assertException(
-            MappingException::emptyCharset(Product::class, 'id'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::emptyCharset(Product::class, 'id'));
+
+        EntityResolver::resolve($entity);
     }
 }

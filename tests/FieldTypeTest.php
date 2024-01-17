@@ -50,9 +50,8 @@ final class FieldTypeTest extends TestCase
             Field::of(property: 'id', type: ''),
         );
 
-        self::assertException(
-            MappingException::emptyType(Product::class, 'id'),
-            fn () => EntityResolver::resolve($entity),
-        );
+        $this->expectException(MappingException::emptyType(Product::class, 'id'));
+
+        EntityResolver::resolve($entity);
     }
 }
