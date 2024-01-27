@@ -78,6 +78,15 @@ final class MappingException extends DoctrineMappingException
      * @param class-string $className
      * @param non-empty-string $propertyName
      */
+    public static function emptyColumn(string $className, string $propertyName): self
+    {
+        return new self("Column for property '{$propertyName}' on class '{$className}' is empty");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
     public static function emptyColumnDefinition(string $className, string $propertyName): self
     {
         return new self("Column definition for property '{$propertyName}' on class '{$className}' is empty");
@@ -162,14 +171,5 @@ final class MappingException extends DoctrineMappingException
     public static function emptyCollation(string $className, string $propertyName): self
     {
         return new self("Collation for property '{$propertyName}' on class '{$className}' is empty");
-    }
-
-    /**
-     * @param class-string $className
-     * @param non-empty-string $propertyName
-     */
-    public static function emptyComment(string $className, string $propertyName): self
-    {
-        return new self("Comment for property '{$propertyName}' on class '{$className}' is empty");
     }
 }

@@ -11,8 +11,7 @@ use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\DefinedColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\EmptyColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\FalseColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\UndefinedColumnPrefix;
-use Hereldar\DoctrineMapping\Tests\Entities\User;
-use Hereldar\DoctrineMapping\Tests\Entities\UserId;
+use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\ValueObject;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 use ReflectionClass;
 use TypeError;
@@ -55,11 +54,11 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         self::assertException(
             TypeError::class,
-            fn () => Embedded::of(property: 'id', columnPrefix: true),
+            fn () => Embedded::of(property: 'field', columnPrefix: true),
         );
 
-        $class = new ReflectionClass(User::class);
-        $property = $class->getProperty('id');
+        $class = new ReflectionClass(DefinedColumnPrefix::class);
+        $property = $class->getProperty('field');
         self::assertException(
             TypeError::class,
             fn () => PropertyColumnPrefixResolver::resolve($property, true),
@@ -67,7 +66,7 @@ final class EmbeddedColumnPrefixTest extends TestCase
 
         self::assertException(
             TypeError::class,
-            fn () => new ResolvedEmbedded(property: 'id', class: UserId::class, columnPrefix: true),
+            fn () => new ResolvedEmbedded(property: 'field', class: ValueObject::class, columnPrefix: true),
         );
     }
 }

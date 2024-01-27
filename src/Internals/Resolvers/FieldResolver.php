@@ -40,7 +40,6 @@ final class FieldResolver
         PropertyScaleValidator::validate($property, $field->scale(), $field->precision());
         PropertyCharsetValidator::validate($property, $field->charset());
         PropertyCollationValidator::validate($property, $field->collation());
-        PropertyCommentValidator::validate($property, $field->comment());
 
         return new ResolvedField(
             property: $field->property(),
@@ -62,7 +61,7 @@ final class FieldResolver
             fixed: $field->fixed(),
             charset: $field->charset(),
             collation: $field->collation(),
-            comment: $field->comment(),
+            comment: $field->comment() ?: null,
         );
     }
 }
