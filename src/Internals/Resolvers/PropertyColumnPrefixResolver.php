@@ -24,10 +24,14 @@ final class PropertyColumnPrefixResolver
             throw new FalseTypeError('PropertyColumnPrefixResolver::resolve()', 2, '$columnPrefix');
         }
 
-        if ($columnPrefix === false || $columnPrefix) {
-            return $columnPrefix;
+        if ($columnPrefix === null) {
+            return to_snake_case($property->name).'_';
         }
 
-        return to_snake_case($property->name).'_';
+        if ($columnPrefix === '') {
+            return false;
+        }
+
+        return $columnPrefix;
     }
 }
