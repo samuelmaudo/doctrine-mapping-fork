@@ -20,7 +20,7 @@ final class Field
         private ?bool $nullable,
         private bool $insertable,
         private bool $updatable,
-        private ?string $generated,
+        private ?int $generated,
         private ?int $length,
         private ?int $precision,
         private ?int $scale,
@@ -43,7 +43,7 @@ final class Field
      * @param ?bool $nullable Whether the column is nullable (defaults to FALSE).
      * @param bool $insertable Whether the column is insertable (defaults to TRUE).
      * @param bool $updatable Whether the column is updatable (defaults to TRUE).
-     * @param 'NEVER'|'INSERT'|'ALWAYS'|null $generated Whether a generated value should be retrieved from the database after INSERT or UPDATE.
+     * @param int<0, 2>|null $generated Whether a generated value should be retrieved from the database after INSERT or UPDATE.
      * @param ?positive-int $length The database length of the column.
      * @param ?non-negative-int $precision The maximum number of digits that can be stored (applies only for `decimal` columns).
      * @param ?non-negative-int $scale The number of digits to the right of the decimal point (applies only for `decimal` columns and must not be greater than the precision).
@@ -65,7 +65,7 @@ final class Field
         ?bool $nullable = null,
         bool $insertable = true,
         bool $updatable = true,
-        ?string $generated = null,
+        ?int $generated = null,
         ?int $length = null,
         ?int $precision = null,
         ?int $scale = null,
@@ -150,7 +150,7 @@ final class Field
         return $this->updatable;
     }
 
-    public function generated(): ?string
+    public function generated(): ?int
     {
         return $this->generated;
     }
