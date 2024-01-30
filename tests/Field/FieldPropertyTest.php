@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Property\EmptyProperty;
 use Hereldar\DoctrineMapping\Tests\Field\Property\ExistingProperty;
 use Hereldar\DoctrineMapping\Tests\Field\Property\NonExistingProperty;
@@ -22,19 +22,16 @@ final class FieldPropertyTest extends TestCase
 
     public function testNonExistingProperty(): void
     {
-        $this->expectException(
-            MappingException::propertyNotFound(
-                NonExistingProperty::class,
-                'field',
-            )
-        );
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'NonExistingProperty.orm.php': Class '".NonExistingProperty::class."' has no property 'field'");
 
         $this->loadClassMetadata(NonExistingProperty::class);
     }
 
     public function testEmptyProperty(): void
     {
-        $this->expectException(MappingException::emptyPropertyName(EmptyProperty::class));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'EmptyProperty.orm.php': Property name cannot be empty (class '".EmptyProperty::class."')");
 
         $this->loadClassMetadata(EmptyProperty::class);
     }

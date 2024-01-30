@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Entity;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Entity\Table\DefinedTable;
 use Hereldar\DoctrineMapping\Tests\Entity\Table\EmptyTable;
 use Hereldar\DoctrineMapping\Tests\Entity\Table\UndefinedTable;
@@ -32,7 +32,8 @@ final class EntityTableTest extends TestCase
 
     public function testEmptyTable(): void
     {
-        $this->expectException(MappingException::emptyTable(EmptyTable::class));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'EmptyTable.orm.php': Table for class '".EmptyTable::class."' is empty");
 
         $this->loadClassMetadata(EmptyTable::class);
     }

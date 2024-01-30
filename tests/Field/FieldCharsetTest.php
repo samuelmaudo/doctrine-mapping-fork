@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Charset\DefinedCharset;
 use Hereldar\DoctrineMapping\Tests\Field\Charset\EmptyCharset;
 use Hereldar\DoctrineMapping\Tests\Field\Charset\UndefinedCharset;
@@ -32,7 +32,8 @@ final class FieldCharsetTest extends TestCase
 
     public function testEmptyCharset(): void
     {
-        $this->expectException(MappingException::emptyCharset(EmptyCharset::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'EmptyCharset.orm.php': Charset for property 'field' on class '".EmptyCharset::class."' is empty");
 
         $this->loadClassMetadata(EmptyCharset::class);
     }

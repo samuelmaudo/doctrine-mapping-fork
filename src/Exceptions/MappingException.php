@@ -9,6 +9,34 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 
 final class MappingException extends DoctrineMappingException
 {
+    public static function invalidFile(string $fileName, \Throwable $exception): self
+    {
+        $fileShortName = basename($fileName);
+
+        return new self(
+            "Invalid file '{$fileShortName}': {$exception->getMessage()}",
+            previous: $exception,
+        );
+    }
+
+    public static function invalidMetadata(string $className, \Throwable $exception): self
+    {
+        $classShortName = substr($className, strrpos($className, '\\') + 1);
+
+        return new self(
+            "Invalid metadata for class '{$classShortName}': {$exception->getMessage()}",
+            previous: $exception,
+        );
+    }
+
+    /**
+     * @param non-empty-string $className
+     */
+    public static function metadataNotFound(string $className): self
+    {
+        return new self("Metadata for class '{$className}' not found");
+    }
+
     public static function emptyClassName(): self
     {
         return new self('Class name cannot be empty');

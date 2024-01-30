@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Embedded;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Embedded\Class\AnonymousClass;
 use Hereldar\DoctrineMapping\Tests\Embedded\Class\EmptyClass;
 use Hereldar\DoctrineMapping\Tests\Embedded\Class\ExistingClass;
@@ -32,21 +32,24 @@ final class EmbeddedClassTest extends TestCase
 
     public function testNonExistingClass(): void
     {
-        $this->expectException(MappingException::classNotFound('NonExisting'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'NonExistingClass.orm.php': Class 'NonExisting' does not exist");
 
         $this->loadClassMetadata(NonExistingClass::class);
     }
 
     public function testEmptyClass(): void
     {
-        $this->expectException(MappingException::emptyClassName());
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'EmptyClass.orm.php': Class name cannot be empty");
 
         $this->loadClassMetadata(EmptyClass::class);
     }
 
     public function testAnonymousClass(): void
     {
-        $this->expectException(MappingException::class);
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessageMatches("/Invalid file 'AnonymousClass.orm.php': Class 'class@anonymous[^']*' is anonymous/");
 
         $this->loadClassMetadata(AnonymousClass::class);
     }
@@ -66,7 +69,8 @@ final class EmbeddedClassTest extends TestCase
 
     public function testMissingClass(): void
     {
-        $this->expectException(MappingException::missingClassAttribute(MissingClass::class, 'id'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'MissingClass.orm.php': Class attribute for property 'id' on class '".MissingClass::class."' is missing");
 
         $this->loadClassMetadata(MissingClass::class);
     }

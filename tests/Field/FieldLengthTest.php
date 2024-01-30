@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Length\DefinedLength;
 use Hereldar\DoctrineMapping\Tests\Field\Length\NegativeLength;
 use Hereldar\DoctrineMapping\Tests\Field\Length\UndefinedLength;
@@ -31,14 +31,16 @@ final class FieldLengthTest extends TestCase
 
     public function testZeroLength(): void
     {
-        $this->expectException(MappingException::nonPositiveLength(ZeroLength::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'ZeroLength.orm.php': Length for property 'field' on class '".ZeroLength::class."' is negative or zero");
 
         $this->loadClassMetadata(ZeroLength::class);
     }
 
     public function testNegativeLength(): void
     {
-        $this->expectException(MappingException::nonPositiveLength(NegativeLength::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'NegativeLength.orm.php': Length for property 'field' on class '".NegativeLength::class."' is negative or zero");
 
         $this->loadClassMetadata(NegativeLength::class);
     }

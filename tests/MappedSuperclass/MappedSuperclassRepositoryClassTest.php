@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\MappedSuperclass;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\MappedSuperclass\RepositoryClass\AnonymousRepositoryClass;
 use Hereldar\DoctrineMapping\Tests\MappedSuperclass\RepositoryClass\EmptyRepositoryClass;
 use Hereldar\DoctrineMapping\Tests\MappedSuperclass\RepositoryClass\ExistingRepository;
@@ -37,30 +38,32 @@ final class MappedSuperclassRepositoryClassTest extends TestCase
 
     public function testNonExistingRepositoryClass(): void
     {
-        $this->expectException(MappingException::classNotFound('NonExistingRepository'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'NonExistingRepositoryClass.orm.php': Class 'NonExistingRepository' does not exist");
 
         $this->loadClassMetadata(NonExistingRepositoryClass::class);
     }
 
     public function testEmptyRepositoryClass(): void
     {
-        $this->expectException(MappingException::emptyClassName());
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'EmptyRepositoryClass.orm.php': Class name cannot be empty");
 
         $this->loadClassMetadata(EmptyRepositoryClass::class);
     }
 
     public function testAnonymousRepositoryClass(): void
     {
-        $this->expectException(MappingException::class);
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessageMatches("/Invalid file 'AnonymousRepositoryClass.orm.php': Class 'class@anonymous[^']*' is anonymous/");
 
         $this->loadClassMetadata(AnonymousRepositoryClass::class);
     }
 
     public function testInvalidRepositoryClass(): void
     {
-        $this->expectException(
-            MappingException::invalidRepositoryClass(InvalidRepository::class)
-        );
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'InvalidRepositoryClass.orm.php': Class '".InvalidRepository::class."' is not a valid repository class because does not extend ".EntityRepository::class.".");
 
         $this->loadClassMetadata(InvalidRepositoryClass::class);
     }

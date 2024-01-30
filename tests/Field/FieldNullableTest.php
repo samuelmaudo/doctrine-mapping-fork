@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Nullable\DefinedNullable;
 use Hereldar\DoctrineMapping\Tests\Field\Nullable\DefinedNullablePrimaryKey;
 use Hereldar\DoctrineMapping\Tests\Field\Nullable\UndefinedNullable;
@@ -37,24 +37,16 @@ final class FieldNullableTest extends TestCase
 
     public function testDefinedNullablePrimaryKey(): void
     {
-        $this->expectException(
-            MappingException::nullablePrimaryKey(
-                DefinedNullablePrimaryKey::class,
-                'id',
-            )
-        );
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'DefinedNullablePrimaryKey.orm.php': Primary key 'id' on class '".DefinedNullablePrimaryKey::class."' is nullable");
 
         $this->loadClassMetadata(DefinedNullablePrimaryKey::class);
     }
 
     public function testUndefinedNullablePrimaryKey(): void
     {
-        $this->expectException(
-            MappingException::nullablePrimaryKey(
-                UndefinedNullablePrimaryKey::class,
-                'id',
-            )
-        );
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'UndefinedNullablePrimaryKey.orm.php': Primary key 'id' on class '".UndefinedNullablePrimaryKey::class."' is nullable");
 
         $this->loadClassMetadata(UndefinedNullablePrimaryKey::class);
     }

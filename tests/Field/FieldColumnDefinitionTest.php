@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\ColumnDefinition\DefinedColumnDefinition;
 use Hereldar\DoctrineMapping\Tests\Field\ColumnDefinition\EmptyColumnDefinition;
 use Hereldar\DoctrineMapping\Tests\Field\ColumnDefinition\UndefinedColumnDefinition;
@@ -30,7 +30,8 @@ final class FieldColumnDefinitionTest extends TestCase
 
     public function testEmptyColumnDefinition(): void
     {
-        $this->expectException(MappingException::emptyColumnDefinition(EmptyColumnDefinition::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'EmptyColumnDefinition.orm.php': Column definition for property 'field' on class '".EmptyColumnDefinition::class."' is empty");
 
         $this->loadClassMetadata(EmptyColumnDefinition::class);
     }

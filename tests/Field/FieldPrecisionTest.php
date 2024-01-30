@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Precision\DefinedPrecision;
 use Hereldar\DoctrineMapping\Tests\Field\Precision\MissingPrecision;
 use Hereldar\DoctrineMapping\Tests\Field\Precision\NegativePrecision;
@@ -32,21 +32,24 @@ final class FieldPrecisionTest extends TestCase
 
     public function testZeroPrecision(): void
     {
-        $this->expectException(MappingException::nonPositivePrecision(ZeroPrecision::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'ZeroPrecision.orm.php': Precision for property 'field' on class '".ZeroPrecision::class."' is negative or zero");
 
         $this->loadClassMetadata(ZeroPrecision::class);
     }
 
     public function testNegativePrecision(): void
     {
-        $this->expectException(MappingException::nonPositivePrecision(NegativePrecision::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'NegativePrecision.orm.php': Precision for property 'field' on class '".NegativePrecision::class."' is negative or zero");
 
         $this->loadClassMetadata(NegativePrecision::class);
     }
 
     public function testMissingPrecision(): void
     {
-        $this->expectException(MappingException::missingPrecision(MissingPrecision::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'MissingPrecision.orm.php': Precision for property 'field' on class '".MissingPrecision::class."' is missing");
 
         $this->loadClassMetadata(MissingPrecision::class);
     }

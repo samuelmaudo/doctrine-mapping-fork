@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Comment\DefinedComment;
 use Hereldar\DoctrineMapping\Tests\Field\Comment\EmptyComment;
 use Hereldar\DoctrineMapping\Tests\Field\Comment\UndefinedComment;

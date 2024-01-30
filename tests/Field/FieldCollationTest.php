@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\Field;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Collation\DefinedCollation;
 use Hereldar\DoctrineMapping\Tests\Field\Collation\EmptyCollation;
 use Hereldar\DoctrineMapping\Tests\Field\Collation\UndefinedCollation;
@@ -32,7 +32,8 @@ final class FieldCollationTest extends TestCase
 
     public function testEmptyCollation(): void
     {
-        $this->expectException(MappingException::emptyCollation(EmptyCollation::class, 'field'));
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'EmptyCollation.orm.php': Collation for property 'field' on class '".EmptyCollation::class."' is empty");
 
         $this->loadClassMetadata(EmptyCollation::class);
     }
