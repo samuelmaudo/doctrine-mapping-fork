@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Drivers;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileLocator;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
@@ -54,8 +53,6 @@ abstract class AbstractPhpDriver implements MappingDriver
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata): void
     {
-        assert($metadata instanceof ClassMetadataInfo);
-
         if (!isset($this->classCache[$className])) {
             try {
                 $this->loadMappingFile($className);
@@ -142,7 +139,7 @@ abstract class AbstractPhpDriver implements MappingDriver
 
     protected function fillMetadataObject(
         ResolvedMappedSuperclass|ResolvedEntity|ResolvedEmbeddable $entity,
-        ClassMetadataInfo $metadata,
+        ClassMetadata $metadata,
     ): void {
         if ($entity instanceof ResolvedEntity) {
             $metadata->setCustomRepositoryClass($entity->repositoryClass);
