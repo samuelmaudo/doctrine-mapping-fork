@@ -18,7 +18,6 @@ final class FieldPrecisionTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedPrecision::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertSame(10, $metadata->fieldMappings['field']['precision']);
     }
 
@@ -26,7 +25,6 @@ final class FieldPrecisionTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedPrecision::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertNull($metadata->fieldMappings['field']['precision']);
     }
 

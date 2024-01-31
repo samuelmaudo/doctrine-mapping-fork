@@ -14,10 +14,7 @@ final class FieldPrimaryKeyTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedPrimaryKey::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
         self::assertTrue($metadata->fieldMappings['id']['id']);
-
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['field']['id']);
     }
 
@@ -25,7 +22,6 @@ final class FieldPrimaryKeyTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedPrimaryKey::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['field']['id']);
     }
 }

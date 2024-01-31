@@ -14,10 +14,7 @@ final class FieldUpdatableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedUpdatable::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['id']['notUpdatable']);
-
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertTrue($metadata->fieldMappings['field']['notUpdatable']);
     }
 
@@ -25,7 +22,6 @@ final class FieldUpdatableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedUpdatable::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['field']['notUpdatable']);
     }
 }

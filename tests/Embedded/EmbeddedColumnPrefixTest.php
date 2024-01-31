@@ -24,7 +24,6 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedColumnPrefix::class);
 
-        self::assertArrayHasKey('field', $metadata->embeddedClasses);
         self::assertSame('prefix_', $metadata->embeddedClasses['field']['columnPrefix']);
     }
 
@@ -32,7 +31,6 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedColumnPrefix::class);
 
-        self::assertArrayHasKey('field', $metadata->embeddedClasses);
         self::assertSame('field_', $metadata->embeddedClasses['field']['columnPrefix']);
     }
 
@@ -40,7 +38,6 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(EmptyColumnPrefix::class);
 
-        self::assertArrayHasKey('field', $metadata->embeddedClasses);
         self::assertFalse($metadata->embeddedClasses['field']['columnPrefix']);
     }
 
@@ -48,7 +45,6 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(FalseColumnPrefix::class);
 
-        self::assertArrayHasKey('field', $metadata->embeddedClasses);
         self::assertFalse($metadata->embeddedClasses['field']['columnPrefix']);
     }
 

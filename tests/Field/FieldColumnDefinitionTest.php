@@ -16,7 +16,6 @@ final class FieldColumnDefinitionTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedColumnDefinition::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertSame('CHAR(32) NOT NULL', $metadata->fieldMappings['field']['columnDefinition']);
     }
 
@@ -24,7 +23,6 @@ final class FieldColumnDefinitionTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedColumnDefinition::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertNull($metadata->fieldMappings['field']['columnDefinition']);
     }
 

@@ -17,7 +17,6 @@ final class FieldLengthTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedLength::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertSame(5, $metadata->fieldMappings['field']['length']);
     }
 
@@ -25,7 +24,6 @@ final class FieldLengthTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedLength::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertNull($metadata->fieldMappings['field']['length']);
     }
 

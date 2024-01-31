@@ -14,12 +14,7 @@ final class FieldUnsignedTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedUnsigned::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['id']);
         self::assertTrue($metadata->fieldMappings['id']['options']['unsigned']);
-
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertFalse($metadata->fieldMappings['field']['options']['unsigned']);
     }
 
@@ -27,8 +22,6 @@ final class FieldUnsignedTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedUnsigned::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertNull($metadata->fieldMappings['field']['options']['unsigned']);
     }
 }

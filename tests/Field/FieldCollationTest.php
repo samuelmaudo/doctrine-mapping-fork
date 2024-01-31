@@ -16,8 +16,6 @@ final class FieldCollationTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedCollation::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertSame('latin1_spanish_ci', $metadata->fieldMappings['field']['options']['collation']);
     }
 
@@ -25,8 +23,6 @@ final class FieldCollationTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedCollation::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertNull($metadata->fieldMappings['field']['options']['collation']);
     }
 

@@ -16,8 +16,6 @@ final class FieldCharsetTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedCharset::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertSame('gb2312', $metadata->fieldMappings['field']['options']['charset']);
     }
 
@@ -25,8 +23,6 @@ final class FieldCharsetTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedCharset::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertNull($metadata->fieldMappings['field']['options']['charset']);
     }
 

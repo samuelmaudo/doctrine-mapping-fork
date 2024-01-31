@@ -15,8 +15,6 @@ final class FieldCommentTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedComment::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertSame('custom comment', $metadata->fieldMappings['field']['options']['comment']);
     }
 
@@ -24,8 +22,6 @@ final class FieldCommentTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedComment::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertNull($metadata->fieldMappings['field']['options']['comment']);
     }
 
@@ -33,8 +29,6 @@ final class FieldCommentTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(EmptyComment::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertNull($metadata->fieldMappings['field']['options']['comment']);
     }
 }

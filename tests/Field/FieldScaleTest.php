@@ -18,7 +18,6 @@ final class FieldScaleTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedScale::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertSame(5, $metadata->fieldMappings['field']['scale']);
     }
 
@@ -26,7 +25,6 @@ final class FieldScaleTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedScale::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertNull($metadata->fieldMappings['field']['scale']);
     }
 

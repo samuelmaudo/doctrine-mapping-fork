@@ -16,10 +16,7 @@ final class FieldTypeTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedType::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
         self::assertSame('integer', $metadata->fieldMappings['id']['type']);
-
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertSame('json', $metadata->fieldMappings['field']['type']);
     }
 
@@ -27,7 +24,6 @@ final class FieldTypeTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedType::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertSame('string', $metadata->fieldMappings['field']['type']);
     }
 

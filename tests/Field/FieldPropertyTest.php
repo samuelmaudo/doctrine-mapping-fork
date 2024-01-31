@@ -16,7 +16,6 @@ final class FieldPropertyTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(ExistingProperty::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertSame('field', $metadata->fieldMappings['field']['fieldName']);
     }
 

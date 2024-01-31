@@ -17,10 +17,7 @@ final class FieldNullableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedNullable::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['id']['nullable']);
-
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertTrue($metadata->fieldMappings['field']['nullable']);
     }
 
@@ -28,10 +25,7 @@ final class FieldNullableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedNullable::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['field']['nullable']);
-
-        self::assertArrayHasKey('nullableField', $metadata->fieldMappings);
         self::assertTrue($metadata->fieldMappings['nullableField']['nullable']);
     }
 

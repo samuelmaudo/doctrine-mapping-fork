@@ -14,10 +14,7 @@ final class FieldInsertableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedInsertable::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['id']['notInsertable']);
-
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertTrue($metadata->fieldMappings['field']['notInsertable']);
     }
 
@@ -25,7 +22,6 @@ final class FieldInsertableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedInsertable::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
         self::assertFalse($metadata->fieldMappings['field']['notInsertable']);
     }
 }

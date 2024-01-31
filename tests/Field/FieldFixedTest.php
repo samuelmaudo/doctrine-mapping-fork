@@ -14,12 +14,7 @@ final class FieldFixedTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedFixed::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['id']);
         self::assertTrue($metadata->fieldMappings['id']['options']['fixed']);
-
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertFalse($metadata->fieldMappings['field']['options']['fixed']);
     }
 
@@ -27,8 +22,6 @@ final class FieldFixedTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedFixed::class);
 
-        self::assertArrayHasKey('field', $metadata->fieldMappings);
-        self::assertArrayHasKey('options', $metadata->fieldMappings['field']);
         self::assertNull($metadata->fieldMappings['field']['options']['fixed']);
     }
 }

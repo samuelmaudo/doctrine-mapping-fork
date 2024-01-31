@@ -16,10 +16,7 @@ final class FieldColumnTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedColumn::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
         self::assertSame('id_column', $metadata->fieldMappings['id']['columnName']);
-
-        self::assertArrayHasKey('parentId', $metadata->fieldMappings);
         self::assertSame('parent_id_column', $metadata->fieldMappings['parentId']['columnName']);
     }
 
@@ -27,10 +24,7 @@ final class FieldColumnTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedColumn::class);
 
-        self::assertArrayHasKey('id', $metadata->fieldMappings);
         self::assertSame('id', $metadata->fieldMappings['id']['columnName']);
-
-        self::assertArrayHasKey('parentId', $metadata->fieldMappings);
         self::assertSame('parent_id', $metadata->fieldMappings['parentId']['columnName']);
     }
 

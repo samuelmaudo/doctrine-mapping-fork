@@ -22,11 +22,7 @@ final class EmbeddedClassTest extends TestCase
         $metadata = $this->loadClassMetadata(ExistingClass::class);
 
         self::assertSame(ExistingClass::class, $metadata->getName());
-
-        self::assertArrayHasKey('id', $metadata->embeddedClasses);
         self::assertSame(ExistingId::class, $metadata->embeddedClasses['id']['class']);
-
-        self::assertArrayHasKey('field', $metadata->embeddedClasses);
         self::assertSame(ExistingField::class, $metadata->embeddedClasses['field']['class']);
     }
 
@@ -59,11 +55,7 @@ final class EmbeddedClassTest extends TestCase
         $metadata = $this->loadClassMetadata(UndefinedClass::class);
 
         self::assertSame(UndefinedClass::class, $metadata->getName());
-
-        self::assertArrayHasKey('id', $metadata->embeddedClasses);
         self::assertSame(ExistingId::class, $metadata->embeddedClasses['id']['class']);
-
-        self::assertArrayHasKey('field', $metadata->embeddedClasses);
         self::assertSame(ExistingField::class, $metadata->embeddedClasses['field']['class']);
     }
 
