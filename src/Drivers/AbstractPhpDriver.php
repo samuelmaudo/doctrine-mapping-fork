@@ -167,7 +167,7 @@ abstract class AbstractPhpDriver implements MappingDriver
                     'nullable' => $field->nullable,
                     'notInsertable' => ($field->insertable === false),
                     'notUpdatable' => ($field->updatable === false),
-                    'generated' => $field->generated,
+                    'generated' => $field->generated?->value(),
                     'length' => $field->length,
                     'precision' => $field->precision,
                     'scale' => $field->scale,

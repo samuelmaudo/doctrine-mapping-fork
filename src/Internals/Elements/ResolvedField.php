@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Elements;
 
+use Hereldar\DoctrineMapping\Enums\Generated;
+
 /**
  * @internal
  * @psalm-immutable
@@ -16,7 +18,6 @@ final class ResolvedField
      * @param ?non-empty-string $columnDefinition
      * @param ?non-empty-string $type
      * @param ?enum-string $enumType
-     * @param int<0, 2>|null $generated
      * @param ?positive-int $length
      * @param ?non-negative-int $precision
      * @param ?non-negative-int $scale
@@ -35,7 +36,7 @@ final class ResolvedField
         public bool $nullable,
         public bool $insertable,
         public bool $updatable,
-        public ?int $generated,
+        public ?Generated $generated,
         public ?int $length,
         public ?int $precision,
         public ?int $scale,

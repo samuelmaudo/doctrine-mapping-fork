@@ -10,6 +10,9 @@ final class DefinedGenerated
         public $never,
         public $insert,
         public $always,
+        public $neverAsString,
+        public $insertAsString,
+        public $alwaysAsString,
         public $null,
     ) {}
 }

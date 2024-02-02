@@ -4,30 +4,44 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Enums;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
 
 /**
  * TODO: convert to a backed enum when PHP 8.1 is the minimum version
  */
 final class Generated
 {
-    public const Never = ClassMetadataInfo::GENERATED_NEVER;
-    public const Insert = ClassMetadataInfo::GENERATED_INSERT;
-    public const Always = ClassMetadataInfo::GENERATED_ALWAYS;
+    public const Never = 0;
+    public const Insert = 1;
+    public const Always = 2;
 
-    private const CASES = [
-        self::Never,
-        self::Insert,
-        self::Always,
-    ];
+    private function __construct(
+        private int $value,
+    ) {}
 
-    public function cases(): array
+    public static function from(int|string $value): self
     {
-        return self::CASES;
+        return match ($value) {
+            0, 'NEVER' => new self(self::Never),
+            1, 'INSERT' => new self(self::Insert),
+            2, 'ALWAYS' => new self(self::Always),
+            default => throw OrmMappingException::invalidGeneratedMode($value),
+        };
     }
 
-    public function has(int $value): bool
+    public static function tryFrom(int|string|null $value): ?self
     {
-        return in_array($value, self::CASES, true);
+        if (null === $value) {
+            return null;
+        }
+        return self::from($value);
+    }
+
+    /**
+     * @return int<0, 2>
+     */
+    public function value(): int
+    {
+        return $this->value;
     }
 }

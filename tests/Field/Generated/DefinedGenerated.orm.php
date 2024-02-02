@@ -11,5 +11,8 @@ return Entity::of(
     Field::of(property: 'never', generated: Generated::Never),
     Field::of(property: 'insert', generated: Generated::Insert),
     Field::of(property: 'always', generated: Generated::Always),
+    Field::of(property: 'neverAsString', generated: 'NEVER'),
+    Field::of(property: 'insertAsString', generated: 'INSERT'),
+    Field::of(property: 'alwaysAsString', generated: 'ALWAYS'),
     Field::of(property: 'null', generated: null),
 );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
+use Hereldar\DoctrineMapping\Enums\Generated;
 use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedField;
@@ -35,6 +36,7 @@ final class FieldResolver
         PropertyColumnDefinitionValidator::validate($property, $field->columnDefinition());
         PropertyTypeValidator::validate($property, $field->type());
         $nullable = PropertyNullableResolver::resolve($property, $field->nullable(), $field->primaryKey());
+        $generated = PropertyGeneratedResolver::resolve($property, $field->generated());
         PropertyLengthValidator::validate($property, $field->length());
         PropertyPrecisionValidator::validate($property, $field->precision(), $field->scale());
         PropertyScaleValidator::validate($property, $field->scale(), $field->precision());
@@ -52,7 +54,7 @@ final class FieldResolver
             nullable: $nullable,
             insertable: $field->insertable(),
             updatable: $field->updatable(),
-            generated: $field->generated(),
+            generated: $generated,
             length: $field->length(),
             precision: $field->precision(),
             scale: $field->scale(),
