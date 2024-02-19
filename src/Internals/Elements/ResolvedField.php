@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Internals\Elements;
 
 use Hereldar\DoctrineMapping\Enums\Generated;
+use Hereldar\DoctrineMapping\Enums\Strategy;
 
 /**
  * @internal
@@ -37,6 +38,7 @@ final class ResolvedField
         public bool $insertable,
         public bool $updatable,
         public ?Generated $generated,
+        public ?Strategy $strategy,
         public ?int $length,
         public ?int $precision,
         public ?int $scale,
@@ -46,5 +48,7 @@ final class ResolvedField
         public ?string $charset,
         public ?string $collation,
         public ?string $comment,
+        public ?ResolvedSequenceGenerator $sequenceGenerator,
+        public ?ResolvedCustomIdGenerator $customIdGenerator,
     ) {}
 }

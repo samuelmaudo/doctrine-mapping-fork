@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
+use Error;
 use Hereldar\DoctrineMapping\Enums\Generated;
+use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use ReflectionProperty;
 
 /**
@@ -12,10 +14,25 @@ use ReflectionProperty;
  */
 final class PropertyGeneratedResolver
 {
+    /**
+     * @throws MappingException
+     */
     public static function resolve(
         ReflectionProperty $property,
-        int|string|null $resolved,
+        int|string|null $generated,
     ): ?Generated {
-        return Generated::tryFrom($resolved);
+        if ($generated === null) {
+            return null;
+        }
+
+        try {
+            return Generated::from($generated);
+        } catch (Error) {
+            throw MappingException::invalidGenerationMode(
+                $property->class,
+                $property->name,
+                $generated,
+            );
+        }
     }
 }

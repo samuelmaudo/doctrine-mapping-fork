@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping;
 
+use Hereldar\DoctrineMapping\Enums\Strategy;
+
 /**
  * @psalm-immutable
  */
@@ -21,6 +23,7 @@ final class Field
         private bool $insertable,
         private bool $updatable,
         private int|string|null $generated,
+        private int|string|null $strategy,
         private ?int $length,
         private ?int $precision,
         private ?int $scale,
@@ -30,6 +33,8 @@ final class Field
         private ?string $charset,
         private ?string $collation,
         private ?string $comment,
+        private ?SequenceGenerator $sequenceGenerator,
+        private ?CustomIdGenerator $customIdGenerator,
     ) {}
 
     /**
@@ -44,6 +49,7 @@ final class Field
      * @param bool $insertable Whether the column is insertable (defaults to TRUE).
      * @param bool $updatable Whether the column is updatable (defaults to TRUE).
      * @param int<0, 2>|'NEVER'|'INSERT'|'ALWAYS'|null $generated Whether a generated value should be retrieved from the database after INSERT or UPDATE.
+     * @param int<1, 7>|'AUTO'|'SEQUENCE'|'IDENTITY'|'NONE'|'CUSTOM'|null $strategy How the value should be generated.
      * @param ?positive-int $length The database length of the column.
      * @param ?non-negative-int $precision The maximum number of digits that can be stored (applies only for `decimal` columns).
      * @param ?non-negative-int $scale The number of digits to the right of the decimal point (applies only for `decimal` columns and must not be greater than the precision).
@@ -66,6 +72,7 @@ final class Field
         bool $insertable = true,
         bool $updatable = true,
         int|string|null $generated = null,
+        int|string|null $strategy = null,
         ?int $length = null,
         ?int $precision = null,
         ?int $scale = null,
@@ -88,6 +95,7 @@ final class Field
             $insertable,
             $updatable,
             $generated,
+            $strategy,
             $length,
             $precision,
             $scale,
@@ -97,6 +105,84 @@ final class Field
             $charset,
             $collation,
             $comment,
+            null,
+            null,
+        );
+    }
+
+    /**
+     * @param non-empty-string $sequenceName
+     * @param positive-int $allocationSize
+     * @param positive-int $initialValue
+     */
+    public function withSequenceGenerator(
+        string $sequenceName,
+        int $allocationSize = 1,
+        int $initialValue = 1,
+    ): self {
+        return new self(
+            $this->property,
+            $this->column,
+            $this->columnDefinition,
+            $this->type,
+            $this->enumType,
+            $this->primaryKey,
+            $this->unique,
+            $this->nullable,
+            $this->insertable,
+            $this->updatable,
+            $this->generated,
+            $this->strategy ?? Strategy::Sequence,
+            $this->length,
+            $this->precision,
+            $this->scale,
+            $this->default,
+            $this->unsigned,
+            $this->fixed,
+            $this->charset,
+            $this->collation,
+            $this->comment,
+            SequenceGenerator::of(
+                $sequenceName,
+                $allocationSize,
+                $initialValue,
+            ),
+            null,
+        );
+    }
+
+    /**
+     * @param ?class-string $class
+     */
+    public function withCustomIdGenerator(
+        ?string $class = null,
+    ): self {
+        return new self(
+            $this->property,
+            $this->column,
+            $this->columnDefinition,
+            $this->type,
+            $this->enumType,
+            $this->primaryKey,
+            $this->unique,
+            $this->nullable,
+            $this->insertable,
+            $this->updatable,
+            $this->generated,
+            $this->strategy ?? Strategy::Custom,
+            $this->length,
+            $this->precision,
+            $this->scale,
+            $this->default,
+            $this->unsigned,
+            $this->fixed,
+            $this->charset,
+            $this->collation,
+            $this->comment,
+            null,
+            CustomIdGenerator::of(
+                $class,
+            ),
         );
     }
 
@@ -155,6 +241,11 @@ final class Field
         return $this->generated;
     }
 
+    public function strategy(): int|string|null
+    {
+        return $this->strategy;
+    }
+
     public function length(): ?int
     {
         return $this->length;
@@ -198,5 +289,15 @@ final class Field
     public function comment(): ?string
     {
         return $this->comment;
+    }
+
+    public function sequenceGenerator(): ?SequenceGenerator
+    {
+        return $this->sequenceGenerator;
+    }
+
+    public function customIdGenerator(): ?CustomIdGenerator
+    {
+        return $this->customIdGenerator;
     }
 }

@@ -29,7 +29,7 @@ final class FieldColumnDefinitionTest extends TestCase
     public function testEmptyColumnDefinition(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyColumnDefinition.orm.php': Column definition for property 'field' on class '".EmptyColumnDefinition::class."' is empty");
+        $this->expectExceptionMessage("Invalid file 'EmptyColumnDefinition.orm.php': Empty column definition for property 'field' on class '".EmptyColumnDefinition::class."'");
 
         $this->loadClassMetadata(EmptyColumnDefinition::class);
     }

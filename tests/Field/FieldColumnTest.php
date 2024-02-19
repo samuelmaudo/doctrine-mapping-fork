@@ -31,7 +31,7 @@ final class FieldColumnTest extends TestCase
     public function testEmptyColumn(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyColumn.orm.php': Column for property 'field' on class '".EmptyColumn::class."' is empty");
+        $this->expectExceptionMessage("Invalid file 'EmptyColumn.orm.php': Empty column for property 'field' on class '".EmptyColumn::class."'");
 
         $this->loadClassMetadata(EmptyColumn::class);
     }

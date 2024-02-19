@@ -180,6 +180,21 @@ abstract class AbstractPhpDriver implements MappingDriver
                         'comment' => $field->comment,
                     ],
                 ]);
+                if ($field->strategy) {
+                    $metadata->setIdGeneratorType($field->strategy->value());
+                }
+                if ($field->primaryKey && $field->sequenceGenerator) {
+                    $metadata->setSequenceGeneratorDefinition([
+                        'sequenceName' => $field->sequenceGenerator->sequenceName,
+                        'allocationSize' => $field->sequenceGenerator->allocationSize,
+                        'initialValue' => $field->sequenceGenerator->initialValue,
+                    ]);
+                }
+                if ($field->primaryKey && $field->customIdGenerator) {
+                    $metadata->setCustomGeneratorDefinition([
+                        'class' => $field->customIdGenerator->class,
+                    ]);
+                }
             } elseif ($field instanceof ResolvedEmbedded) {
                 $metadata->mapEmbedded([
                     'fieldName' => $field->property,

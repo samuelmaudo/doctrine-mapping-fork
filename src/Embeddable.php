@@ -11,7 +11,7 @@ final class Embeddable
 {
     private function __construct(
         private string $class,
-        private array $fields = [],
+        private array $fields,
     ) {}
 
     /**
@@ -20,7 +20,7 @@ final class Embeddable
     public static function of(
         string $class,
     ): self {
-        return new self($class);
+        return new self($class, []);
     }
 
     /**
@@ -29,7 +29,10 @@ final class Embeddable
     public function withFields(
         Field|Embedded ...$fields,
     ): self {
-        return new self($this->class, $fields);
+        return new self(
+            $this->class,
+            $fields,
+        );
     }
 
     public function class(): string

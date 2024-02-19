@@ -73,7 +73,7 @@ final class MappingException extends DoctrineMappingException
      */
     public static function emptyTable(string $className): self
     {
-        return new self("Table for class '{$className}' is empty");
+        return new self("Empty table for class '{$className}'");
     }
 
     /**
@@ -108,7 +108,7 @@ final class MappingException extends DoctrineMappingException
      */
     public static function emptyColumn(string $className, string $propertyName): self
     {
-        return new self("Column for property '{$propertyName}' on class '{$className}' is empty");
+        return new self("Empty column for property '{$propertyName}' on class '{$className}'");
     }
 
     /**
@@ -117,7 +117,7 @@ final class MappingException extends DoctrineMappingException
      */
     public static function emptyColumnDefinition(string $className, string $propertyName): self
     {
-        return new self("Column definition for property '{$propertyName}' on class '{$className}' is empty");
+        return new self("Empty column definition for property '{$propertyName}' on class '{$className}'");
     }
 
     /**
@@ -126,7 +126,7 @@ final class MappingException extends DoctrineMappingException
      */
     public static function emptyType(string $className, string $propertyName): self
     {
-        return new self("Type for property '{$propertyName}' on class '{$className}' is empty");
+        return new self("Empty type for property '{$propertyName}' on class '{$className}'");
     }
 
     /**
@@ -136,6 +136,24 @@ final class MappingException extends DoctrineMappingException
     public static function nullablePrimaryKey(string $className, string $propertyName): self
     {
         return new self("Primary key '{$propertyName}' on class '{$className}' is nullable");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function invalidGenerationMode(string $className, string $propertyName, int|string $value): self
+    {
+        return new self("Invalid generation mode '{$value}' for property '{$propertyName}' on class '{$className}'");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function invalidGenerationStrategy(string $className, string $propertyName, int|string $value): self
+    {
+        return new self("Invalid generation strategy '{$value}' for property '{$propertyName}' on class '{$className}'");
     }
 
     /**
@@ -189,7 +207,7 @@ final class MappingException extends DoctrineMappingException
      */
     public static function emptyCharset(string $className, string $propertyName): self
     {
-        return new self("Charset for property '{$propertyName}' on class '{$className}' is empty");
+        return new self("Empty charset for property '{$propertyName}' on class '{$className}'");
     }
 
     /**
@@ -198,6 +216,33 @@ final class MappingException extends DoctrineMappingException
      */
     public static function emptyCollation(string $className, string $propertyName): self
     {
-        return new self("Collation for property '{$propertyName}' on class '{$className}' is empty");
+        return new self("Empty collation for property '{$propertyName}' on class '{$className}'");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function emptySequenceName(string $className, string $propertyName): self
+    {
+        return new self("Empty sequence name for property '{$propertyName}' on class '{$className}'");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function nonPositiveAllocationSize(string $className, string $propertyName): self
+    {
+        return new self("Allocation size for property '{$propertyName}' on class '{$className}' is negative or zero");
+    }
+
+    /**
+     * @param class-string $className
+     * @param non-empty-string $propertyName
+     */
+    public static function nonPositiveInitialValue(string $className, string $propertyName): self
+    {
+        return new self("Initial value for property '{$propertyName}' on class '{$className}' is negative or zero");
     }
 }

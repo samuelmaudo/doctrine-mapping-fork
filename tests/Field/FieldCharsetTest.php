@@ -29,7 +29,7 @@ final class FieldCharsetTest extends TestCase
     public function testEmptyCharset(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyCharset.orm.php': Charset for property 'field' on class '".EmptyCharset::class."' is empty");
+        $this->expectExceptionMessage("Invalid file 'EmptyCharset.orm.php': Empty charset for property 'field' on class '".EmptyCharset::class."'");
 
         $this->loadClassMetadata(EmptyCharset::class);
     }

@@ -15,7 +15,7 @@ final class Entity
         private string $class,
         private ?string $repositoryClass,
         private ?string $table,
-        private array $fields = [],
+        private array $fields,
     ) {}
 
     /**
@@ -28,7 +28,7 @@ final class Entity
         ?string $repositoryClass = null,
         ?string $table = null,
     ): self {
-        return new self($class, $repositoryClass, $table);
+        return new self($class, $repositoryClass, $table, []);
     }
 
     /**

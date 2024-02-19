@@ -33,7 +33,7 @@ final class EntityTableTest extends TestCase
     public function testEmptyTable(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyTable.orm.php': Table for class '".EmptyTable::class."' is empty");
+        $this->expectExceptionMessage("Invalid file 'EmptyTable.orm.php': Empty table for class '".EmptyTable::class."'");
 
         $this->loadClassMetadata(EmptyTable::class);
     }

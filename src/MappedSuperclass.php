@@ -14,7 +14,7 @@ final class MappedSuperclass
     private function __construct(
         private string $class,
         private ?string $repositoryClass,
-        private array $fields = [],
+        private array $fields,
     ) {
     }
 
@@ -26,7 +26,7 @@ final class MappedSuperclass
         string $class,
         ?string $repositoryClass = null,
     ): self {
-        return new self($class, $repositoryClass);
+        return new self($class, $repositoryClass, []);
     }
 
     /**

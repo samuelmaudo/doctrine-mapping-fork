@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\Field\Generated\InvalidGenerated;
 return Entity::of(
     class: InvalidGenerated::class,
 )->withFields(
-    Field::of(property: 'field', generated: 4),
+    Field::of(property: 'field', generated: 'UNKNOWN'),
 );

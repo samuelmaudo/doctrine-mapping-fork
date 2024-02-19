@@ -29,7 +29,7 @@ final class FieldCollationTest extends TestCase
     public function testEmptyCollation(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyCollation.orm.php': Collation for property 'field' on class '".EmptyCollation::class."' is empty");
+        $this->expectExceptionMessage("Invalid file 'EmptyCollation.orm.php': Empty collation for property 'field' on class '".EmptyCollation::class."'");
 
         $this->loadClassMetadata(EmptyCollation::class);
     }
