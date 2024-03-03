@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\EmptyClass;
 return Entity::of(
     class: EmptyClass::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withCustomIdGenerator(class: ''),
+    Field::of(property: 'id', id: true)->withCustomIdGenerator(class: ''),
 );

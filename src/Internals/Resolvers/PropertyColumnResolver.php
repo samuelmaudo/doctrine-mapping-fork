@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionProperty;
-
 use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**

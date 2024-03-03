@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\SequenceGenerator\AllocationSize\UndefinedAll
 return Entity::of(
     class: UndefinedAllocationSize::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withSequenceGenerator(sequenceName: 'sequence'),
+    Field::of(property: 'id', id: true)->withSequenceGenerator(sequenceName: 'sequence'),
 );

@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\SequenceGenerator\SequenceName\EmptySequenceN
 return Entity::of(
     class: EmptySequenceName::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withSequenceGenerator(sequenceName: ''),
+    Field::of(property: 'id', id: true)->withSequenceGenerator(sequenceName: ''),
 );

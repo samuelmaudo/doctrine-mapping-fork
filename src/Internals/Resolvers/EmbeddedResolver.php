@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
 use Hereldar\DoctrineMapping\Embedded;
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbedded;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionClass;
 
 /**
@@ -37,7 +37,7 @@ final class EmbeddedResolver
             return [$resolvedEmbedded, []];
         }
 
-        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $embedded->fields());
+        [$fields, $embeddedEmbeddables] = FieldsResolver::resolve($class, $embedded->fields());
 
         $resolvedEmbeddable = new ResolvedEmbeddable(
             class: $class->name,

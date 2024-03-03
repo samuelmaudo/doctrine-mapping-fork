@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedField;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Validators\PropertyCharsetValidator;
 use Hereldar\DoctrineMapping\Internals\Validators\PropertyCollationValidator;
 use Hereldar\DoctrineMapping\Internals\Validators\PropertyColumnDefinitionValidator;
@@ -33,7 +33,7 @@ final class FieldResolver
         $column = PropertyColumnResolver::resolve($property, $field->column());
         PropertyColumnDefinitionValidator::validate($property, $field->columnDefinition());
         PropertyTypeValidator::validate($property, $field->type());
-        $nullable = PropertyNullableResolver::resolve($property, $field->nullable(), $field->primaryKey());
+        $nullable = PropertyNullableResolver::resolve($property, $field->nullable(), $field->id());
         $generated = PropertyGeneratedResolver::resolve($property, $field->generated());
         $strategy = PropertyStrategyResolver::resolve($property, $field->strategy());
         PropertyLengthValidator::validate($property, $field->length());
@@ -50,7 +50,7 @@ final class FieldResolver
             columnDefinition: $field->columnDefinition(),
             type: $field->type(),
             enumType: $field->enumType(),
-            primaryKey: $field->primaryKey(),
+            id: $field->id(),
             unique: $field->unique(),
             nullable: $nullable,
             insertable: $field->insertable(),

@@ -26,18 +26,43 @@ entities in separate PHP files.
 use ...
 
 return Entity::of(
-    class: User::class,
-    table: 'cms_users',
-)->withFields(
-    Id::of(property: 'id', type: 'integer'),
-    Field::of(property: 'name', type: 'string', length: '50', nullable: true, unique: true),
-    Field::of(property: 'email', type: 'string', column: 'user_email', columnDefinition: 'CHAR(32) NOT NULL'),
-)->withIndexes(
-    Index::of(columns: 'name', name: 'name_idx'),
-    Index::of(columns: 'user_email'),
-)->withUniqueConstrains(
-    UniqueConstrain::of(columns: ['name', 'user_email'], name: 'search_idx'),
-);
+        class: User::class,
+        table: 'cms_users',
+        schema: 'main',
+    )->withFields(
+        Id::of(property: 'id', type: 'integer', generated: 'INSERT')->withSequenceGenerator(sequenceName: 'sequence'),
+        Field::of(property: 'name', type: 'string', length: 50, nullable: true, unique: true),
+        Field::of(property: 'email', type: 'string', column: 'user_email', columnDefinition: 'CHAR(32) NOT NULL'),
+    )->withIndexes(
+        Index::of(fields: 'name', name: 'name_idx'),
+        Index::of(columns: 'user_email'),
+    )->withUniqueConstraints(
+        UniqueConstraint::of(columns: ['name', 'user_email'], name: 'search_idx'),
+    )
+;
+```
+
+```php
+<?php
+
+use ...
+
+return Entity::of(
+        class: User::class,
+    )->withTable(
+        name: 'cms_users',
+        schema: 'main',
+    )->withFields(
+        Id::of(property: 'id', type: 'integer', generated: 'INSERT')->withSequenceGenerator(sequenceName: 'sequence'),
+        Field::of(property: 'name', type: 'string')->withColumn(length: 50, nullable: true, unique: true),
+        Field::of(property: 'email', type: 'string')->withColumn(name: 'user_email', definition: 'CHAR(32) NOT NULL'),
+    )->withIndexes(
+        Index::of(fields: 'name', name: 'name_idx'),
+        Index::of(columns: 'user_email'),
+    )->withUniqueConstraints(
+        UniqueConstraint::of(columns: ['name', 'user_email'], name: 'search_idx'),
+    )
+;
 ```
 
 **Currently under development.**

@@ -19,7 +19,7 @@ final class UnsignedIntegerField
     public static function of(
         string $property,
         ?string $column = null,
-        bool $primaryKey = false,
+        bool $id = false,
         bool $unique = false,
         ?bool $nullable = null,
         bool $insertable = true,
@@ -29,7 +29,7 @@ final class UnsignedIntegerField
             property: $property,
             column: $column,
             type: Types::INTEGER,
-            primaryKey: $primaryKey,
+            id: $id,
             unique: $unique,
             nullable: $nullable,
             insertable: $insertable,

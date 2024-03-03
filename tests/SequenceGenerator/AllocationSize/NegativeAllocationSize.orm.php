@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\SequenceGenerator\AllocationSize\NegativeAllo
 return Entity::of(
     class: NegativeAllocationSize::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withSequenceGenerator(sequenceName: 'sequence', allocationSize: -5),
+    Field::of(property: 'id', id: true)->withSequenceGenerator(sequenceName: 'sequence', allocationSize: -5),
 );

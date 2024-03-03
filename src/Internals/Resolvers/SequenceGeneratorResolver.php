@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
-use Hereldar\DoctrineMapping\SequenceGenerator;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedSequenceGenerator;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\SequenceGenerator;
 use ReflectionProperty;
 
 /**

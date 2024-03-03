@@ -10,14 +10,13 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
+use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEntity;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedMappedSuperclass;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\MetadataFactory;
 use Hereldar\DoctrineMapping\Internals\Resolvers\EmbeddableResolver;
 use Hereldar\DoctrineMapping\Internals\Resolvers\EntityResolver;
-use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
-use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbedded;
-use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEntity;
-use Hereldar\DoctrineMapping\Internals\Elements\ResolvedField;
 use Hereldar\DoctrineMapping\Internals\Resolvers\MappedSuperclassResolver;
 use Hereldar\DoctrineMapping\MappedSuperclass;
 
@@ -65,7 +64,7 @@ abstract class AbstractPhpDriver implements MappingDriver
         $entity = $this->classCache[$className];
 
         try {
-            $this->fillMetadataObject($entity, $metadata);
+            MetadataFactory::fillMetadataObject($entity, $metadata);
         } catch (\Throwable $exception) {
             throw MappingException::invalidMetadata($className, $exception);
         }
@@ -134,74 +133,6 @@ abstract class AbstractPhpDriver implements MappingDriver
 
         foreach ($result as $clsName => $cls) {
             $this->classCache[$clsName] = $cls;
-        }
-    }
-
-    protected function fillMetadataObject(
-        ResolvedMappedSuperclass|ResolvedEntity|ResolvedEmbeddable $entity,
-        ClassMetadata $metadata,
-    ): void {
-        if ($entity instanceof ResolvedEntity) {
-            $metadata->setCustomRepositoryClass($entity->repositoryClass);
-            $metadata->setPrimaryTable([
-                'name' => $entity->table,
-                'schema' => null,
-            ]);
-        } elseif ($entity instanceof ResolvedMappedSuperclass) {
-            $metadata->setCustomRepositoryClass($entity->repositoryClass);
-            $metadata->isMappedSuperclass = true;
-        } elseif ($entity instanceof ResolvedEmbeddable) {
-            $metadata->isEmbeddedClass = true;
-        }
-
-        foreach ($entity->fields as $field) {
-            if ($field instanceof ResolvedField) {
-                $metadata->mapField([
-                    'fieldName' => $field->property,
-                    'columnName' => $field->column,
-                    'columnDefinition' => $field->columnDefinition,
-                    'type' => $field->type,
-                    'enumType' => $field->enumType,
-                    'id' => $field->primaryKey,
-                    'unique' => $field->unique,
-                    'nullable' => $field->nullable,
-                    'notInsertable' => ($field->insertable === false),
-                    'notUpdatable' => ($field->updatable === false),
-                    'generated' => $field->generated?->value(),
-                    'length' => $field->length,
-                    'precision' => $field->precision,
-                    'scale' => $field->scale,
-                    'options' => [
-                        'default' => $field->default,
-                        'unsigned' => $field->unsigned,
-                        'fixed' => $field->fixed,
-                        'charset' => $field->charset,
-                        'collation' => $field->collation,
-                        'comment' => $field->comment,
-                    ],
-                ]);
-                if ($field->strategy) {
-                    $metadata->setIdGeneratorType($field->strategy->value());
-                }
-                if ($field->primaryKey && $field->sequenceGenerator) {
-                    $metadata->setSequenceGeneratorDefinition([
-                        'sequenceName' => $field->sequenceGenerator->sequenceName,
-                        'allocationSize' => $field->sequenceGenerator->allocationSize,
-                        'initialValue' => $field->sequenceGenerator->initialValue,
-                    ]);
-                }
-                if ($field->primaryKey && $field->customIdGenerator) {
-                    $metadata->setCustomGeneratorDefinition([
-                        'class' => $field->customIdGenerator->class,
-                    ]);
-                }
-            } elseif ($field instanceof ResolvedEmbedded) {
-                $metadata->mapEmbedded([
-                    'fieldName' => $field->property,
-                    'class' => $field->class,
-                    'columnPrefix' => $field->columnPrefix,
-                ]);
-            }
         }
     }
 }

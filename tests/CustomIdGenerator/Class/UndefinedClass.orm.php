@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\UndefinedClass;
 return Entity::of(
     class: UndefinedClass::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withCustomIdGenerator(),
+    Field::of(property: 'id', id: true)->withCustomIdGenerator(),
 );

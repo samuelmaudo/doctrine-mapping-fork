@@ -6,9 +6,9 @@ namespace Hereldar\DoctrineMapping\Tests\Field;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\Field\Nullable\DefinedNullable;
-use Hereldar\DoctrineMapping\Tests\Field\Nullable\DefinedNullablePrimaryKey;
+use Hereldar\DoctrineMapping\Tests\Field\Nullable\DefinedNullableId;
 use Hereldar\DoctrineMapping\Tests\Field\Nullable\UndefinedNullable;
-use Hereldar\DoctrineMapping\Tests\Field\Nullable\UndefinedNullablePrimaryKey;
+use Hereldar\DoctrineMapping\Tests\Field\Nullable\UndefinedNullableId;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class FieldNullableTest extends TestCase
@@ -29,19 +29,19 @@ final class FieldNullableTest extends TestCase
         self::assertTrue($metadata->fieldMappings['nullableField']['nullable']);
     }
 
-    public function testDefinedNullablePrimaryKey(): void
+    public function testDefinedNullableId(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'DefinedNullablePrimaryKey.orm.php': Primary key 'id' on class '".DefinedNullablePrimaryKey::class."' is nullable");
+        $this->expectExceptionMessage("Invalid file 'DefinedNullableId.orm.php': Nullable ID for property 'id' on class '".DefinedNullableId::class."'");
 
-        $this->loadClassMetadata(DefinedNullablePrimaryKey::class);
+        $this->loadClassMetadata(DefinedNullableId::class);
     }
 
-    public function testUndefinedNullablePrimaryKey(): void
+    public function testUndefinedNullableId(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'UndefinedNullablePrimaryKey.orm.php': Primary key 'id' on class '".UndefinedNullablePrimaryKey::class."' is nullable");
+        $this->expectExceptionMessage("Invalid file 'UndefinedNullableId.orm.php': Nullable ID for property 'id' on class '".UndefinedNullableId::class."'");
 
-        $this->loadClassMetadata(UndefinedNullablePrimaryKey::class);
+        $this->loadClassMetadata(UndefinedNullableId::class);
     }
 }

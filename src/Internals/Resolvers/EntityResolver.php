@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbeddable;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEntity;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\Validators\ClassOptionsResolver;
+use Hereldar\DoctrineMapping\Internals\Validators\ClassSchemaResolver;
 use Hereldar\DoctrineMapping\Internals\Validators\RepositoryClassValidator;
 
 /**
@@ -25,13 +27,21 @@ final class EntityResolver
         $class = ClassResolver::resolve($entity->class());
         RepositoryClassValidator::validate($entity->repositoryClass());
         $table = ClassTableResolver::resolve($class, $entity->table());
-        [$fields, $embeddedEmbeddables] = PropertiesResolver::resolve($class, $entity->fields());
+        ClassSchemaResolver::validate($class, $entity->schema());
+        ClassOptionsResolver::validate($class, $entity->options());
+        [$fields, $embeddedEmbeddables] = FieldsResolver::resolve($class, $entity->fields());
+        $indexes = IndexesResolver::resolve($class, $entity->indexes());
+        $uniqueConstraints = UniqueConstraintsResolver::resolve($class, $entity->uniqueConstraints());
 
         $resolvedEntity = new ResolvedEntity(
             $class->name,
             $entity->repositoryClass(),
             $table,
+            $entity->schema(),
+            $entity->options(),
             $fields,
+            $indexes,
+            $uniqueConstraints,
         );
 
         return [$resolvedEntity, $embeddedEmbeddables];

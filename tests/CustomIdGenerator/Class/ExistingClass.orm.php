@@ -8,5 +8,5 @@ use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\ExistingIdGenerator;
 return Entity::of(
     class: ExistingClass::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withCustomIdGenerator(class: ExistingIdGenerator::class),
+    Field::of(property: 'id', id: true)->withCustomIdGenerator(class: ExistingIdGenerator::class),
 );

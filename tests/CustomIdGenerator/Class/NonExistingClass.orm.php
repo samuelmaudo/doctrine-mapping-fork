@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\NonExistingClass;
 return Entity::of(
     class: NonExistingClass::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withCustomIdGenerator(class: 'NonExistingIdGenerator'),
+    Field::of(property: 'id', id: true)->withCustomIdGenerator(class: 'NonExistingIdGenerator'),
 );

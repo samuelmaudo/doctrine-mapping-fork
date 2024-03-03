@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Validators;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionProperty;
 
 /**

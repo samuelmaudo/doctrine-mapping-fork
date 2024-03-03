@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\CustomIdGenerator;
 use Hereldar\DoctrineMapping\Internals\Elements\ResolvedCustomIdGenerator;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionProperty;
 
 /**

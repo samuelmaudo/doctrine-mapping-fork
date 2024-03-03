@@ -20,7 +20,7 @@ final class StringField
     public static function of(
         string $property,
         ?string $column = null,
-        bool $primaryKey = false,
+        bool $id = false,
         bool $unique = false,
         ?bool $nullable = null,
         bool $insertable = true,
@@ -31,7 +31,7 @@ final class StringField
             property: $property,
             column: $column,
             type: Types::STRING,
-            primaryKey: $primaryKey,
+            id: $id,
             unique: $unique,
             nullable: $nullable,
             insertable: $insertable,

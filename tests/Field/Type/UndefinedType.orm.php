@@ -1,10 +1,10 @@
 <?php
 
 use Hereldar\DoctrineMapping\Field;
-use Hereldar\DoctrineMapping\Entity;
+use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Tests\Field\Type\UndefinedType;
 
-return Entity::of(
+return Embeddable::of(
     class: UndefinedType::class,
 )->withFields(
     Field::of(property: 'field'),

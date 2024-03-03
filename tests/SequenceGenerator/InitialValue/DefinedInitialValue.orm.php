@@ -7,5 +7,5 @@ use Hereldar\DoctrineMapping\Tests\SequenceGenerator\InitialValue\DefinedInitial
 return Entity::of(
     class: DefinedInitialValue::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withSequenceGenerator(sequenceName: 'sequence', initialValue: 5),
+    Field::of(property: 'id', id: true)->withSequenceGenerator(sequenceName: 'sequence', initialValue: 5),
 );

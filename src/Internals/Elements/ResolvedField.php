@@ -32,7 +32,7 @@ final class ResolvedField
         public ?string $columnDefinition,
         public ?string $type,
         public ?string $enumType,
-        public bool $primaryKey,
+        public bool $id,
         public bool $unique,
         public bool $nullable,
         public bool $insertable,

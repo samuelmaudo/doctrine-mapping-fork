@@ -27,7 +27,7 @@ final class Id
             property: $property,
             column: $column,
             type: $type,
-            primaryKey: true,
+            id: true,
             nullable: false,
             length: $length,
             unsigned: $unsigned,

@@ -9,5 +9,5 @@ $object = new class {};
 return Entity::of(
     class: AnonymousClass::class,
 )->withFields(
-    Field::of(property: 'id', primaryKey: true)->withCustomIdGenerator(class: $object::class),
+    Field::of(property: 'id', id: true)->withCustomIdGenerator(class: $object::class),
 );

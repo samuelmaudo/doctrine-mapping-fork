@@ -16,9 +16,9 @@ final class SequenceGenerator
     ) {}
 
     /**
-     * @param non-empty-string $sequenceName
+     * @param non-empty-string $sequenceName Name of the sequence.
      * @param positive-int $allocationSize
-     * @param positive-int $initialValue
+     * @param positive-int $initialValue Where the sequence starts.
      */
     public static function of(
         string $sequenceName,

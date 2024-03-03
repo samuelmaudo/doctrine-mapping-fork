@@ -19,7 +19,7 @@ final class UnsignedBigIntegerField
     public static function of(
         string $property,
         ?string $column = null,
-        bool $primaryKey = false,
+        bool $id = false,
         bool $unique = false,
         ?bool $nullable = null,
         bool $insertable = true,
@@ -29,7 +29,7 @@ final class UnsignedBigIntegerField
             property: $property,
             column: $column,
             type: Types::BIGINT,
-            primaryKey: $primaryKey,
+            id: $id,
             unique: $unique,
             nullable: $nullable,
             insertable: $insertable,

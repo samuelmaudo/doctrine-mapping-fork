@@ -20,7 +20,7 @@ final class FixedStringField
     public static function of(
         string $property,
         ?string $column = null,
-        bool $primaryKey = false,
+        bool $id = false,
         bool $unique = false,
         ?bool $nullable = null,
         bool $insertable = true,
@@ -31,7 +31,7 @@ final class FixedStringField
             property: $property,
             column: $column,
             type: Types::STRING,
-            primaryKey: $primaryKey,
+            id: $id,
             unique: $unique,
             nullable: $nullable,
             insertable: $insertable,

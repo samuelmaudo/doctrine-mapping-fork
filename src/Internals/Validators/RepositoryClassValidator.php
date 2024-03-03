@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Internals\Validators;
 
 use Doctrine\ORM\EntityRepository;
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 
 /**

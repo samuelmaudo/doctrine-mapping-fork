@@ -6,7 +6,7 @@ namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
 use Error;
 use Hereldar\DoctrineMapping\Enums\Generated;
-use Hereldar\DoctrineMapping\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionProperty;
 
 /**
