@@ -1,10 +1,14 @@
 name: Unit Tests
 
-on: [pull_request, push]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '25 9 * * 4'
 
 jobs:
   phpunit:
-    name: Unit Tests - Doctrine ${{ matrix.doctrine }} PHP ${{ matrix.php }} Ubuntu
+    name: PHPUnit - Doctrine ${{ matrix.doctrine }} PHP ${{ matrix.php }} Ubuntu
 
     strategy:
       fail-fast: false
