@@ -10,8 +10,6 @@ use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\ORM\Mapping\TypedFieldMapper;
 use Doctrine\Persistence\Mapping\MappingException as PersistenceMappingException;
 use Doctrine\Persistence\Mapping\RuntimeReflectionService;
-use Faker\Factory as FakerFactory;
-use Faker\Generator as FakerGenerator;
 use Hereldar\DoctrineMapping\Drivers\PhpDriver;
 use Hereldar\DoctrineMapping\Drivers\SimplifiedPhpDriver;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
@@ -22,8 +20,6 @@ use Throwable;
 
 abstract class TestCase extends PHPUnitTestCase
 {
-    private ?FakerGenerator $fakerGenerator = null;
-
     public static function assertEntity(ClassMetadata $metadata): void
     {
         self::assertFalse($metadata->isMappedSuperclass);
@@ -161,10 +157,5 @@ abstract class TestCase extends PHPUnitTestCase
         $subdirectory = substr($classShortName, strlen($directory), -4);
 
         return __DIR__."/{$directory}/{$subdirectory}";
-    }
-
-    protected function fake(): FakerGenerator
-    {
-        return $this->fakerGenerator ??= FakerFactory::create();
     }
 }
