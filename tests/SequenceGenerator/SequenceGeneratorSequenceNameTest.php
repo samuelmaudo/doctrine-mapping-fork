@@ -33,7 +33,7 @@ final class SequenceGeneratorSequenceNameTest extends TestCase
     public function testEmptySequenceName(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptySequenceName.orm.php': Empty sequence name for property 'id' on class '".EmptySequenceName::class."'");
+        $this->expectExceptionMessage("Invalid file 'EmptySequenceName.orm.php': Empty sequence name for field 'id'");
 
         $this->loadClassMetadata(EmptySequenceName::class);
     }

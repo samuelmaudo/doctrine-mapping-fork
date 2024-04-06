@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\CustomIdGenerator;
 
+use Doctrine\ORM\Id\AbstractIdGenerator;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\AnonymousClass;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\EmptyClass;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\ExistingClass;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\ExistingIdGenerator;
+use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\InvalidClass;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\NonExistingClass;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\NormalField;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\UndefinedClass;
@@ -18,11 +20,10 @@ final class CustomIdGeneratorClassTest extends TestCase
 {
     public function testUndefinedClass(): void
     {
-        $metadata = $this->loadClassMetadata(UndefinedClass::class);
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessageMatches("/Invalid file 'UndefinedClass.orm.php': Too few arguments to function Hereldar\\\\DoctrineMapping\\\\Field::withCustomIdGenerator\(\), 0 passed in \S+ on line \d+ and exactly 1 expected/");
 
-        self::assertTrue($metadata->fieldMappings['id']['id']);
-        self::assertSame(7, $metadata->generatorType);
-        self::assertSame(['class' => null], $metadata->customGeneratorDefinition);
+        $this->loadClassMetadata(UndefinedClass::class);
     }
 
     public function testExistingClass(): void
@@ -56,6 +57,14 @@ final class CustomIdGeneratorClassTest extends TestCase
         $this->expectExceptionMessageMatches("/Invalid file 'AnonymousClass.orm.php': Class 'class@anonymous[^']*' is anonymous/");
 
         $this->loadClassMetadata(AnonymousClass::class);
+    }
+
+    public function testInvalidClass(): void
+    {
+        $this->expectException(DoctrineMappingException::class);
+        $this->expectExceptionMessage("Invalid file 'InvalidClass.orm.php': Class 'InvalidIdGenerator' is not a valid custom ID generator because does not extend '".AbstractIdGenerator::class."'");
+
+        $this->loadClassMetadata(InvalidClass::class);
     }
 
     public function testNormalField(): void

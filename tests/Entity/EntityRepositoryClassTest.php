@@ -63,7 +63,7 @@ final class EntityRepositoryClassTest extends TestCase
     public function testInvalidRepositoryClass(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'InvalidRepositoryClass.orm.php': Class '".InvalidRepository::class."' is not a valid repository class because does not extend ".EntityRepository::class.".");
+        $this->expectExceptionMessage("Invalid file 'InvalidRepositoryClass.orm.php': Class 'InvalidRepository' is not a valid repository class because does not extend '".EntityRepository::class."'");
 
         $this->loadClassMetadata(InvalidRepositoryClass::class);
     }

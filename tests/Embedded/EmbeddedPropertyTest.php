@@ -22,7 +22,7 @@ final class EmbeddedPropertyTest extends TestCase
     public function testNonExistingProperty(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'NonExistingProperty.orm.php': Class '".NonExistingProperty::class."' has no property 'field'");
+        $this->expectExceptionMessage("Invalid file 'NonExistingProperty.orm.php': Class 'NonExistingProperty' has no property 'field'");
 
         $this->loadClassMetadata(NonExistingProperty::class);
     }
@@ -30,7 +30,7 @@ final class EmbeddedPropertyTest extends TestCase
     public function testEmptyProperty(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyProperty.orm.php': Property name cannot be empty (class '".EmptyProperty::class."')");
+        $this->expectExceptionMessage("Invalid file 'EmptyProperty.orm.php': Property name cannot be empty");
 
         $this->loadClassMetadata(EmptyProperty::class);
     }

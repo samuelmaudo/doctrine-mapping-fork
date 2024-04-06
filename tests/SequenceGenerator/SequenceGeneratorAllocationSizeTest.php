@@ -35,7 +35,7 @@ final class SequenceGeneratorAllocationSizeTest extends TestCase
     public function testZeroAllocationSize(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'ZeroAllocationSize.orm.php': Allocation size for property 'id' on class '".ZeroAllocationSize::class."' is negative or zero");
+        $this->expectExceptionMessage("Invalid file 'ZeroAllocationSize.orm.php': Negative or zero allocation size for field 'id'");
 
         $this->loadClassMetadata(ZeroAllocationSize::class);
     }
@@ -43,7 +43,7 @@ final class SequenceGeneratorAllocationSizeTest extends TestCase
     public function testNegativeAllocationSize(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'NegativeAllocationSize.orm.php': Allocation size for property 'id' on class '".NegativeAllocationSize::class."' is negative or zero");
+        $this->expectExceptionMessage("Invalid file 'NegativeAllocationSize.orm.php': Negative or zero allocation size for field 'id'");
 
         $this->loadClassMetadata(NegativeAllocationSize::class);
     }

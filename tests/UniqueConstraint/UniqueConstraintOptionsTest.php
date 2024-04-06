@@ -39,7 +39,7 @@ final class UniqueConstraintOptionsTest extends TestCase
     public function testEmptyOption(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyOption.orm.php': Option keys of unique constraint '1' for class '".EmptyOption::class."' should be non-empty strings, but '' was found");
+        $this->expectExceptionMessage("Invalid file 'EmptyOption.orm.php': Option keys of unique constraints should be non-empty strings, but '' was found");
 
         $this->loadClassMetadata(EmptyOption::class);
     }
@@ -47,7 +47,7 @@ final class UniqueConstraintOptionsTest extends TestCase
     public function testInvalidOption(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'InvalidOption.orm.php': Option keys of unique constraint '1' for class '".InvalidOption::class."' should be non-empty strings, but 42 was found");
+        $this->expectExceptionMessage("Invalid file 'InvalidOption.orm.php': Option keys of unique constraints should be non-empty strings, but 42 was found");
 
         $this->loadClassMetadata(InvalidOption::class);
     }

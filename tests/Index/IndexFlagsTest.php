@@ -47,7 +47,7 @@ final class IndexFlagsTest extends TestCase
     public function testEmptyFlag(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyFlag.orm.php': Flag list of index '1' for class '".EmptyFlag::class."' should contain non-empty strings, but '' was found");
+        $this->expectExceptionMessage("Invalid file 'EmptyFlag.orm.php': Flag list of indexes should contain non-empty strings, but '' was found");
 
         $this->loadClassMetadata(EmptyFlag::class);
     }
@@ -55,7 +55,7 @@ final class IndexFlagsTest extends TestCase
     public function testInvalidFlag(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'InvalidFlag.orm.php': Flag list of index '1' for class '".InvalidFlag::class."' should contain non-empty strings, but 42 was found");
+        $this->expectExceptionMessage("Invalid file 'InvalidFlag.orm.php': Flag list of indexes should contain non-empty strings, but 42 was found");
 
         $this->loadClassMetadata(InvalidFlag::class);
     }

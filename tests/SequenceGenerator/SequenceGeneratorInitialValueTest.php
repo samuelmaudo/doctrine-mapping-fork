@@ -35,7 +35,7 @@ final class SequenceGeneratorInitialValueTest extends TestCase
     public function testZeroInitialValue(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'ZeroInitialValue.orm.php': Initial value for property 'id' on class '".ZeroInitialValue::class."' is negative or zero");
+        $this->expectExceptionMessage("Invalid file 'ZeroInitialValue.orm.php': Negative or zero initial value for field 'id'");
 
         $this->loadClassMetadata(ZeroInitialValue::class);
     }
@@ -43,7 +43,7 @@ final class SequenceGeneratorInitialValueTest extends TestCase
     public function testNegativeInitialValue(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'NegativeInitialValue.orm.php': Initial value for property 'id' on class '".NegativeInitialValue::class."' is negative or zero");
+        $this->expectExceptionMessage("Invalid file 'NegativeInitialValue.orm.php': Negative or zero initial value for field 'id'");
 
         $this->loadClassMetadata(NegativeInitialValue::class);
     }

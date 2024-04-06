@@ -47,7 +47,7 @@ final class IndexColumnsTest extends TestCase
     public function testEmptyColumn(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyColumn.orm.php': Column list of index '1' for class '".EmptyColumn::class."' should contain non-empty strings, but '' was found");
+        $this->expectExceptionMessage("Invalid file 'EmptyColumn.orm.php': Column list of indexes should contain non-empty strings, but '' was found");
 
         $this->loadClassMetadata(EmptyColumn::class);
     }
@@ -55,7 +55,7 @@ final class IndexColumnsTest extends TestCase
     public function testInvalidColumn(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'InvalidColumn.orm.php': Column list of index '1' for class '".InvalidColumn::class."' should contain non-empty strings, but 42 was found");
+        $this->expectExceptionMessage("Invalid file 'InvalidColumn.orm.php': Column list of indexes should contain non-empty strings, but 42 was found");
 
         $this->loadClassMetadata(InvalidColumn::class);
     }

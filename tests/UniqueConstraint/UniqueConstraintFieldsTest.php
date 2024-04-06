@@ -47,7 +47,7 @@ final class UniqueConstraintFieldsTest extends TestCase
     public function testEmptyField(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyField.orm.php': Field list of unique constraint '1' for class '".EmptyField::class."' should contain non-empty strings, but '' was found");
+        $this->expectExceptionMessage("Invalid file 'EmptyField.orm.php': Field list of unique constraints should contain non-empty strings, but '' was found");
 
         $this->loadClassMetadata(EmptyField::class);
     }
@@ -55,7 +55,7 @@ final class UniqueConstraintFieldsTest extends TestCase
     public function testInvalidField(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'InvalidField.orm.php': Field list of unique constraint '1' for class '".InvalidField::class."' should contain non-empty strings, but 42 was found");
+        $this->expectExceptionMessage("Invalid file 'InvalidField.orm.php': Field list of unique constraints should contain non-empty strings, but 42 was found");
 
         $this->loadClassMetadata(InvalidField::class);
     }

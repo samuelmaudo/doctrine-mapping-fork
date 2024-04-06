@@ -4,4 +4,6 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class;
 
-final class ExistingIdGenerator {}
+use Doctrine\ORM\Id\AbstractIdGenerator;
+
+final class ExistingIdGenerator extends AbstractIdGenerator {}

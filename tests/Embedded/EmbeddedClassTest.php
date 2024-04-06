@@ -62,7 +62,7 @@ final class EmbeddedClassTest extends TestCase
     public function testMissingClass(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'MissingClass.orm.php': Class attribute for property 'id' on class '".MissingClass::class."' is missing");
+        $this->expectExceptionMessage("Invalid file 'MissingClass.orm.php': Missing class attribute for property 'id' on class 'MissingClass'");
 
         $this->loadClassMetadata(MissingClass::class);
     }

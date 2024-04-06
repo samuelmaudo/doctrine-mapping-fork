@@ -5,5 +5,6 @@ use Hereldar\DoctrineMapping\Tests\Entity\Table\EmptyTable;
 
 return Entity::of(
     class: EmptyTable::class,
-    table: '',
+)->withTable(
+    name: '',
 );

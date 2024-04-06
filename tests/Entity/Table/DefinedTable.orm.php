@@ -5,5 +5,6 @@ use Hereldar\DoctrineMapping\Tests\Entity\Table\DefinedTable;
 
 return Entity::of(
     class: DefinedTable::class,
-    table: 'custom_table',
+)->withTable(
+    name: 'custom_table',
 );
