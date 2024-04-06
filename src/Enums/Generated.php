@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Enums;
 
-use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
-
 /**
  * The mode of automatically generate IDs.
  *

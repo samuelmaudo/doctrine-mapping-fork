@@ -4,44 +4,79 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping;
 
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
+use ReflectionClass;
+
 /**
  * @psalm-immutable
  */
 final class Embeddable
 {
     private function __construct(
-        private string $class,
-        private array $fields,
+        private ReflectionClass $class,
+        private Fields $fields,
+        private EmbeddedEmbeddables $embeddedEmbeddables,
     ) {}
 
     /**
      * @param class-string $class
+     *
+     * @throws DoctrineMappingException
      */
     public static function of(
-        string $class,
+        string|ReflectionClass $class,
     ): self {
-        return new self($class, []);
+        if (is_string($class)) {
+            $class = ClassResolver::resolve($class);
+        }
+
+        return new self(
+            $class,
+            Fields::empty(),
+            EmbeddedEmbeddables::empty(),
+        );
     }
 
     /**
      * @param non-empty-list<Field|Embedded> $fields
+     *
+     * @throws DoctrineMappingException
      */
     public function withFields(
         Field|Embedded ...$fields,
     ): self {
+        $fieldCollection = Fields::of($this, ...$fields);
+
         return new self(
             $this->class,
-            $fields,
+            $fieldCollection,
+            EmbeddedEmbeddables::of($fieldCollection),
         );
     }
 
-    public function class(): string
+    public function class(): ReflectionClass
     {
         return $this->class;
     }
 
-    public function fields(): array
+    public function className(): string
+    {
+        return $this->class->name;
+    }
+
+    public function classSortName(): string
+    {
+        return $this->class->getShortName();
+    }
+
+    public function fields(): Fields
     {
         return $this->fields;
+    }
+
+    public function embeddedEmbeddables(): EmbeddedEmbeddables
+    {
+        return $this->embeddedEmbeddables;
     }
 }

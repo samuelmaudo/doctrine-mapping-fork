@@ -4,24 +4,37 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping;
 
+use BadMethodCallException;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\FalseTypeError;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
+use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
+use ReflectionClass;
+use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**
  * @psalm-immutable
  */
 final class Embedded
 {
+    /**
+     * @param non-empty-string $property
+     * @param non-empty-string|false $columnPrefix
+     * @param list<Field|Embedded> $fields
+     */
     private function __construct(
         private string $property,
-        private ?string $class,
-        private string|bool|null $columnPrefix,
-        private ?array $fields = null,
+        private ?ReflectionClass $class,
+        private string|bool $columnPrefix,
+        private array $fields,
     ) {}
 
     /**
      * @param non-empty-string $property
      * @param ?class-string $class
      * @param non-empty-string|false|null $columnPrefix
+     *
+     * @throws DoctrineMappingException
      */
     public static function of(
         string $property,
@@ -32,7 +45,48 @@ final class Embedded
             throw new FalseTypeError('Embedded::of()', 3, '$columnPrefix');
         }
 
-        return new self($property, $class, $columnPrefix);
+        if (!$property) {
+            throw MappingException::emptyPropertyName();
+        }
+
+        if (null !== $class) {
+            $class = ClassResolver::resolve($class);
+        }
+
+        if (null === $columnPrefix) {
+            $columnPrefix = to_snake_case($property).'_';
+        } elseif ('' === $columnPrefix) {
+            $columnPrefix = false;
+        }
+
+        return new self(
+            $property,
+            $class,
+            $columnPrefix,
+            [],
+        );
+    }
+
+    /**
+     * @param class-string $class
+     *
+     * @throws DoctrineMappingException
+     *
+     * @internal
+     */
+    public function withClass(
+        string $class,
+    ): self {
+        if (null !== $this->class) {
+            throw new BadMethodCallException('The embedded class is already defined.');
+        }
+
+        return new self(
+            $this->property,
+            ClassResolver::resolve($class),
+            $this->columnPrefix,
+            $this->fields,
+        );
     }
 
     /**
@@ -49,22 +103,41 @@ final class Embedded
         );
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function property(): string
     {
         return $this->property;
     }
 
-    public function class(): ?string
+    public function class(): ?ReflectionClass
     {
         return $this->class;
     }
 
-    public function columnPrefix(): string|bool|null
+    public function className(): string
+    {
+        return $this->class->name;
+    }
+
+    public function classSortName(): string
+    {
+        return $this->class->getShortName();
+    }
+
+    /**
+     * @return non-empty-string|false
+     */
+    public function columnPrefix(): string|bool
     {
         return $this->columnPrefix;
     }
 
-    public function fields(): ?array
+    /**
+     * @return list<Field|Embedded>
+     */
+    public function fields(): array
     {
         return $this->fields;
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
-use Doctrine\ORM\Id\AbstractIdGenerator;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionClass;
@@ -12,12 +12,12 @@ use ReflectionClass;
 /**
  * @internal
  */
-final class CustomIdGeneratorResolver
+final class RepositoryClassResolver
 {
     /**
      * @throws DoctrineMappingException
      *
-     * @psalm-assert ?class-string<AbstractIdGenerator> $className
+     * @psalm-assert ?class-string<EntityRepository> $className
      */
     public static function resolve(?string $className): ?ReflectionClass
     {
@@ -27,8 +27,8 @@ final class CustomIdGeneratorResolver
 
         $class = ClassResolver::resolve($className);
 
-        if (!$class->isSubclassOf(AbstractIdGenerator::class)) {
-            throw MappingException::invalidCustomIdGenerator($class->getShortName());
+        if (!$class->isSubclassOf(EntityRepository::class)) {
+            throw MappingException::invalidRepositoryClass($class->getShortName());
         }
 
         return $class;

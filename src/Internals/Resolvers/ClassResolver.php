@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals\Resolvers;
 
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionClass;
 use ReflectionException;
@@ -14,7 +15,8 @@ use ReflectionException;
 final class ClassResolver
 {
     /**
-     * @throws MappingException
+     * @throws DoctrineMappingException
+     *
      * @psalm-assert class-string $className
      */
     public static function resolve(string $className): ReflectionClass
