@@ -56,7 +56,7 @@ final class FieldGeneratedTest extends TestCase
     public function testInvalidGenerated(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'InvalidGenerated.orm.php': Invalid generation mode 'UNKNOWN' for property 'field' on class '".InvalidGenerated::class."'");
+        $this->expectExceptionMessage("Invalid file 'InvalidGenerated.orm.php': Invalid generation mode 'UNKNOWN' for field 'field'");
 
         $this->loadClassMetadata(InvalidGenerated::class);
     }

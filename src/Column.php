@@ -56,7 +56,7 @@ final class Column
         ?string $name = null,
         ?string $definition = null,
         bool $unique = false,
-        ?bool $nullable = null,
+        bool $nullable = false,
         ?int $length = null,
         ?int $precision = null,
         ?int $scale = null,

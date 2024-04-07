@@ -99,7 +99,7 @@ final class Field
      * @param ?non-empty-string $name Column name (defaults to the field name).
      * @param ?non-empty-string $definition SQL fragment that is used when generating the DDL for the column (non-portable).
      * @param bool $unique Whether a unique constraint should be generated for the column.
-     * @param ?bool $nullable Whether the column is nullable (defaults to FALSE).
+     * @param bool $nullable Whether the column is nullable (defaults to FALSE).
      * @param ?positive-int $length Database length of the column.
      * @param ?non-negative-int $precision Maximum number of digits that can be stored (applies only for `decimal` columns).
      * @param ?non-negative-int $scale Number of digits to the right of the decimal point (applies only for `decimal` columns and must not be greater than the precision).
@@ -118,7 +118,7 @@ final class Field
         ?string $name = null,
         ?string $definition = null,
         bool $unique = false,
-        ?bool $nullable = null,
+        bool $nullable = false,
         ?int $length = null,
         ?int $precision = null,
         ?int $scale = null,

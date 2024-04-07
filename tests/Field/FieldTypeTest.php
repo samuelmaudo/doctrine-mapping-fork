@@ -30,7 +30,7 @@ final class FieldTypeTest extends TestCase
     public function testEmptyType(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'EmptyType.orm.php': Empty type for property 'field' on class '".EmptyType::class."'");
+        $this->expectExceptionMessage("Invalid file 'EmptyType.orm.php': Empty type for field 'field'");
 
         $this->loadClassMetadata(EmptyType::class);
     }
