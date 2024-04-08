@@ -8,7 +8,7 @@ Doctrine Mapping
 
 [php-badge]: https://img.shields.io/badge/php-8.0%20to%208.3-777bb3.svg
 [php-url]: https://github.com/hereldar/doctrine-mapping/actions/workflows/unit-tests.yml
-[doctrine-badge]: https://img.shields.io/badge/doctrine-2.16%20to%203.0-fc6a31.svg
+[doctrine-badge]: https://img.shields.io/badge/doctrine-2.18%20to%203.2-fc6a31.svg
 [doctrine-url]: https://github.com/hereldar/doctrine-mapping/actions/workflows/unit-tests.yml
 [codecov-badge]: https://img.shields.io/codecov/c/github/hereldar/doctrine-mapping
 [codecov-url]: https://app.codecov.io/gh/hereldar/doctrine-mapping
