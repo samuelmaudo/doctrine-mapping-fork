@@ -53,7 +53,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         $fieldMapping = $metadata->fieldMappings[$field];
 
-        if (self::doctrineOrmVersionSatisfies('^4.0')) {
+        if (self::doctrineOrmVersionSatisfies('>=3.0')) {
             self::assertInstanceOf(FieldMapping::class, $fieldMapping);
         } else {
             self::assertIsArray($fieldMapping);
@@ -71,7 +71,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->columnDefinition
                 : $fieldMapping['columnDefinition']
         );
@@ -88,7 +88,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->columnName
                 : $fieldMapping['columnName']
         );
@@ -105,14 +105,14 @@ abstract class TestCase extends PHPUnitTestCase
 
         if (null === $value) {
             self::assertFalse(
-                (self::doctrineOrmVersionSatisfies('^4.0'))
+                (self::doctrineOrmVersionSatisfies('>=3.0'))
                     ? isset($fieldMapping->generated)
                     : isset($fieldMapping['generated'])
             );
         } else {
             self::assertSame(
                 $value,
-                (self::doctrineOrmVersionSatisfies('^4.0'))
+                (self::doctrineOrmVersionSatisfies('>=3.0'))
                     ? $fieldMapping->generated
                     : $fieldMapping['generated']
             );
@@ -130,7 +130,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->fieldName
                 : $fieldMapping['fieldName']
         );
@@ -147,7 +147,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->id
                 : $fieldMapping['id']
         );
@@ -164,7 +164,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->length
                 : $fieldMapping['length']
         );
@@ -181,7 +181,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->notInsertable
                 : $fieldMapping['notInsertable']
         );
@@ -198,7 +198,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->notUpdatable
                 : $fieldMapping['notUpdatable']
         );
@@ -215,7 +215,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->nullable
                 : $fieldMapping['nullable']
         );
@@ -229,7 +229,7 @@ abstract class TestCase extends PHPUnitTestCase
     ): void {
         self::assertField($metadata, $field);
 
-        $fieldMappingOptions = (self::doctrineOrmVersionSatisfies('^4.0'))
+        $fieldMappingOptions = (self::doctrineOrmVersionSatisfies('>=3.0'))
             ? $metadata->fieldMappings[$field]->options
             : $metadata->fieldMappings[$field]['options'];
 
@@ -248,7 +248,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->precision
                 : $fieldMapping['precision']
         );
@@ -265,7 +265,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->scale
                 : $fieldMapping['scale']
         );
@@ -282,7 +282,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $fieldMapping->type
                 : $fieldMapping['type']
         );
@@ -297,7 +297,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         $fieldMapping = $metadata->fieldMappings[$field];
 
-        self::assertSame($value, (self::doctrineOrmVersionSatisfies('^4.0'))
+        self::assertSame($value, (self::doctrineOrmVersionSatisfies('>=3.0'))
             ? $fieldMapping->unique
             : $fieldMapping['unique']);
     }
@@ -310,7 +310,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         $embeddedClass = $metadata->embeddedClasses[$embedded];
 
-        if (self::doctrineOrmVersionSatisfies('^4.0')) {
+        if (self::doctrineOrmVersionSatisfies('>=3.0')) {
             self::assertInstanceOf(EmbeddedClassMapping::class, $embeddedClass);
         } else {
             self::assertIsArray($embeddedClass);
@@ -331,7 +331,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $embeddedClass->class
                 : $embeddedClass['class']
         );
@@ -348,7 +348,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         self::assertSame(
             $value,
-            (self::doctrineOrmVersionSatisfies('^4.0'))
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $embeddedClass->columnPrefix
                 : $embeddedClass['columnPrefix']
         );
