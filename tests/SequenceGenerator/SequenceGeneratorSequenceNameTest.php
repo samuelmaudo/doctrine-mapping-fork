@@ -17,7 +17,7 @@ final class SequenceGeneratorSequenceNameTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedSequenceName::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['id']);
+        self::assertFieldId($metadata, 'id', true);
         self::assertSame(2, $metadata->generatorType);
         self::assertSame('sequence', $metadata->sequenceGeneratorDefinition['sequenceName']);
     }
@@ -42,7 +42,7 @@ final class SequenceGeneratorSequenceNameTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(NormalField::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['id']);
+        self::assertFieldId($metadata, 'field', false);
         self::assertSame(2, $metadata->generatorType);
         self::assertNull($metadata->sequenceGeneratorDefinition);
     }

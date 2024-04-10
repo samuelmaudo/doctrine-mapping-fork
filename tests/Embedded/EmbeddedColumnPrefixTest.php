@@ -22,28 +22,28 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedColumnPrefix::class);
 
-        self::assertSame('prefix_', $metadata->embeddedClasses['field']['columnPrefix']);
+        self::assertEmbeddedColumnPrefix($metadata, 'field', 'prefix_');
     }
 
     public function testUndefinedColumnPrefix(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedColumnPrefix::class);
 
-        self::assertSame('field_', $metadata->embeddedClasses['field']['columnPrefix']);
+        self::assertEmbeddedColumnPrefix($metadata, 'field', 'field_');
     }
 
     public function testEmptyColumnPrefix(): void
     {
         $metadata = $this->loadClassMetadata(EmptyColumnPrefix::class);
 
-        self::assertFalse($metadata->embeddedClasses['field']['columnPrefix']);
+        self::assertEmbeddedColumnPrefix($metadata, 'field', false);
     }
 
     public function testFalseColumnPrefix(): void
     {
         $metadata = $this->loadClassMetadata(FalseColumnPrefix::class);
 
-        self::assertFalse($metadata->embeddedClasses['field']['columnPrefix']);
+        self::assertEmbeddedColumnPrefix($metadata, 'field', false);
     }
 
     public function testTrueColumnPrefix(): void

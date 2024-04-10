@@ -14,14 +14,14 @@ final class ColumnUnsignedTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedUnsigned::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['options']['unsigned']);
-        self::assertFalse($metadata->fieldMappings['field']['options']['unsigned']);
+        self::assertFieldOption($metadata, 'id', 'unsigned', true);
+        self::assertFieldOption($metadata, 'field', 'unsigned', false);
     }
 
     public function testUndefinedUnsigned(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedUnsigned::class);
 
-        self::assertNull($metadata->fieldMappings['field']['options']['unsigned']);
+        self::assertFieldOption($metadata, 'field', 'unsigned', null);
     }
 }

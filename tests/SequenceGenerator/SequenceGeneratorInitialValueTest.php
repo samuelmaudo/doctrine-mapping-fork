@@ -18,7 +18,7 @@ final class SequenceGeneratorInitialValueTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedInitialValue::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['id']);
+        self::assertFieldId($metadata, 'id', true);
         self::assertSame(2, $metadata->generatorType);
         self::assertEquals(5, $metadata->sequenceGeneratorDefinition['initialValue']);
     }
@@ -27,7 +27,7 @@ final class SequenceGeneratorInitialValueTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedInitialValue::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['id']);
+        self::assertFieldId($metadata, 'id', true);
         self::assertSame(2, $metadata->generatorType);
         self::assertEquals(1, $metadata->sequenceGeneratorDefinition['initialValue']);
     }
@@ -52,7 +52,7 @@ final class SequenceGeneratorInitialValueTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(NormalField::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['id']);
+        self::assertFieldId($metadata, 'field', false);
         self::assertSame(2, $metadata->generatorType);
         self::assertNull($metadata->sequenceGeneratorDefinition);
     }

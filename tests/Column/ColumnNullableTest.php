@@ -17,16 +17,16 @@ final class ColumnNullableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedNullable::class);
 
-        self::assertFalse($metadata->fieldMappings['id']['nullable']);
-        self::assertTrue($metadata->fieldMappings['field']['nullable']);
+        self::assertFieldNullable($metadata, 'id', false);
+        self::assertFieldNullable($metadata, 'field', true);
     }
 
     public function testUndefinedNullable(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedNullable::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['nullable']);
-        self::assertFalse($metadata->fieldMappings['nullableField']['nullable']);
+        self::assertFieldNullable($metadata, 'field', false);
+        self::assertFieldNullable($metadata, 'nullableField', false);
     }
 
     public function testDefinedNullableId(): void

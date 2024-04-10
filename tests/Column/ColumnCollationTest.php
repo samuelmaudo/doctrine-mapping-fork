@@ -16,14 +16,14 @@ final class ColumnCollationTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedCollation::class);
 
-        self::assertSame('latin1_spanish_ci', $metadata->fieldMappings['field']['options']['collation']);
+        self::assertFieldOption($metadata, 'field', 'collation', 'latin1_spanish_ci');
     }
 
     public function testUndefinedCollation(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedCollation::class);
 
-        self::assertNull($metadata->fieldMappings['field']['options']['collation']);
+        self::assertFieldOption($metadata, 'field', 'collation', null);
     }
 
     public function testEmptyCollation(): void

@@ -16,16 +16,16 @@ final class ColumnNameTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedName::class);
 
-        self::assertSame('id_column', $metadata->fieldMappings['id']['columnName']);
-        self::assertSame('parent_id_column', $metadata->fieldMappings['parentId']['columnName']);
+        self::assertFieldColumnName($metadata, 'id', 'id_column');
+        self::assertFieldColumnName($metadata, 'parentId', 'parent_id_column');
     }
 
     public function testUndefinedColumn(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedName::class);
 
-        self::assertSame('id', $metadata->fieldMappings['id']['columnName']);
-        self::assertSame('parent_id', $metadata->fieldMappings['parentId']['columnName']);
+        self::assertFieldColumnName($metadata, 'id', 'id');
+        self::assertFieldColumnName($metadata, 'parentId', 'parent_id');
     }
 
     public function testEmptyColumn(): void

@@ -21,9 +21,8 @@ final class EmbeddedClassTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(ExistingClass::class);
 
-        self::assertSame(ExistingClass::class, $metadata->getName());
-        self::assertSame(ExistingId::class, $metadata->embeddedClasses['id']['class']);
-        self::assertSame(ExistingField::class, $metadata->embeddedClasses['field']['class']);
+        self::assertEmbeddedClass($metadata, 'id', ExistingId::class);
+        self::assertEmbeddedClass($metadata, 'field', ExistingField::class);
     }
 
     public function testNonExistingClass(): void
@@ -54,9 +53,8 @@ final class EmbeddedClassTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedClass::class);
 
-        self::assertSame(UndefinedClass::class, $metadata->getName());
-        self::assertSame(ExistingId::class, $metadata->embeddedClasses['id']['class']);
-        self::assertSame(ExistingField::class, $metadata->embeddedClasses['field']['class']);
+        self::assertEmbeddedClass($metadata, 'id', ExistingId::class);
+        self::assertEmbeddedClass($metadata, 'field', ExistingField::class);
     }
 
     public function testMissingClass(): void

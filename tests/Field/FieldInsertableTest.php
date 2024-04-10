@@ -14,14 +14,14 @@ final class FieldInsertableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedInsertable::class);
 
-        self::assertFalse($metadata->fieldMappings['id']['notInsertable']);
-        self::assertTrue($metadata->fieldMappings['field']['notInsertable']);
+        self::assertFieldNotInsertable($metadata, 'id', false);
+        self::assertFieldNotInsertable($metadata, 'field', true);
     }
 
     public function testUndefinedInsertable(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedInsertable::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['notInsertable']);
+        self::assertFieldNotInsertable($metadata, 'field', false);
     }
 }

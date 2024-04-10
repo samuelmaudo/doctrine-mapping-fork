@@ -19,38 +19,38 @@ final class FieldGeneratedTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(NeverGenerated::class);
 
-        self::assertArrayNotHasKey('generated', $metadata->fieldMappings['id']);
-        self::assertArrayNotHasKey('generated', $metadata->fieldMappings['field']);
+        self::assertFieldGenerated($metadata, 'id', null);
+        self::assertFieldGenerated($metadata, 'field', null);
     }
 
     public function testInsertGenerated(): void
     {
         $metadata = $this->loadClassMetadata(InsertGenerated::class);
 
-        self::assertSame(1, $metadata->fieldMappings['id']['generated']);
-        self::assertSame(1, $metadata->fieldMappings['field']['generated']);
+        self::assertFieldGenerated($metadata, 'id', 1);
+        self::assertFieldGenerated($metadata, 'field', 1);
     }
 
     public function testAlwaysGenerated(): void
     {
         $metadata = $this->loadClassMetadata(AlwaysGenerated::class);
 
-        self::assertSame(2, $metadata->fieldMappings['id']['generated']);
-        self::assertSame(2, $metadata->fieldMappings['field']['generated']);
+        self::assertFieldGenerated($metadata, 'id', 2);
+        self::assertFieldGenerated($metadata, 'field', 2);
     }
 
     public function testNullGenerated(): void
     {
         $metadata = $this->loadClassMetadata(NullGenerated::class);
 
-        self::assertNull($metadata->fieldMappings['field']['generated']);
+        self::assertFieldGenerated($metadata, 'field', null);
     }
 
     public function testUndefinedGenerated(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedGenerated::class);
 
-        self::assertNull($metadata->fieldMappings['field']['generated']);
+        self::assertFieldGenerated($metadata, 'field', null);
     }
 
     public function testInvalidGenerated(): void

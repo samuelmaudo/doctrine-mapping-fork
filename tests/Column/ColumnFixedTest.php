@@ -14,14 +14,14 @@ final class ColumnFixedTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedFixed::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['options']['fixed']);
-        self::assertFalse($metadata->fieldMappings['field']['options']['fixed']);
+        self::assertFieldOption($metadata, 'id', 'fixed', true);
+        self::assertFieldOption($metadata, 'field', 'fixed', false);
     }
 
     public function testUndefinedFixed(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedFixed::class);
 
-        self::assertNull($metadata->fieldMappings['field']['options']['fixed']);
+        self::assertFieldOption($metadata, 'field', 'fixed', null);
     }
 }

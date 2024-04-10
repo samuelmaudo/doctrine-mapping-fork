@@ -16,14 +16,14 @@ final class ColumnDefinitionTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedDefinition::class);
 
-        self::assertSame('CHAR(32) NOT NULL', $metadata->fieldMappings['field']['columnDefinition']);
+        self::assertFieldColumnDefinition($metadata, 'field', 'CHAR(32) NOT NULL');
     }
 
     public function testUndefinedColumnDefinition(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedDefinition::class);
 
-        self::assertNull($metadata->fieldMappings['field']['columnDefinition']);
+        self::assertFieldColumnDefinition($metadata, 'field', null);
     }
 
     public function testEmptyColumnDefinition(): void

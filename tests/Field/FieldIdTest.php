@@ -14,14 +14,14 @@ final class FieldIdTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedId::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['id']);
-        self::assertFalse($metadata->fieldMappings['field']['id']);
+        self::assertFieldId($metadata, 'id', true);
+        self::assertFieldId($metadata, 'field', false);
     }
 
     public function testUndefinedId(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedId::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['id']);
+        self::assertFieldId($metadata, 'field', false);
     }
 }

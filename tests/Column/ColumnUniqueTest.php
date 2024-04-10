@@ -14,14 +14,14 @@ final class ColumnUniqueTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedUnique::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['unique']);
-        self::assertFalse($metadata->fieldMappings['field']['unique']);
+        self::assertFieldUnique($metadata, 'id', true);
+        self::assertFieldUnique($metadata, 'field', false);
     }
 
     public function testUndefinedUnique(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedUnique::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['unique']);
+        self::assertFieldUnique($metadata, 'field', false);
     }
 }

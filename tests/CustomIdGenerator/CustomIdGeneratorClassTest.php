@@ -30,7 +30,7 @@ final class CustomIdGeneratorClassTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(ExistingClass::class);
 
-        self::assertTrue($metadata->fieldMappings['id']['id']);
+        self::assertFieldId($metadata, 'id', true);
         self::assertSame(7, $metadata->generatorType);
         self::assertSame(['class' => ExistingIdGenerator::class], $metadata->customGeneratorDefinition);
     }
@@ -71,7 +71,7 @@ final class CustomIdGeneratorClassTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(NormalField::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['id']);
+        self::assertFieldId($metadata, 'field', false);
         self::assertSame(7, $metadata->generatorType);
         self::assertNull($metadata->customGeneratorDefinition);
     }

@@ -16,7 +16,7 @@ final class FieldPropertyTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(ExistingProperty::class);
 
-        self::assertSame('field', $metadata->fieldMappings['field']['fieldName']);
+        self::assertFieldName($metadata, 'field', 'field');
     }
 
     public function testNonExistingProperty(): void

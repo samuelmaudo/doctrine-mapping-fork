@@ -14,14 +14,14 @@ final class FieldUpdatableTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedUpdatable::class);
 
-        self::assertFalse($metadata->fieldMappings['id']['notUpdatable']);
-        self::assertTrue($metadata->fieldMappings['field']['notUpdatable']);
+        self::assertFieldNotUpdatable($metadata, 'id', false);
+        self::assertFieldNotUpdatable($metadata, 'field', true);
     }
 
     public function testUndefinedUpdatable(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedUpdatable::class);
 
-        self::assertFalse($metadata->fieldMappings['field']['notUpdatable']);
+        self::assertFieldNotUpdatable($metadata, 'field', false);
     }
 }

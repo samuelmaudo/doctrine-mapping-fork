@@ -18,14 +18,14 @@ final class ColumnScaleTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedScale::class);
 
-        self::assertSame(5, $metadata->fieldMappings['field']['scale']);
+        self::assertFieldScale($metadata, 'field', 5);
     }
 
     public function testUndefinedScale(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedScale::class);
 
-        self::assertNull($metadata->fieldMappings['field']['scale']);
+        self::assertFieldScale($metadata, 'field', null);
     }
 
     public function testZeroScale(): void

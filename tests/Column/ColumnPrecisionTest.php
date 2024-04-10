@@ -18,14 +18,14 @@ final class ColumnPrecisionTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedPrecision::class);
 
-        self::assertSame(10, $metadata->fieldMappings['field']['precision']);
+        self::assertFieldPrecision($metadata, 'field', 10);
     }
 
     public function testUndefinedPrecision(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedPrecision::class);
 
-        self::assertNull($metadata->fieldMappings['field']['precision']);
+        self::assertFieldPrecision($metadata, 'field', null);
     }
 
     public function testZeroPrecision(): void

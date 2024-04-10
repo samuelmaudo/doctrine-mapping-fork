@@ -16,15 +16,15 @@ final class FieldTypeTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedType::class);
 
-        self::assertSame('integer', $metadata->fieldMappings['id']['type']);
-        self::assertSame('json', $metadata->fieldMappings['field']['type']);
+        self::assertFieldType($metadata, 'id', 'integer');
+        self::assertFieldType($metadata, 'field', 'json');
     }
 
     public function testUndefinedType(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedType::class);
 
-        self::assertSame('string', $metadata->fieldMappings['field']['type']);
+        self::assertFieldType($metadata, 'field', 'string');
     }
 
     public function testEmptyType(): void

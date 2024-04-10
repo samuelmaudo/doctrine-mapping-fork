@@ -17,14 +17,14 @@ final class ColumnLengthTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedLength::class);
 
-        self::assertSame(5, $metadata->fieldMappings['field']['length']);
+        self::assertFieldLength($metadata, 'field', 5);
     }
 
     public function testUndefinedLength(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedLength::class);
 
-        self::assertNull($metadata->fieldMappings['field']['length']);
+        self::assertFieldLength($metadata, 'field', null);
     }
 
     public function testZeroLength(): void

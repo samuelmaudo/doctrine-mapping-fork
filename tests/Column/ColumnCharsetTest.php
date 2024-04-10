@@ -16,14 +16,14 @@ final class ColumnCharsetTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(DefinedCharset::class);
 
-        self::assertSame('gb2312', $metadata->fieldMappings['field']['options']['charset']);
+        self::assertFieldOption($metadata, 'field', 'charset', 'gb2312');
     }
 
     public function testUndefinedCharset(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedCharset::class);
-
-        self::assertNull($metadata->fieldMappings['field']['options']['charset']);
+        
+        self::assertFieldOption($metadata, 'field', 'charset', null);
     }
 
     public function testEmptyCharset(): void
