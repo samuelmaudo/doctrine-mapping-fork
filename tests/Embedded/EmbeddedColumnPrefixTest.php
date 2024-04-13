@@ -6,7 +6,6 @@ namespace Hereldar\DoctrineMapping\Tests\Embedded;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Embedded;
-use Hereldar\DoctrineMapping\Internals\Elements\ResolvedEmbedded;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\DefinedColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\EmptyColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\FalseColumnPrefix;
@@ -51,11 +50,6 @@ final class EmbeddedColumnPrefixTest extends TestCase
         self::assertException(
             TypeError::class,
             fn () => Embedded::of(property: 'field', columnPrefix: true),
-        );
-
-        self::assertException(
-            TypeError::class,
-            fn () => new ResolvedEmbedded(property: 'field', class: ValueObject::class, columnPrefix: true),
         );
 
         $this->expectException(DoctrineMappingException::class);
