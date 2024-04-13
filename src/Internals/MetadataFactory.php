@@ -6,10 +6,13 @@ namespace Hereldar\DoctrineMapping\Internals;
 
 use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
 use Doctrine\Persistence\Mapping\ClassMetadata;
+use Hereldar\DoctrineMapping\AbstractEntity;
+use Hereldar\DoctrineMapping\AbstractField;
+use Hereldar\DoctrineMapping\AbstractId;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Field;
+use Hereldar\DoctrineMapping\EntityLike;
 use Hereldar\DoctrineMapping\MappedSuperclass;
 
 /**
@@ -21,14 +24,14 @@ final class MetadataFactory
      * @throws OrmMappingException
      */
     public static function fillMetadataObject(
-        MappedSuperclass|Entity|Embeddable $entity,
+        EntityLike $entity,
         ClassMetadata $metadata,
     ): void {
         if ($entity instanceof Entity) {
             self::fillEntity($entity, $metadata);
         } elseif ($entity instanceof MappedSuperclass) {
             self::fillMappedSuperClass($entity, $metadata);
-        } else {
+        } elseif ($entity instanceof Embeddable) {
             self::fillEmbeddable($entity, $metadata);
         }
     }
@@ -50,92 +53,124 @@ final class MetadataFactory
      * @throws OrmMappingException
      */
     public static function fillMappedSuperClass(
-        MappedSuperclass $entity,
+        MappedSuperclass $superclass,
         ClassMetadata $metadata,
     ): void {
         $metadata->isMappedSuperclass = true;
 
-        $metadata->setCustomRepositoryClass($entity->repositoryClassName());
+        $metadata->setCustomRepositoryClass($superclass->repositoryClassName());
 
-        self::fillFields($entity, $metadata);
-        self::fillPrimaryTable($entity, $metadata);
+        self::fillFields($superclass, $metadata);
+        self::fillPrimaryTable($superclass, $metadata);
     }
 
     /**
      * @throws OrmMappingException
      */
     public static function fillEmbeddable(
-        Embeddable $entity,
+        Embeddable $embeddable,
         ClassMetadata $metadata,
     ): void {
         $metadata->isEmbeddedClass = true;
 
-        self::fillFields($entity, $metadata);
+        self::fillFields($embeddable, $metadata);
     }
 
     /**
      * @throws OrmMappingException
      */
     private static function fillFields(
-        MappedSuperclass|Entity|Embeddable $entity,
+        EntityLike $entity,
         ClassMetadata $metadata,
     ): void {
         foreach ($entity->fields() as $field) {
-            if ($field instanceof Field) {
-                $column = $field->column();
-
-                $metadata->mapField([
-                    'fieldName' => $field->property(),
-                    'columnName' => $column->name(),
-                    'columnDefinition' => $column->definition(),
-                    'type' => $field->type(),
-                    'enumType' => $field->enumType(),
-                    'id' => $field->id(),
-                    'unique' => $column->unique(),
-                    'nullable' => $column->nullable(),
-                    'notInsertable' => ($field->insertable() === false),
-                    'notUpdatable' => ($field->updatable() === false),
-                    'generated' => $field->generated()?->value(),
-                    'length' => $column->length(),
-                    'precision' => $column->precision(),
-                    'scale' => $column->scale(),
-                    'options' => [
-                        'default' => $column->default(),
-                        'unsigned' => $column->unsigned(),
-                        'fixed' => $column->fixed(),
-                        'charset' => $column->charset(),
-                        'collation' => $column->collation(),
-                        'comment' => $column->comment(),
-                    ],
-                ]);
-
-                $metadata->setIdGeneratorType($field->strategy()->value());
-
-                if ($field->id() && $field->sequenceGenerator()) {
-                    $metadata->setSequenceGeneratorDefinition([
-                        'sequenceName' => $field->sequenceGenerator()->sequenceName(),
-                        'allocationSize' => $field->sequenceGenerator()->allocationSize(),
-                        'initialValue' => $field->sequenceGenerator()->initialValue(),
-                    ]);
-                }
-                if ($field->id() && $field->customIdGenerator()) {
-                    $metadata->setCustomGeneratorDefinition([
-                        'class' => $field->customIdGenerator(),
-                    ]);
-                }
+            if ($field instanceof AbstractField) {
+                self::fillField($field, $metadata);
             } elseif ($field instanceof Embedded) {
-                $metadata->mapEmbedded([
-                    'fieldName' => $field->property(),
-                    'class' => $field->className(),
-                    'columnPrefix' => $field->columnPrefix(),
-                ]);
+                self::fillEmbedded($field, $metadata);
             }
         }
     }
 
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillField(
+        AbstractField $field,
+        ClassMetadata $metadata,
+    ): void {
+        $column = $field->column();
+
+        $metadata->mapField([
+            'fieldName' => $field->property(),
+            'columnName' => $column->name(),
+            'columnDefinition' => $column->definition(),
+            'type' => $field->type(),
+            'enumType' => $field->enumType(),
+            'id' => $field->id(),
+            'unique' => $column->unique(),
+            'nullable' => $column->nullable(),
+            'notInsertable' => ($field->insertable() === false),
+            'notUpdatable' => ($field->updatable() === false),
+            'generated' => $field->generated()?->value(),
+            'length' => $column->length(),
+            'precision' => $column->precision(),
+            'scale' => $column->scale(),
+            'options' => [
+                'default' => $column->default(),
+                'unsigned' => $column->unsigned(),
+                'fixed' => $column->fixed(),
+                'charset' => $column->charset(),
+                'collation' => $column->collation(),
+                'comment' => $column->comment(),
+            ],
+        ]);
+
+        if ($field instanceof AbstractId) {
+            self::fillId($field, $metadata);
+        }
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillId(
+        AbstractId $id,
+        ClassMetadata $metadata,
+    ): void {
+        $metadata->setIdGeneratorType($id->strategy()->value());
+
+        if ($id->id() && $id->sequenceGenerator()) {
+            $metadata->setSequenceGeneratorDefinition([
+                'sequenceName' => $id->sequenceGenerator()->sequenceName(),
+                'allocationSize' => $id->sequenceGenerator()->allocationSize(),
+                'initialValue' => $id->sequenceGenerator()->initialValue(),
+            ]);
+        }
+        if ($id->id() && $id->customIdGenerator()) {
+            $metadata->setCustomGeneratorDefinition([
+                'class' => $id->customIdGenerator(),
+            ]);
+        }
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillEmbedded(
+        Embedded $embedded,
+        ClassMetadata $metadata,
+    ): void {
+        $metadata->mapEmbedded([
+            'fieldName' => $embedded->property(),
+            'class' => $embedded->className(),
+            'columnPrefix' => $embedded->columnPrefix(),
+        ]);
+    }
+
     private static function fillPrimaryTable(
-        MappedSuperclass|Entity $entity,
-        ClassMetadata $metadata
+        AbstractEntity $entity,
+        ClassMetadata $metadata,
     ): void {
         $table = $entity->table();
 

@@ -7,7 +7,6 @@ namespace Hereldar\DoctrineMapping\Tests\SequenceGenerator;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\InitialValue\DefinedInitialValue;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\InitialValue\NegativeInitialValue;
-use Hereldar\DoctrineMapping\Tests\SequenceGenerator\InitialValue\NormalField;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\InitialValue\UndefinedInitialValue;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\InitialValue\ZeroInitialValue;
 use Hereldar\DoctrineMapping\Tests\TestCase;
@@ -46,14 +45,5 @@ final class SequenceGeneratorInitialValueTest extends TestCase
         $this->expectExceptionMessage("Invalid file 'NegativeInitialValue.orm.php': Negative or zero initial value for field 'id'");
 
         $this->loadClassMetadata(NegativeInitialValue::class);
-    }
-
-    public function testNormalField(): void
-    {
-        $metadata = $this->loadClassMetadata(NormalField::class);
-
-        self::assertFieldId($metadata, 'field', false);
-        self::assertSame(2, $metadata->generatorType);
-        self::assertNull($metadata->sequenceGeneratorDefinition);
     }
 }

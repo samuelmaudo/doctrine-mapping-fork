@@ -31,7 +31,7 @@ final class SequenceGenerator
      * @throws DoctrineMappingException
      */
     public static function of(
-        Field $field,
+        AbstractId $field,
         ?string $sequenceName,
         int $allocationSize = 1,
         int $initialValue = 1,

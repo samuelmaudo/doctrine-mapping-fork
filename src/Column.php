@@ -52,7 +52,7 @@ final class Column
      * @throws DoctrineMappingException
      */
     public static function of(
-        Field $field,
+        FieldLike $field,
         ?string $name = null,
         ?string $definition = null,
         bool $unique = false,
@@ -77,7 +77,7 @@ final class Column
             throw MappingException::emptyColumnDefinition($field->property());
         }
 
-        if ($nullable === true && $field->id()) {
+        if ($nullable === true && $field instanceof AbstractId) {
             throw MappingException::nullableId($field->property());
         }
 

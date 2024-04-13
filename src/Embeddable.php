@@ -11,7 +11,7 @@ use ReflectionClass;
 /**
  * @psalm-immutable
  */
-final class Embeddable
+final class Embeddable implements EntityLike
 {
     private function __construct(
         private ReflectionClass $class,
@@ -39,12 +39,12 @@ final class Embeddable
     }
 
     /**
-     * @param non-empty-list<Field|Embedded> $fields
+     * @param non-empty-list<FieldLike> $fields
      *
      * @throws DoctrineMappingException
      */
     public function withFields(
-        Field|Embedded ...$fields,
+        FieldLike ...$fields,
     ): self {
         $fieldCollection = Fields::of($this, ...$fields);
 

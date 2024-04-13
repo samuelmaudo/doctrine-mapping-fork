@@ -12,11 +12,11 @@ use ReflectionNamedType;
 use ReflectionProperty;
 
 /**
- * @extends Collection<Field|Embedded>
+ * @extends Collection<FieldLike>
  */
 final class Fields extends Collection
 {
-    public function __construct(Field|Embedded ...$fields)
+    public function __construct(FieldLike ...$fields)
     {
         $this->items = $fields;
     }
@@ -25,8 +25,8 @@ final class Fields extends Collection
      * @throws DoctrineMappingException
      */
     public static function of(
-        Entity|MappedSuperclass|Embeddable $entity,
-        Field|Embedded ...$fields,
+        EntityLike $entity,
+        FieldLike ...$fields,
     ): self {
         self::ensureFieldsAreNotDuplicated($entity, $fields);
         $fieldProperties = self::ensurePropertiesExist($entity, $fields);
@@ -41,12 +41,12 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<Field|Embedded> $fields
+     * @param list<FieldLike> $fields
      *
      * @throws DoctrineMappingException
      */
     private static function ensureFieldsAreNotDuplicated(
-        Entity|MappedSuperclass|Embeddable $entity,
+        EntityLike $entity,
         array $fields,
     ): void {
         $properties = [];
@@ -66,14 +66,14 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<Field|Embedded> $fields
+     * @param list<FieldLike> $fields
      *
      * @return list<ReflectionProperty>
      *
      * @throws DoctrineMappingException
      */
     private static function ensurePropertiesExist(
-        Entity|MappedSuperclass|Embeddable $entity,
+        EntityLike $entity,
         array $fields,
     ): array {
         $entityClass = $entity->class();
@@ -95,15 +95,15 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<Field|Embedded> $fields
+     * @param list<FieldLike> $fields
      * @param list<ReflectionProperty> $fieldProperties
      *
-     * @return list<Field|Embedded>
+     * @return list<FieldLike>
      *
      * @throws DoctrineMappingException
      */
     private static function discoverMissingEmbeddedClasses(
-        Entity|MappedSuperclass|Embeddable $entity,
+        EntityLike $entity,
         array $fields,
         array $fieldProperties,
     ): array {

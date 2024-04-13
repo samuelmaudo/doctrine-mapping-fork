@@ -7,7 +7,6 @@ namespace Hereldar\DoctrineMapping\Tests\SequenceGenerator;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\AllocationSize\DefinedAllocationSize;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\AllocationSize\NegativeAllocationSize;
-use Hereldar\DoctrineMapping\Tests\SequenceGenerator\AllocationSize\NormalField;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\AllocationSize\UndefinedAllocationSize;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\AllocationSize\ZeroAllocationSize;
 use Hereldar\DoctrineMapping\Tests\TestCase;
@@ -46,14 +45,5 @@ final class SequenceGeneratorAllocationSizeTest extends TestCase
         $this->expectExceptionMessage("Invalid file 'NegativeAllocationSize.orm.php': Negative or zero allocation size for field 'id'");
 
         $this->loadClassMetadata(NegativeAllocationSize::class);
-    }
-
-    public function testNormalField(): void
-    {
-        $metadata = $this->loadClassMetadata(NormalField::class);
-
-        self::assertFieldId($metadata, 'field', false);
-        self::assertSame(2, $metadata->generatorType);
-        self::assertNull($metadata->sequenceGeneratorDefinition);
     }
 }

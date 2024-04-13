@@ -1,7 +1,7 @@
 <?php
 
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\Field;
+use Hereldar\DoctrineMapping\Id;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\AnonymousClass;
 
 $object = new class {};
@@ -9,5 +9,5 @@ $object = new class {};
 return Entity::of(
     class: AnonymousClass::class,
 )->withFields(
-    Field::of(property: 'id', id: true)->withCustomIdGenerator(class: $object::class),
+    Id::of(property: 'id')->withCustomIdGenerator(class: $object::class),
 );

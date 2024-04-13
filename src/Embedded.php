@@ -15,12 +15,12 @@ use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 /**
  * @psalm-immutable
  */
-final class Embedded
+final class Embedded implements FieldLike
 {
     /**
      * @param non-empty-string $property
      * @param non-empty-string|false $columnPrefix
-     * @param list<Field|Embedded> $fields
+     * @param list<FieldLike> $fields
      */
     private function __construct(
         private string $property,
@@ -90,10 +90,10 @@ final class Embedded
     }
 
     /**
-     * @param non-empty-list<Field|Embedded> $fields
+     * @param non-empty-list<FieldLike> $fields
      */
     public function withFields(
-        Field|Embedded ...$fields,
+        FieldLike ...$fields,
     ): self {
         return new self(
             $this->property,
@@ -135,7 +135,7 @@ final class Embedded
     }
 
     /**
-     * @return list<Field|Embedded>
+     * @return list<FieldLike>
      */
     public function fields(): array
     {

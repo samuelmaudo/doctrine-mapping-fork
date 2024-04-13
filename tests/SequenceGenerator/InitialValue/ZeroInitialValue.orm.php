@@ -1,11 +1,11 @@
 <?php
 
-use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\Entity;
+use Hereldar\DoctrineMapping\Id;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\InitialValue\ZeroInitialValue;
 
 return Entity::of(
     class: ZeroInitialValue::class,
 )->withFields(
-    Field::of(property: 'id', id: true)->withSequenceGenerator(sequenceName: 'sequence', initialValue: 0),
+    Id::of(property: 'id')->withSequenceGenerator(sequenceName: 'sequence', initialValue: 0),
 );

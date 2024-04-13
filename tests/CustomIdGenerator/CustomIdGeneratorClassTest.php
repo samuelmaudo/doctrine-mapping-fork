@@ -12,7 +12,6 @@ use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\ExistingClass;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\ExistingIdGenerator;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\InvalidClass;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\NonExistingClass;
-use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\NormalField;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\UndefinedClass;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
@@ -21,7 +20,7 @@ final class CustomIdGeneratorClassTest extends TestCase
     public function testUndefinedClass(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessageMatches("/Invalid file 'UndefinedClass.orm.php': Too few arguments to function Hereldar\\\\DoctrineMapping\\\\Field::withCustomIdGenerator\(\), 0 passed in \S+ on line \d+ and exactly 1 expected/");
+        $this->expectExceptionMessageMatches("/Invalid file 'UndefinedClass.orm.php': Too few arguments to function Hereldar\\\\DoctrineMapping\\\\AbstractId::withCustomIdGenerator\(\), 0 passed in \S+ on line \d+ and exactly 1 expected/");
 
         $this->loadClassMetadata(UndefinedClass::class);
     }
@@ -65,14 +64,5 @@ final class CustomIdGeneratorClassTest extends TestCase
         $this->expectExceptionMessage("Invalid file 'InvalidClass.orm.php': Class 'InvalidIdGenerator' is not a valid custom ID generator because does not extend '".AbstractIdGenerator::class."'");
 
         $this->loadClassMetadata(InvalidClass::class);
-    }
-
-    public function testNormalField(): void
-    {
-        $metadata = $this->loadClassMetadata(NormalField::class);
-
-        self::assertFieldId($metadata, 'field', false);
-        self::assertSame(7, $metadata->generatorType);
-        self::assertNull($metadata->customGeneratorDefinition);
     }
 }
