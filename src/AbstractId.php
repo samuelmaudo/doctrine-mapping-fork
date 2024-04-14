@@ -17,8 +17,6 @@ use Hereldar\DoctrineMapping\Internals\Resolvers\CustomIdGeneratorResolver;
  */
 abstract class AbstractId extends AbstractField
 {
-    protected Strategy $strategy;
-
     /**
      * @param non-empty-string $property
      * @param ?non-empty-string $type
@@ -33,9 +31,9 @@ abstract class AbstractId extends AbstractField
         bool $updatable,
         ?Generated $generated,
         Column $column,
-        ?Strategy $strategy = null,
-        protected ?SequenceGenerator $sequenceGenerator = null,
-        protected ?string $customIdGenerator = null,
+        protected Strategy $strategy,
+        protected ?SequenceGenerator $sequenceGenerator,
+        protected ?string $customIdGenerator,
     ) {
         parent::__construct(
             $property,
@@ -46,8 +44,43 @@ abstract class AbstractId extends AbstractField
             $generated,
             $column,
         );
+    }
 
-        $this->strategy = $strategy ?? Strategy::from(Strategy::None);
+    /**
+     * @param non-empty-string $property Name of the field in the Entity.
+     * @param ?non-empty-string $type
+     * @param ?enum-string $enumType
+     * @param bool $insertable Whether the field is insertable (defaults to TRUE).
+     * @param bool $updatable Whether the field is updatable (defaults to TRUE).
+     * @param Generated|'NEVER'|'INSERT'|'ALWAYS'|int<0, 2>|null $generated Whether a generated value should be retrieved from the database after INSERT or UPDATE.
+     *
+     * @throws DoctrineMappingException
+     */
+    public static function of(
+        string $property,
+        ?string $type = null,
+        ?string $enumType = null,
+        bool $insertable = true,
+        bool $updatable = true,
+        Generated|string|int|null $generated = null,
+    ): static {
+        self::validateProperty($property);
+        self::validateType($type, $property);
+        self::validateEnumType($enumType, $property);
+        $generated = self::sanitizeGenerated($generated, $property);
+
+        return new static(
+            $property,
+            $type,
+            $enumType,
+            $insertable,
+            $updatable,
+            $generated,
+            Column::empty(),
+            Strategy::from(Strategy::None),
+            null,
+            null,
+        );
     }
 
     /**
@@ -55,8 +88,6 @@ abstract class AbstractId extends AbstractField
      * a field which `$id` property  is true.
      *
      * @param Strategy|'AUTO'|'SEQUENCE'|'IDENTITY'|'NONE'|'CUSTOM'|int<1, 7> $strategy How the value should be generated (defaults to 'AUTO').
-     *
-     * @return $this
      *
      * @throws DoctrineMappingException
      */
@@ -97,8 +128,6 @@ abstract class AbstractId extends AbstractField
      * @param positive-int $allocationSize How much the sequence is increased when a new value is fetched. A value larger than 1 allows optimization for scenarios where you create more than one new entity per request. Defaults to 1.
      * @param positive-int $initialValue Where the sequence starts. Defaults to 1.
      *
-     * @return $this
-     *
      * @throws DoctrineMappingException
      */
     public function withSequenceGenerator(
@@ -132,8 +161,6 @@ abstract class AbstractId extends AbstractField
      * class must extend `\Doctrine\ORM\Id\AbstractIdGenerator`.
      *
      * @param class-string<AbstractIdGenerator> $class Name of the class.
-     *
-     * @return $this
      *
      * @throws DoctrineMappingException
      */
@@ -177,5 +204,21 @@ abstract class AbstractId extends AbstractField
     public function customIdGenerator(): ?string
     {
         return $this->customIdGenerator;
+    }
+
+    protected function withColumnObject(Column $column): static
+    {
+        return new static(
+            $this->property,
+            $this->type,
+            $this->enumType,
+            $this->insertable,
+            $this->updatable,
+            $this->generated,
+            $column,
+            $this->strategy,
+            $this->sequenceGenerator,
+            $this->customIdGenerator,
+        );
     }
 }

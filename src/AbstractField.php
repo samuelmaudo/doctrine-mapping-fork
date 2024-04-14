@@ -14,6 +14,8 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
  */
 abstract class AbstractField implements FieldLike
 {
+    protected ?string $type;
+
     /**
      * @param non-empty-string $property
      * @param ?non-empty-string $type
@@ -21,13 +23,15 @@ abstract class AbstractField implements FieldLike
      */
     protected function __construct(
         protected string $property,
-        protected ?string $type,
+        ?string $type,
         protected ?string $enumType,
         protected bool $insertable,
         protected bool $updatable,
         protected ?Generated $generated,
         protected Column $column,
-    ) {}
+    ) {
+        $this->type = $type ?? static::defaultType();
+    }
 
     /**
      * @param non-empty-string $property Name of the field in the Entity.
@@ -46,29 +50,11 @@ abstract class AbstractField implements FieldLike
         bool $insertable = true,
         bool $updatable = true,
         Generated|string|int|null $generated = null,
-    ): self {
-        if (!$property) {
-            throw MappingException::emptyPropertyName();
-        }
-
-        if ($type === '') {
-            throw MappingException::emptyType($property);
-        }
-
-        if ($enumType === '') {
-            throw MappingException::emptyEnumType($property);
-        }
-
-        if ($generated !== null && !is_object($generated)) {
-            try {
-                $generated = Generated::from($generated);
-            } catch (Error) {
-                throw MappingException::invalidGenerationMode(
-                    $property,
-                    $generated,
-                );
-            }
-        }
+    ): static {
+        self::validateProperty($property);
+        self::validateType($type, $property);
+        self::validateEnumType($enumType, $property);
+        $generated = self::sanitizeGenerated($generated, $property);
 
         return new static(
             $property,
@@ -79,6 +65,57 @@ abstract class AbstractField implements FieldLike
             $generated,
             Column::empty(),
         );
+    }
+
+    /**
+     * @return non-empty-string|null
+     */
+    public static function defaultType(): ?string
+    {
+        return null;
+    }
+
+    protected static function validateProperty(string $property): void
+    {
+        if (!$property) {
+            throw MappingException::emptyPropertyName();
+        }
+    }
+
+    protected static function validateType(
+        ?string $type,
+        string $property,
+    ): void {
+        if ($type === '') {
+            throw MappingException::emptyType($property);
+        }
+    }
+
+    protected static function validateEnumType(
+        ?string $enumType,
+        string $property,
+    ): void {
+        if ($enumType === '') {
+            throw MappingException::emptyEnumType($property);
+        }
+    }
+
+    protected static function sanitizeGenerated(
+        Generated|int|string|null $generated,
+        string $property,
+    ): ?Generated {
+        if ($generated === null || is_object($generated)) {
+            return $generated;
+        }
+
+        try {
+            return Generated::from($generated);
+        } catch (Error) {
+            throw MappingException::invalidGenerationMode(
+                $property,
+                $generated,
+            );
+        }
     }
 
     /**
@@ -133,5 +170,18 @@ abstract class AbstractField implements FieldLike
     public function column(): Column
     {
         return $this->column;
+    }
+
+    protected function withColumnObject(Column $column): static
+    {
+        return new static(
+            $this->property,
+            $this->type,
+            $this->enumType,
+            $this->insertable,
+            $this->updatable,
+            $this->generated,
+            $column,
+        );
     }
 }

@@ -9,7 +9,7 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 /**
  * @psalm-immutable
  */
-final class Field extends AbstractField
+class Field extends AbstractField
 {
     /**
      * @param ?non-empty-string $name Column name (defaults to the field name).
@@ -25,8 +25,6 @@ final class Field extends AbstractField
      * @param ?non-empty-string $charset Charset of the column (only supported by MySQL, PostgreSQL, SQLite and SQL Server).
      * @param ?non-empty-string $collation Collation of the column (only supported by MySQL, PostgreSQL, SQLite and SQL Server).
      * @param ?non-empty-string $comment Comment of the column in the schema (might not be supported by all vendors).
-     *
-     * @return $this
      *
      * @throws DoctrineMappingException
      */
@@ -45,13 +43,7 @@ final class Field extends AbstractField
         ?string $collation = null,
         ?string $comment = null,
     ): self {
-        return new self(
-            $this->property,
-            $this->type,
-            $this->enumType,
-            $this->insertable,
-            $this->updatable,
-            $this->generated,
+        return $this->withColumnObject(
             Column::of(
                 $this,
                 $name,

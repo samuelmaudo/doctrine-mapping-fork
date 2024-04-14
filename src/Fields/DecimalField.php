@@ -5,37 +5,51 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Fields;
 
 use Doctrine\DBAL\Types\Types;
-use Hereldar\DoctrineMapping\Field;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\AbstractField;
+use Hereldar\DoctrineMapping\Column;
 
 /**
  * @psalm-immutable
  */
-final class DecimalField
+class DecimalField extends AbstractField
 {
+    public static function defaultType(): string
+    {
+        return Types::DECIMAL;
+    }
+
     /**
-     * @param non-empty-string $property
-     * @param ?non-empty-string $column
-     * @param ?non-negative-int $precision
-     * @param ?non-negative-int $scale
+     * @param ?non-empty-string $name Column name (defaults to the field name).
+     * @param ?non-empty-string $definition SQL fragment that is used when generating the DDL for the column (non-portable).
+     * @param bool $nullable Whether the column is nullable (defaults to FALSE).
+     * @param ?non-negative-int $precision Maximum number of digits that can be stored (applies only for `decimal` columns).
+     * @param ?non-negative-int $scale Number of digits to the right of the decimal point (applies only for `decimal` columns and must not be greater than the precision).
+     * @param mixed $default Default value to set for the column if no value is supplied.
+     * @param ?non-empty-string $comment Comment of the column in the schema (might not be supported by all vendors).
+     *
+     * @throws DoctrineMappingException
      */
-    public static function of(
-        string $property,
-        ?string $column = null,
-        ?bool $nullable = null,
-        bool $insertable = true,
-        bool $updatable = true,
+    public function withColumn(
+        ?string $name = null,
+        ?string $definition = null,
+        bool $nullable = false,
         ?int $precision = null,
         ?int $scale = null,
-    ): Field {
-        return Field::of(
-            property: $property,
-            column: $column,
-            type: Types::DECIMAL,
-            nullable: $nullable,
-            insertable: $insertable,
-            updatable: $updatable,
-            precision: $precision,
-            scale: $scale,
+        mixed $default = null,
+        ?string $comment = null,
+    ): static {
+        return $this->withColumnObject(
+            Column::of(
+                field: $this,
+                name: $name,
+                definition: $definition,
+                nullable: $nullable,
+                precision: $precision,
+                scale: $scale,
+                default: $default,
+                comment: $comment,
+            ),
         );
     }
 }

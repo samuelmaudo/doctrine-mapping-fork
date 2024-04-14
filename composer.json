@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "composer/semver": "^3.4",
+        "hereldar/faker-helper": "^0.1.1",
         "phpunit/phpunit": "^9.6"
     },
     "autoload": {

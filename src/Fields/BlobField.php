@@ -5,34 +5,48 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Fields;
 
 use Doctrine\DBAL\Types\Types;
-use Hereldar\DoctrineMapping\Field;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\AbstractField;
+use Hereldar\DoctrineMapping\Column;
 
 /**
  * @psalm-immutable
  */
-final class BlobField
+class BlobField extends AbstractField
 {
+    public static function defaultType(): string
+    {
+        return Types::BLOB;
+    }
+
     /**
-     * @param non-empty-string $property
-     * @param ?non-empty-string $column
-     * @param ?positive-int $length
+     * @param ?non-empty-string $name Column name (defaults to the field name).
+     * @param ?non-empty-string $definition SQL fragment that is used when generating the DDL for the column (non-portable).
+     * @param bool $nullable Whether the column is nullable (defaults to FALSE).
+     * @param ?positive-int $length Database length of the column.
+     * @param mixed $default Default value to set for the column if no value is supplied.
+     * @param ?non-empty-string $comment Comment of the column in the schema (might not be supported by all vendors).
+     *
+     * @throws DoctrineMappingException
      */
-    public static function of(
-        string $property,
-        ?string $column = null,
-        ?bool $nullable = null,
-        bool $insertable = true,
-        bool $updatable = true,
+    public function withColumn(
+        ?string $name = null,
+        ?string $definition = null,
+        bool $nullable = false,
         ?int $length = null,
-    ): Field {
-        return Field::of(
-            property: $property,
-            column: $column,
-            type: Types::BLOB,
-            nullable: $nullable,
-            insertable: $insertable,
-            updatable: $updatable,
-            length: $length,
+        mixed $default = null,
+        ?string $comment = null,
+    ): self {
+        return $this->withColumnObject(
+            Column::of(
+                field: $this,
+                name: $name,
+                definition: $definition,
+                nullable: $nullable,
+                length: $length,
+                default: $default,
+                comment: $comment,
+            ),
         );
     }
 }

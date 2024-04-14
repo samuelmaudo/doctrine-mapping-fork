@@ -9,10 +9,10 @@ use Doctrine\DBAL\Types\Types;
 /**
  * @psalm-immutable
  */
-class SmallIntegerField extends IntegerField
+class UnsignedBigIntegerId extends UnsignedIntegerId
 {
     public static function defaultType(): string
     {
-        return Types::SMALLINT;
+        return Types::BIGINT;
     }
 }

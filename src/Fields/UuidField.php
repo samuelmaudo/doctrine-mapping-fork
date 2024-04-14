@@ -5,37 +5,56 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Fields;
 
 use Doctrine\DBAL\Types\Types;
-use Hereldar\DoctrineMapping\Field;
+use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\AbstractField;
+use Hereldar\DoctrineMapping\Column;
 
 /**
  * @psalm-immutable
  */
-final class UuidField
+class UuidField extends AbstractField
 {
+    public static function defaultType(): string
+    {
+        return Types::GUID;
+    }
+
     /**
-     * @param non-empty-string $property
-     * @param ?non-empty-string $column
+     * @param ?non-empty-string $name Column name (defaults to the field name).
+     * @param ?non-empty-string $definition SQL fragment that is used when generating the DDL for the column (non-portable).
+     * @param bool $unique Whether a unique constraint should be generated for the column.
+     * @param bool $nullable Whether the column is nullable (defaults to FALSE).
+     * @param mixed $default Default value to set for the column if no value is supplied.
+     * @param ?non-empty-string $charset Charset of the column (only supported by MySQL, PostgreSQL, SQLite and SQL Server).
+     * @param ?non-empty-string $collation Collation of the column (only supported by MySQL, PostgreSQL, SQLite and SQL Server).
+     * @param ?non-empty-string $comment Comment of the column in the schema (might not be supported by all vendors).
+     *
+     * @throws DoctrineMappingException
      */
-    public static function of(
-        string $property,
-        ?string $column = null,
-        bool $id = false,
+    public function withColumn(
+        ?string $name = null,
+        ?string $definition = null,
         bool $unique = false,
-        ?bool $nullable = null,
-        bool $insertable = true,
-        bool $updatable = true,
-    ): Field {
-        return Field::of(
-            property: $property,
-            column: $column,
-            type: Types::GUID,
-            id: $id,
-            unique: $unique,
-            nullable: $nullable,
-            insertable: $insertable,
-            updatable: $updatable,
-            length: 36,
-            fixed: true,
+        bool $nullable = false,
+        mixed $default = null,
+        ?string $charset = null,
+        ?string $collation = null,
+        ?string $comment = null,
+    ): self {
+        return $this->withColumnObject(
+            Column::of(
+                field: $this,
+                name: $name,
+                definition: $definition,
+                unique: $unique,
+                nullable: $nullable,
+                length: 36,
+                default: $default,
+                fixed: true,
+                charset: $charset,
+                collation: $collation,
+                comment: $comment,
+            ),
         );
     }
 }
