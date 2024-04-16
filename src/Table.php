@@ -41,11 +41,11 @@ final class Table
         if ($name === null) {
             $name = to_snake_case($entity->classSortName());
         } elseif ($name === '') {
-            throw MappingException::emptyTable($entity->className());
+            throw MappingException::emptyTableName($entity->className());
         }
 
         if ($schema === '') {
-            throw MappingException::emptySchema($entity->className());
+            throw MappingException::emptySchemaName($entity->className());
         }
 
         if ($options !== null) {

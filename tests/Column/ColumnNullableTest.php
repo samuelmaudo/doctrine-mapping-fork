@@ -31,7 +31,7 @@ final class ColumnNullableTest extends TestCase
     public function testNullableId(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessage("Invalid file 'NullableId.orm.php': Nullable ID for field 'id'");
+        $this->expectExceptionMessage("Invalid file 'NullableId.orm.php': Nullable column for ID 'id'");
 
         $this->loadClassMetadata(NullableId::class);
     }
