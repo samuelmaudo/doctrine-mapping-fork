@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
 
@@ -48,6 +49,8 @@ final class Embeddable implements EntityLike
     ): self {
         $fieldCollection = Fields::of($this, ...$fields);
 
+        $this->ensureNoAssociationIsIncluded($fieldCollection);
+
         return new self(
             $this->class,
             $fieldCollection,
@@ -78,5 +81,21 @@ final class Embeddable implements EntityLike
     public function embeddedEmbeddables(): EmbeddedEmbeddables
     {
         return $this->embeddedEmbeddables;
+    }
+
+    /**
+     * @throws DoctrineMappingException
+     */
+    private function ensureNoAssociationIsIncluded(
+        Fields $fieldCollection,
+    ): void {
+        foreach ($fieldCollection as $field) {
+            if ($field instanceof Association) {
+                throw MappingException::associationNotAllowed(
+                    $this->classSortName(),
+                    $field->property(),
+                );
+            }
+        }
     }
 }

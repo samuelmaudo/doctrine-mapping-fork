@@ -6,14 +6,19 @@ namespace Hereldar\DoctrineMapping\Internals;
 
 use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
 use Doctrine\Persistence\Mapping\ClassMetadata;
-use Hereldar\DoctrineMapping\AbstractEntity;
 use Hereldar\DoctrineMapping\AbstractField;
 use Hereldar\DoctrineMapping\AbstractId;
+use Hereldar\DoctrineMapping\Association;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\EntityLike;
+use Hereldar\DoctrineMapping\JoinColumns;
+use Hereldar\DoctrineMapping\ManyToMany;
+use Hereldar\DoctrineMapping\ManyToOne;
 use Hereldar\DoctrineMapping\MappedSuperclass;
+use Hereldar\DoctrineMapping\OneToMany;
+use Hereldar\DoctrineMapping\OneToOne;
 
 /**
  * @internal
@@ -88,6 +93,8 @@ final class MetadataFactory
                 self::fillField($field, $metadata);
             } elseif ($field instanceof Embedded) {
                 self::fillEmbedded($field, $metadata);
+            } elseif ($field instanceof Association) {
+                self::fillAssociation($field, $metadata);
             }
         }
     }
@@ -168,8 +175,119 @@ final class MetadataFactory
         ]);
     }
 
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillAssociation(
+        Association $association,
+        ClassMetadata $metadata,
+    ): void {
+        if ($association instanceof OneToOne) {
+            self::fillOneToOne($association, $metadata);
+        } elseif ($association instanceof OneToMany) {
+            self::fillOneToMany($association, $metadata);
+        } elseif ($association instanceof ManyToOne) {
+            self::fillManyToOne($association, $metadata);
+        } elseif ($association instanceof ManyToMany) {
+            self::fillManyToMany($association, $metadata);
+        }
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillOneToOne(
+        OneToOne $oneToOne,
+        ClassMetadata $metadata,
+    ): void {
+        $metadata->mapOneToOne([
+            'targetEntity' => $oneToOne->targetEntityName(),
+            'joinColumns' => self::serializeJoinColumns(
+                $oneToOne->joinColumns()
+            ),
+            'mappedBy' => $oneToOne->mappedBy(),
+            'inversedBy' => $oneToOne->inversedBy(),
+            'cascade' => $oneToOne->cascade(),
+            'orphanRemoval' => $oneToOne->orphanRemoval(),
+            'fetch' => $oneToOne->fetch()->internalValue(),
+        ]);
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillOneToMany(
+        OneToMany $oneToMany,
+        ClassMetadata $metadata,
+    ): void {
+        $metadata->mapOneToMany([
+            'mappedBy' => $oneToMany->mappedBy(),
+            'targetEntity' => $oneToMany->targetEntity(),
+            'cascade' => $oneToMany->cascade(),
+            'indexBy' => $oneToMany->indexBy(),
+            'orphanRemoval' => $oneToMany->orphanRemoval(),
+            'fetch' => $oneToMany->fetch()->internalValue(),
+            'fieldName' => $oneToMany->property(),
+        ]);
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillManyToOne(
+        ManyToOne $manyToOne,
+        ClassMetadata $metadata,
+    ): void {
+        $metadata->mapManyToOne([
+            'joinColumns' => self::serializeJoinColumns(
+                $manyToOne->joinColumns()
+            ),
+            'cascade' => $manyToOne->cascade(),
+            'inversedBy' => $manyToOne->inversedBy(),
+            'targetEntity' => $manyToOne->targetEntity(),
+            'fetch' => $manyToOne->fetch()->internalValue(),
+        ]);
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillManyToMany(
+        ManyToMany $manyToMany,
+        ClassMetadata $metadata,
+    ): void {
+        $joinTable = [];
+
+        if ($manyToMany->joinTable()) {
+            $joinTable['name'] = $manyToMany->joinTable()->name();
+        }
+
+        if ($manyToMany->joinColumns()) {
+            $joinTable['joinColumns'] = self::serializeJoinColumns(
+                $manyToMany->joinColumns()
+            );
+        }
+
+        if ($manyToMany->inverseJoinColumns()) {
+            $joinTable['inverseJoinColumns'] = self::serializeJoinColumns(
+                $manyToMany->inverseJoinColumns()
+            );
+        }
+
+        $metadata->mapManyToMany([
+            'joinTable' => $joinTable,
+            'targetEntity' => $manyToMany->targetEntity(),
+            'mappedBy' => $manyToMany->mappedBy(),
+            'inversedBy' => $manyToMany->inversedBy(),
+            'cascade' => $manyToMany->cascade(),
+            'indexBy' => $manyToMany->indexBy(),
+            'orphanRemoval' => $manyToMany->orphanRemoval(),
+            'fetch' => $manyToMany->fetch()->internalValue(),
+        ]);
+    }
+
     private static function fillPrimaryTable(
-        AbstractEntity $entity,
+        Entity|MappedSuperclass $entity,
         ClassMetadata $metadata,
     ): void {
         $table = $entity->table();
@@ -208,5 +326,28 @@ final class MetadataFactory
         }
 
         $metadata->setPrimaryTable($primaryTable);
+    }
+
+    private static function serializeJoinColumns(?JoinColumns $joinColumns): ?array
+    {
+        if (null === $joinColumns) {
+            return null;
+        }
+
+        $mapping = [];
+
+        foreach ($joinColumns as $joinColumn) {
+            $mapping[] = [
+                'name' => $joinColumn->name(),
+                'unique' => $joinColumn->unique(),
+                'nullable' => $joinColumn->nullable(),
+                'onDelete' => $joinColumn->onDelete(),
+                'columnDefinition' => $joinColumn->columnDefinition(),
+                'referencedColumnName' => $joinColumn->referencedColumnName(),
+                'options' => $joinColumn->options(),
+            ];
+        }
+
+        return $mapping;
     }
 }

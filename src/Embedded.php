@@ -9,6 +9,7 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\FalseTypeError;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
+
 use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**

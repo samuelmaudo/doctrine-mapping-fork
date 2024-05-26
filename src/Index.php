@@ -229,12 +229,8 @@ final class Index
             return null;
         }
 
-        $validOptions = [];
-
         foreach ($options as $key => $value) {
-            if (is_string($key) && $key !== '') {
-                $validOptions[$key] = $value;
-            } else {
+            if (!is_string($key) || '' === $key) {
                 throw MappingException::invalidIndexOption(
                     $constraintName,
                     $key,
@@ -242,6 +238,6 @@ final class Index
             }
         }
 
-        return $validOptions;
+        return $options;
     }
 }

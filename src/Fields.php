@@ -121,6 +121,19 @@ final class Fields extends Collection
 
                 $fields[$i] = $field->withClass($propertyType->getName());
             }
+            if ($field instanceof IncompleteAssociation) {
+                $property = $fieldProperties[$i];
+                $propertyType = $property->getType();
+
+                if (!$propertyType instanceof ReflectionNamedType) {
+                    throw MappingException::missingTargetEntity(
+                        $entity->classSortName(),
+                        $property->name,
+                    );
+                }
+
+                $fields[$i] = $field->withTargetEntity($propertyType->getName());
+            }
         }
 
         return $fields;

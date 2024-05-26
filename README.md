@@ -31,9 +31,19 @@ return Entity::of(
     name: 'cms_users',
     schema: 'main',
 )->withFields(
-    Id::of(property: 'id', type: 'integer')->withSequenceGenerator(sequenceName: 'sequence'),
-    Field::of(property: 'name', type: 'string')->withColumn(length: 50, nullable: true, unique: true),
-    Field::of(property: 'email', type: 'string')->withColumn(name: 'user_email', definition: 'CHAR(32) NOT NULL'),
+    Id::of(property: 'id', type: 'integer')
+        ->withSequenceGenerator(sequenceName: 'cms_users_seq'),
+    Field::of(property: 'name', type: 'string')
+        ->withColumn(length: 50, nullable: true, unique: true),
+    Field::of(property: 'email', type: 'string')
+        ->withColumn(name: 'user_email', definition: 'CHAR(32) NOT NULL'),
+    OneToOne::of(property: 'address', inversedBy: 'user', cascade: [Cascade::Remove])
+        ->withJoinColumn(name: 'address_id', referencedColumnName: 'id', onDelete: 'CASCADE', onUpdate: 'CASCADE'),
+    OneToMany::of(property: 'phonenumbers', targetEntity: Phonenumber::class, mappedBy: 'user', cascade: [Cascade::Persist]),
+    ManyToMany::of(property: 'groups', targetEntity: Group::class, cascade: [Cascade::All])
+        ->withJoinTable(name: 'cms_user_groups')
+        ->withJoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true, unique: false)
+        ->withInverseJoinColumn(name: 'group_id', referencedColumnName: 'id', columnDefinition: 'INT NULL'),
 )->withIndexes(
     Index::of(fields: 'name', name: 'name_idx'),
     Index::of(columns: 'user_email'),

@@ -10,8 +10,10 @@ use Throwable;
 
 final class MappingException extends DoctrineMappingException
 {
+    use AssociationExceptions;
     use ColumnExceptions;
     use CustomIdGeneratorExceptions;
+    use EmbeddableExceptions;
     use FieldExceptions;
     use IndexExceptions;
     use SequenceGeneratorExceptions;
@@ -82,5 +84,10 @@ final class MappingException extends DoctrineMappingException
     public static function missingClassAttribute(string $className, string $propertyName): self
     {
         return new self("Missing class attribute for property '{$propertyName}' on class '{$className}'");
+    }
+
+    public static function missingTargetEntity(string $className, string $propertyName): self
+    {
+        return new self("Missing target entity for property '{$propertyName}' on class '{$className}'");
     }
 }
