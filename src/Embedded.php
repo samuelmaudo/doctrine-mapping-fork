@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping;
 
-use BadMethodCallException;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\FalseTypeError;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
@@ -21,8 +20,10 @@ final class Embedded implements FieldLike
      * @param non-empty-string $property
      * @param non-empty-string|false $columnPrefix
      * @param list<FieldLike> $fields
+     *
+     * @internal
      */
-    private function __construct(
+    public function __construct(
         private string $property,
         private ?ReflectionClass $class,
         private string|bool $columnPrefix,
@@ -40,7 +41,8 @@ final class Embedded implements FieldLike
         string $property,
         ?string $class = null,
         string|bool|null $columnPrefix = null,
-    ): self {
+    ): self|IncompleteEmbedded {
+        // TODO: remove when PHP 8.1 is the minimum version
         if ($columnPrefix === true) {
             throw new FalseTypeError('Embedded::of()', 3, '$columnPrefix');
         }
@@ -49,9 +51,7 @@ final class Embedded implements FieldLike
             throw MappingException::emptyPropertyName();
         }
 
-        if (null !== $class) {
-            $class = ClassResolver::resolve($class);
-        }
+        $class = ClassResolver::resolveNullable($class);
 
         if (null === $columnPrefix) {
             $columnPrefix = to_snake_case($property).'_';
@@ -59,34 +59,11 @@ final class Embedded implements FieldLike
             $columnPrefix = false;
         }
 
-        return new self(
-            $property,
-            $class,
-            $columnPrefix,
-            [],
-        );
-    }
-
-    /**
-     * @param class-string $class
-     *
-     * @throws DoctrineMappingException
-     *
-     * @internal
-     */
-    public function withClass(
-        string $class,
-    ): self {
-        if (null !== $this->class) {
-            throw new BadMethodCallException('The embedded class is already defined.');
+        if (null === $class) {
+            return new IncompleteEmbedded($property, $columnPrefix, []);
         }
 
-        return new self(
-            $this->property,
-            ClassResolver::resolve($class),
-            $this->columnPrefix,
-            $this->fields,
-        );
+        return new self($property, $class, $columnPrefix, []);
     }
 
     /**

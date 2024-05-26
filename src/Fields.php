@@ -30,7 +30,7 @@ final class Fields extends Collection
     ): self {
         self::ensureFieldsAreNotDuplicated($entity, $fields);
         $fieldProperties = self::ensurePropertiesExist($entity, $fields);
-        $fields = self::discoverMissingEmbeddedClasses($entity, $fields, $fieldProperties);
+        $fields = self::completeIncompleteFields($entity, $fields, $fieldProperties);
 
         return new self(...$fields);
     }
@@ -102,13 +102,13 @@ final class Fields extends Collection
      *
      * @throws DoctrineMappingException
      */
-    private static function discoverMissingEmbeddedClasses(
+    private static function completeIncompleteFields(
         EntityLike $entity,
         array $fields,
         array $fieldProperties,
     ): array {
         foreach ($fields as $i => $field) {
-            if ($field instanceof Embedded && !$field->class()) {
+            if ($field instanceof IncompleteEmbedded) {
                 $property = $fieldProperties[$i];
                 $propertyType = $property->getType();
 

@@ -37,4 +37,18 @@ final class ClassResolver
 
         return $class;
     }
+
+    /**
+     * @throws DoctrineMappingException
+     *
+     * @psalm-assert ?class-string $className
+     */
+    public static function resolveNullable(?string $className): ?ReflectionClass
+    {
+        if (null === $className) {
+            return null;
+        }
+
+        return self::resolve($className);
+    }
 }
