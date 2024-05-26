@@ -7,22 +7,27 @@ namespace Hereldar\DoctrineMapping\Enums;
 /**
  * The strategy to automatically generate IDs.
  *
+ * @property-read value-of<Strategy::VALUES> $value
+ *
  * TODO: convert to a backed enum when PHP 8.1 is the minimum version
  */
 final class Strategy
 {
+    /** @use BackedEnum<string> */
+    use BackedEnum;
+
     /**
      * The ID generation will depend on what the used platform prefers.
      * Offers full portability.
      */
-    public const Auto = 1;
+    public const Auto = 'AUTO';
 
     /**
      * A separate sequence object will be used to generate the ID.
      * Platforms that do not have native sequence support may emulate
      * it. Full portability is currently not guaranteed.
      */
-    public const Sequence = 2;
+    public const Sequence = 'SEQUENCE';
 
     /**
      * An identity column is used for ID generation. The database will
@@ -30,43 +35,41 @@ final class Strategy
      * support native identity columns may emulate them. Full
      * portability is currently not guaranteed.
      */
-    public const Identity = 4;
+    public const Identity = 'IDENTITY';
 
     /**
      * The class does not have a generated ID. That means the class
      * must have a natural, manually assigned ID.
      */
-    public const None = 5;
+    public const None = 'NONE';
 
     /**
      * The customer will use its own ID generator that supposedly
      * works.
      */
-    public const Custom = 7;
+    public const Custom = 'CUSTOM';
 
-    private function __construct(
-        private int $value,
-    ) {}
-
-    /**
-     * @throws \Error
-     */
-    public static function from(int|string $value): self
-    {
-        return match ($value) {
-            1, 'AUTO' => new self(self::Auto),
-            2, 'SEQUENCE' => new self(self::Sequence),
-            4, 'IDENTITY' => new self(self::Identity),
-            5, 'NONE' => new self(self::None),
-            7, 'CUSTOM' => new self(self::Custom),
-        };
-    }
+    private const VALUES = [
+        self::Auto,
+        self::Sequence,
+        self::Identity,
+        self::None,
+        self::Custom,
+    ];
 
     /**
      * @return int<1, 7>
+     *
+     * @internal
      */
-    public function value(): int
+    public function internalValue(): int
     {
-        return $this->value;
+        return match ($this->value) {
+            self::Auto => 1,
+            self::Sequence => 2,
+            self::Identity => 4,
+            self::None => 5,
+            self::Custom => 7,
+        };
     }
 }

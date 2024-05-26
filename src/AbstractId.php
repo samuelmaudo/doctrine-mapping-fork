@@ -143,7 +143,7 @@ abstract class AbstractId extends AbstractField
             $this->updatable,
             $this->generated,
             $this->column,
-            (Strategy::None === $this->strategy->value())
+            (Strategy::None === $this->strategy->value)
                 ? Strategy::from(Strategy::Sequence)
                 : $this->strategy,
             SequenceGenerator::of(
@@ -175,7 +175,7 @@ abstract class AbstractId extends AbstractField
             $this->updatable,
             $this->generated,
             $this->column,
-            (Strategy::None === $this->strategy->value())
+            (Strategy::None === $this->strategy->value)
                 ? Strategy::from(Strategy::Custom)
                 : $this->strategy,
             $this->sequenceGenerator,

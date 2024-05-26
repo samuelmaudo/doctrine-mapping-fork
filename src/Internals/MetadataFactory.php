@@ -112,7 +112,7 @@ final class MetadataFactory
             'nullable' => $column->nullable(),
             'notInsertable' => ($field->insertable() === false),
             'notUpdatable' => ($field->updatable() === false),
-            'generated' => $field->generated()?->value(),
+            'generated' => $field->generated()?->internalValue(),
             'length' => $column->length(),
             'precision' => $column->precision(),
             'scale' => $column->scale(),
@@ -138,7 +138,7 @@ final class MetadataFactory
         AbstractId $id,
         ClassMetadata $metadata,
     ): void {
-        $metadata->setIdGeneratorType($id->strategy()->value());
+        $metadata->setIdGeneratorType($id->strategy()->internalValue());
 
         if ($id->id() && $id->sequenceGenerator()) {
             $metadata->setSequenceGeneratorDefinition([
