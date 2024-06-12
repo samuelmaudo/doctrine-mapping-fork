@@ -80,4 +80,18 @@ trait AssociationExceptions
             ? "Option keys of associations should be non-empty strings, but {$optionKeyRepresentation} was found"
             : "Option keys of association '{$associationName}' should be non-empty strings, but {$optionKeyRepresentation} was found");
     }
+
+    public static function invalidOrderByField(string $associationName, mixed $fieldName): self
+    {
+        $fieldNameRepresentation = var_export($fieldName, true);
+
+        return new self("Sort fields of association '{$associationName}' should be non-empty strings, but {$fieldNameRepresentation} was found");
+    }
+
+    public static function invalidOrderByDirection(string $associationName, mixed $direction): self
+    {
+        $directionRepresentation = var_export($direction, true);
+
+        return new self("Sort directions of association '{$associationName}' should be either 'ASC' or 'DESC', but {$directionRepresentation} was found");
+    }
 }

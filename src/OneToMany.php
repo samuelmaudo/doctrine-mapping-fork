@@ -31,6 +31,7 @@ final class OneToMany extends AbstractAssociation
         protected Fetch $fetch,
         protected bool $orphanRemoval,
         protected ?string $indexBy,
+        protected ?OrderBy $orderBy,
     ) {}
 
     /**
@@ -67,6 +68,26 @@ final class OneToMany extends AbstractAssociation
     }
 
     /**
+     * @param non-empty-array<non-empty-string,'ASC'|'DESC'> $value
+     *
+     * @throws DoctrineMappingException
+     */
+    public function withOrderBy(
+        array $value,
+    ): self {
+        return new self(
+            $this->property,
+            $this->targetEntity,
+            $this->mappedBy,
+            $this->cascade,
+            $this->fetch,
+            $this->orphanRemoval,
+            $this->indexBy,
+            OrderBy::of($this, $value),
+        );
+    }
+
+    /**
      * @return non-empty-string|null
      */
     public function mappedBy(): ?string
@@ -85,5 +106,10 @@ final class OneToMany extends AbstractAssociation
     public function indexBy(): ?string
     {
         return $this->indexBy;
+    }
+
+    public function orderBy(): ?OrderBy
+    {
+        return $this->orderBy;
     }
 }

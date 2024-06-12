@@ -29,6 +29,7 @@ final class IncompleteOneToMany extends AbstractIncompleteAssociation
         protected Fetch $fetch,
         protected bool $orphanRemoval,
         protected ?string $indexBy,
+        protected ?OrderBy $orderBy,
     ) {}
 
     /**
@@ -46,6 +47,26 @@ final class IncompleteOneToMany extends AbstractIncompleteAssociation
             $this->fetch,
             $this->orphanRemoval,
             $this->indexBy,
+            $this->orderBy,
+        );
+    }
+
+    /**
+     * @param non-empty-array<non-empty-string,'ASC'|'DESC'> $value
+     *
+     * @throws DoctrineMappingException
+     */
+    public function withOrderBy(
+        array $value,
+    ): self {
+        return new self(
+            $this->property,
+            $this->mappedBy,
+            $this->cascade,
+            $this->fetch,
+            $this->orphanRemoval,
+            $this->indexBy,
+            OrderBy::of($this, $value),
         );
     }
 
@@ -68,5 +89,10 @@ final class IncompleteOneToMany extends AbstractIncompleteAssociation
     public function indexBy(): ?string
     {
         return $this->indexBy;
+    }
+
+    public function orderBy(): ?OrderBy
+    {
+        return $this->orderBy;
     }
 }

@@ -102,18 +102,6 @@ final class MetadataFactory
     /**
      * @throws OrmMappingException
      */
-    private static function fillAssociations(
-        EntityLike $entity,
-        ClassMetadata $metadata,
-    ): void {
-        foreach ($entity->associations() as $association) {
-            self::fillAssociation($association, $metadata);
-        }
-    }
-
-    /**
-     * @throws OrmMappingException
-     */
     private static function fillField(
         AbstractField $field,
         ClassMetadata $metadata,
@@ -190,6 +178,18 @@ final class MetadataFactory
     /**
      * @throws OrmMappingException
      */
+    private static function fillAssociations(
+        Entity|MappedSuperclass $entity,
+        ClassMetadata $metadata,
+    ): void {
+        foreach ($entity->associations() as $association) {
+            self::fillAssociation($association, $metadata);
+        }
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
     private static function fillAssociation(
         Association $association,
         ClassMetadata $metadata,
@@ -240,6 +240,7 @@ final class MetadataFactory
             'orphanRemoval' => $oneToMany->orphanRemoval(),
             'fetch' => $oneToMany->fetch()->internalValue(),
             'fieldName' => $oneToMany->property(),
+            'orderBy' => $oneToMany->orderBy()?->value(),
         ]);
     }
 
@@ -295,6 +296,7 @@ final class MetadataFactory
             'indexBy' => $manyToMany->indexBy(),
             'orphanRemoval' => $manyToMany->orphanRemoval(),
             'fetch' => $manyToMany->fetch()->internalValue(),
+            'orderBy' => $manyToMany->orderBy()?->value(),
         ]);
     }
 

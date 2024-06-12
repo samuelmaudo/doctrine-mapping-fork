@@ -36,6 +36,7 @@ final class ManyToMany extends AbstractAssociation
         protected ?JoinTable $joinTable,
         protected ?JoinColumns $joinColumns,
         protected ?JoinColumns $inverseJoinColumns,
+        protected ?OrderBy $orderBy,
     ) {}
 
     /**
@@ -67,7 +68,20 @@ final class ManyToMany extends AbstractAssociation
         $fetch = self::sanitizeFetch($property, $fetch);
         self::validateIndexBy($property, $targetEntity, $indexBy);
 
-        return new self($property, $targetEntity, $mappedBy, $inversedBy, $cascade, $fetch, $orphanRemoval, $indexBy, null, null, null);
+        return new self(
+            $property,
+            $targetEntity,
+            $mappedBy,
+            $inversedBy,
+            $cascade,
+            $fetch,
+            $orphanRemoval,
+            $indexBy,
+            null,
+            null,
+            null,
+            null,
+        );
     }
 
     /**
@@ -89,6 +103,7 @@ final class ManyToMany extends AbstractAssociation
             JoinTable::of($this, $name),
             $this->joinTable,
             $this->inverseJoinColumns,
+            $this->orderBy,
         );
     }
 
@@ -129,6 +144,7 @@ final class ManyToMany extends AbstractAssociation
                 $options,
             )),
             $this->inverseJoinColumns,
+            $this->orderBy,
         );
     }
 
@@ -152,6 +168,7 @@ final class ManyToMany extends AbstractAssociation
             $this->joinTable,
             JoinColumns::of($this, ...$joinColumns),
             $this->inverseJoinColumns,
+            $this->orderBy,
         );
     }
 
@@ -192,6 +209,7 @@ final class ManyToMany extends AbstractAssociation
                 $columnDefinition,
                 $options,
             )),
+            $this->orderBy,
         );
     }
 
@@ -215,6 +233,31 @@ final class ManyToMany extends AbstractAssociation
             $this->joinTable,
             $this->joinColumns,
             JoinColumns::of($this, ...$joinColumns),
+            $this->orderBy,
+        );
+    }
+
+    /**
+     * @param non-empty-array<non-empty-string,'ASC'|'DESC'> $value
+     *
+     * @throws DoctrineMappingException
+     */
+    public function withOrderBy(
+        array $value,
+    ): self {
+        return new self(
+            $this->property,
+            $this->targetEntity,
+            $this->mappedBy,
+            $this->inversedBy,
+            $this->cascade,
+            $this->fetch,
+            $this->orphanRemoval,
+            $this->indexBy,
+            $this->joinTable,
+            $this->joinColumns,
+            $this->inverseJoinColumns,
+            OrderBy::of($this, $value),
         );
     }
 
@@ -260,5 +303,10 @@ final class ManyToMany extends AbstractAssociation
     public function inverseJoinColumns(): ?JoinColumns
     {
         return $this->inverseJoinColumns;
+    }
+
+    public function orderBy(): ?OrderBy
+    {
+        return $this->orderBy;
     }
 }
