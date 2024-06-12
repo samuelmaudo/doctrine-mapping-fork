@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals;
 
-use ArrayIterator;
 use Countable;
 use Iterator;
 use IteratorAggregate;
@@ -27,10 +26,12 @@ abstract class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator<int, T>
+     * @return Iterator<int, T>
      */
     public function getIterator(): Iterator
     {
-        return new ArrayIterator($this->items);
+        foreach ($this->items as $item) {
+            yield $item;
+        }
     }
 }
