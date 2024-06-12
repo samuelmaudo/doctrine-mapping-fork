@@ -51,6 +51,7 @@ final class MetadataFactory
         $metadata->setCustomRepositoryClass($entity->repositoryClassName());
 
         self::fillFields($entity, $metadata);
+        self::fillAssociations($entity, $metadata);
         self::fillPrimaryTable($entity, $metadata);
     }
 
@@ -66,6 +67,7 @@ final class MetadataFactory
         $metadata->setCustomRepositoryClass($superclass->repositoryClassName());
 
         self::fillFields($superclass, $metadata);
+        self::fillAssociations($superclass, $metadata);
         self::fillPrimaryTable($superclass, $metadata);
     }
 
@@ -93,9 +95,19 @@ final class MetadataFactory
                 self::fillField($field, $metadata);
             } elseif ($field instanceof Embedded) {
                 self::fillEmbedded($field, $metadata);
-            } elseif ($field instanceof Association) {
-                self::fillAssociation($field, $metadata);
             }
+        }
+    }
+
+    /**
+     * @throws OrmMappingException
+     */
+    private static function fillAssociations(
+        EntityLike $entity,
+        ClassMetadata $metadata,
+    ): void {
+        foreach ($entity->associations() as $association) {
+            self::fillAssociation($association, $metadata);
         }
     }
 

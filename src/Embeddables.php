@@ -10,7 +10,7 @@ use Hereldar\DoctrineMapping\Internals\Collection;
 /**
  * @extends Collection<Embeddable>
  */
-final class EmbeddedEmbeddables extends Collection
+final class Embeddables extends Collection
 {
     public function __construct(Embeddable ...$embeddables)
     {
@@ -20,7 +20,7 @@ final class EmbeddedEmbeddables extends Collection
     /**
      * @throws DoctrineMappingException
      */
-    public static function of(Fields $fields): self
+    public static function fromFields(Fields $fields): self
     {
         $embeddables = [];
 

@@ -34,7 +34,7 @@ final class Table
      * @throws DoctrineMappingException
      */
     public static function of(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         ?string $name = null,
         ?string $schema = null,
         array|null $options = null,

@@ -7,8 +7,13 @@ namespace Hereldar\DoctrineMapping;
 use Hereldar\DoctrineMapping\Enums\Cascade;
 use Hereldar\DoctrineMapping\Enums\Fetch;
 
-interface AssociationLike extends FieldLike
+interface AssociationLike
 {
+    /**
+     * @return non-empty-string
+     */
+    public function property(): string;
+
     /**
      * @return list<Cascade>
      */

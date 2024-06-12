@@ -37,6 +37,7 @@ return Entity::of(
         ->withColumn(length: 50, nullable: true, unique: true),
     Field::of(property: 'email', type: 'string')
         ->withColumn(name: 'user_email', definition: 'CHAR(32) NOT NULL'),
+)->withAssociations(
     OneToOne::of(property: 'address', inversedBy: 'user', cascade: [Cascade::Remove])
         ->withJoinColumn(name: 'address_id', referencedColumnName: 'id', onDelete: 'CASCADE', onUpdate: 'CASCADE'),
     OneToMany::of(property: 'phonenumbers', targetEntity: Phonenumber::class, mappedBy: 'user', cascade: [Cascade::Persist]),

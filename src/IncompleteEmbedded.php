@@ -10,12 +10,12 @@ use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 /**
  * @psalm-immutable
  */
-final class IncompleteEmbedded implements FieldLike
+final class IncompleteEmbedded implements EmbeddedLike
 {
     /**
      * @param non-empty-string $property
      * @param non-empty-string|false $columnPrefix
-     * @param list<FieldLike> $fields
+     * @param list<FieldLike|EmbeddedLike> $fields
      *
      * @internal
      */
@@ -41,10 +41,10 @@ final class IncompleteEmbedded implements FieldLike
     }
 
     /**
-     * @param non-empty-list<FieldLike> $fields
+     * @param non-empty-list<FieldLike|EmbeddedLike> $fields
      */
     public function withFields(
-        FieldLike ...$fields,
+        FieldLike|EmbeddedLike ...$fields,
     ): self {
         return new self(
             $this->property,
@@ -70,7 +70,7 @@ final class IncompleteEmbedded implements FieldLike
     }
 
     /**
-     * @return list<FieldLike>
+     * @return list<FieldLike|EmbeddedLike>
      */
     public function fields(): array
     {

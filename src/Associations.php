@@ -12,27 +12,27 @@ use ReflectionNamedType;
 use ReflectionProperty;
 
 /**
- * @extends Collection<FieldLike>
+ * @extends Collection<Association>
  */
-final class Fields extends Collection
+final class Associations extends Collection
 {
-    public function __construct(FieldLike ...$fields)
+    public function __construct(Association ...$associations)
     {
-        $this->items = $fields;
+        $this->items = $associations;
     }
 
     /**
      * @throws DoctrineMappingException
      */
     public static function of(
-        EntityLike $entity,
-        FieldLike|EmbeddedLike ...$fields,
+        AbstractEntity $entity,
+        AssociationLike ...$associations,
     ): self {
-        self::ensureFieldsAreNotDuplicated($entity, $fields);
-        $properties = self::ensurePropertiesExist($entity, $fields);
-        $fields = self::completeIncompleteFields($entity, $fields, $properties);
+        self::ensureAssociationsAreNotDuplicated($entity, $associations);
+        $properties = self::ensurePropertiesExist($entity, $associations);
+        $associations = self::completeIncompleteAssociations($entity, $associations, $properties);
 
-        return new self(...$fields);
+        return new self(...$associations);
     }
 
     public static function empty(): self
@@ -41,18 +41,18 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<FieldLike|EmbeddedLike> $fields
+     * @param list<AssociationLike> $associations
      *
      * @throws DoctrineMappingException
      */
-    private static function ensureFieldsAreNotDuplicated(
-        EntityLike $entity,
-        array $fields,
+    private static function ensureAssociationsAreNotDuplicated(
+        AbstractEntity $entity,
+        array $associations,
     ): void {
         $properties = [];
 
-        foreach ($fields as $field) {
-            $property = $field->property();
+        foreach ($associations as $association) {
+            $property = $association->property();
 
             if (isset($properties[$property])) {
                 throw MappingException::duplicateProperty(
@@ -66,21 +66,21 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<FieldLike|EmbeddedLike> $fields
+     * @param list<AssociationLike> $associations
      *
      * @return list<ReflectionProperty>
      *
      * @throws DoctrineMappingException
      */
     private static function ensurePropertiesExist(
-        EntityLike $entity,
-        array $fields,
+        AbstractEntity $entity,
+        array $associations,
     ): array {
         $class = $entity->class();
         $properties = [];
 
-        foreach ($fields as $field) {
-            $propertyName = $field->property();
+        foreach ($associations as $association) {
+            $propertyName = $association->property();
             try {
                 $properties[] = $class->getProperty($propertyName);
             } catch (ReflectionException) {
@@ -95,37 +95,39 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<FieldLike|EmbeddedLike> $fields
+     * @param list<AssociationLike> $associations
      * @param list<ReflectionProperty> $properties
      *
-     * @return list<FieldLike>
+     * @return list<Association>
      *
      * @throws DoctrineMappingException
      */
-    private static function completeIncompleteFields(
-        EntityLike $entity,
-        array $fields,
+    private static function completeIncompleteAssociations(
+        AbstractEntity $entity,
+        array $associations,
         array $properties,
     ): array {
-        $completeFields = [];
+        $completeAssociations = [];
 
-        foreach ($fields as $i => $field) {
-            if ($field instanceof IncompleteEmbedded) {
+        foreach ($associations as $i => $association) {
+            if ($association instanceof IncompleteAssociation) {
                 $property = $properties[$i];
                 $propertyType = $property->getType();
 
                 if (!$propertyType instanceof ReflectionNamedType) {
-                    throw MappingException::missingClassAttribute(
+                    throw MappingException::missingTargetEntity(
                         $entity->classSortName(),
                         $property->name,
                     );
                 }
 
-                $field = $field->withClass($propertyType->getName());
+                $association = $association->withTargetEntity(
+                    $propertyType->getName()
+                );
             }
-            $completeFields[] = $field;
+            $completeAssociations[] = $association;
         }
 
-        return $completeFields;
+        return $completeAssociations;
     }
 }

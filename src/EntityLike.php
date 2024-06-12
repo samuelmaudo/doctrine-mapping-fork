@@ -16,5 +16,5 @@ interface EntityLike
 
     public function fields(): Fields;
 
-    public function embeddedEmbeddables(): EmbeddedEmbeddables;
+    public function embeddedEmbeddables(): Embeddables;
 }

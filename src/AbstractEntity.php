@@ -20,7 +20,8 @@ abstract class AbstractEntity implements EntityLike
         private ?ReflectionClass $repositoryClass,
         private Table $table,
         private Fields $fields,
-        private EmbeddedEmbeddables $embeddedEmbeddables,
+        private Associations $associations,
+        private Embeddables $embeddedEmbeddables,
         private Indexes $indexes,
         private UniqueConstraints $uniqueConstraints,
     ) {}
@@ -41,7 +42,8 @@ abstract class AbstractEntity implements EntityLike
             RepositoryClassResolver::resolve($repositoryClass),
             Table::empty($classReflection),
             Fields::empty(),
-            EmbeddedEmbeddables::empty(),
+            Associations::empty(),
+            Embeddables::empty(),
             Indexes::empty(),
             UniqueConstraints::empty(),
         );
@@ -64,6 +66,7 @@ abstract class AbstractEntity implements EntityLike
             $this->repositoryClass,
             Table::of($this, $name, $schema, $options),
             $this->fields,
+            $this->associations,
             $this->embeddedEmbeddables,
             $this->indexes,
             $this->uniqueConstraints,
@@ -71,12 +74,12 @@ abstract class AbstractEntity implements EntityLike
     }
 
     /**
-     * @param non-empty-list<FieldLike> $fields
+     * @param non-empty-list<FieldLike|EmbeddedLike> $fields
      *
      * @throws DoctrineMappingException
      */
     public function withFields(
-        FieldLike ...$fields,
+        FieldLike|EmbeddedLike ...$fields,
     ): static {
         $fieldCollection = Fields::of($this, ...$fields);
 
@@ -85,7 +88,30 @@ abstract class AbstractEntity implements EntityLike
             $this->repositoryClass,
             $this->table,
             $fieldCollection,
-            EmbeddedEmbeddables::of($fieldCollection),
+            $this->associations,
+            Embeddables::fromFields($fieldCollection),
+            $this->indexes,
+            $this->uniqueConstraints,
+        );
+    }
+
+    /**
+     * @param non-empty-list<AssociationLike> $associations
+     *
+     * @throws DoctrineMappingException
+     */
+    public function withAssociations(
+        AssociationLike ...$associations,
+    ): static {
+        $associationCollection = Associations::of($this, ...$associations);
+
+        return new static(
+            $this->class,
+            $this->repositoryClass,
+            $this->table,
+            $this->fields,
+            $associationCollection,
+            $this->embeddedEmbeddables,
             $this->indexes,
             $this->uniqueConstraints,
         );
@@ -104,6 +130,7 @@ abstract class AbstractEntity implements EntityLike
             $this->repositoryClass,
             $this->table,
             $this->fields,
+            $this->associations,
             $this->embeddedEmbeddables,
             Indexes::of($this, ...$indexes),
             $this->uniqueConstraints,
@@ -123,6 +150,7 @@ abstract class AbstractEntity implements EntityLike
             $this->repositoryClass,
             $this->table,
             $this->fields,
+            $this->associations,
             $this->embeddedEmbeddables,
             $this->indexes,
             UniqueConstraints::of($this, ...$uniqueConstraints),
@@ -169,7 +197,12 @@ abstract class AbstractEntity implements EntityLike
         return $this->fields;
     }
 
-    public function embeddedEmbeddables(): EmbeddedEmbeddables
+    public function associations(): Associations
+    {
+        return $this->associations;
+    }
+
+    public function embeddedEmbeddables(): Embeddables
     {
         return $this->embeddedEmbeddables;
     }

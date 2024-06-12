@@ -17,7 +17,7 @@ final class Embeddable implements EntityLike
     private function __construct(
         private ReflectionClass $class,
         private Fields $fields,
-        private EmbeddedEmbeddables $embeddedEmbeddables,
+        private Embeddables $embeddedEmbeddables,
     ) {}
 
     /**
@@ -35,7 +35,7 @@ final class Embeddable implements EntityLike
         return new self(
             $class,
             Fields::empty(),
-            EmbeddedEmbeddables::empty(),
+            Embeddables::empty(),
         );
     }
 
@@ -54,7 +54,7 @@ final class Embeddable implements EntityLike
         return new self(
             $this->class,
             $fieldCollection,
-            EmbeddedEmbeddables::of($fieldCollection),
+            Embeddables::fromFields($fieldCollection),
         );
     }
 
@@ -78,7 +78,7 @@ final class Embeddable implements EntityLike
         return $this->fields;
     }
 
-    public function embeddedEmbeddables(): EmbeddedEmbeddables
+    public function embeddedEmbeddables(): Embeddables
     {
         return $this->embeddedEmbeddables;
     }
