@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fields;
+namespace Hereldar\DoctrineMapping\Tests\Fields;
 
 use Doctrine\DBAL\Types\Types;
 use Hereldar\DoctrineMapping\AbstractField;
