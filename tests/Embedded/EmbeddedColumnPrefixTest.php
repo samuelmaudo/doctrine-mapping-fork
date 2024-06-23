@@ -11,7 +11,6 @@ use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\EmptyColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\FalseColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\TrueColumnPrefix;
 use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\UndefinedColumnPrefix;
-use Hereldar\DoctrineMapping\Tests\Embedded\ColumnPrefix\ValueObject;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 use TypeError;
 

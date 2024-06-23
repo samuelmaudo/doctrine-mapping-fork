@@ -29,11 +29,11 @@ final class DateIntervalFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $default = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $default = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = DateIntervalField::of('field')->withColumn(
             name: $name,

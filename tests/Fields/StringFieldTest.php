@@ -29,15 +29,15 @@ final class StringFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $unique = fake()->boolean();
-        $nullable = fake()->boolean();
-        $length = fake()->integerBetween(1);
-        $default = fake()->sentence();
-        $charset = fake()->word();
-        $collation = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $unique = \fake()->boolean();
+        $nullable = \fake()->boolean();
+        $length = \fake()->integerBetween(1);
+        $default = \fake()->sentence();
+        $charset = \fake()->word();
+        $collation = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = StringField::of('field')->withColumn(
             name: $name,

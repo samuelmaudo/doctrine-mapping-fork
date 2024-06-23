@@ -22,7 +22,7 @@ final class ColumnCharsetTest extends TestCase
     public function testUndefinedCharset(): void
     {
         $metadata = $this->loadClassMetadata(UndefinedCharset::class);
-        
+
         self::assertFieldOption($metadata, 'field', 'charset', null);
     }
 

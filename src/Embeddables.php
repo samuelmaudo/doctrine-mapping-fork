@@ -36,7 +36,7 @@ final class Embeddables extends Collection
                 ::of($field->class())
                 ->withFields(...$embeddedFields)
             ;
-            array_push(
+            \array_push(
                 $embeddables,
                 $embeddable,
                 ...$embeddable->embeddedEmbeddables(),

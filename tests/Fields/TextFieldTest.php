@@ -29,14 +29,14 @@ final class TextFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $length = fake()->integerBetween(1);
-        $default = fake()->text();
-        $charset = fake()->word();
-        $collation = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $length = \fake()->integerBetween(1);
+        $default = \fake()->text();
+        $charset = \fake()->word();
+        $collation = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = TextField::of('field')->withColumn(
             name: $name,

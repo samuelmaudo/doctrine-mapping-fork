@@ -17,7 +17,7 @@ final class Table
 {
     /**
      * @param non-empty-string $name
-     * @param ?non-empty-string $schema
+     * @param non-empty-string|null $schema
      * @param non-empty-array<non-empty-string,mixed>|null $options
      */
     private function __construct(
@@ -27,9 +27,9 @@ final class Table
     ) {}
 
     /**
-     * @param ?non-empty-string $name Name of the table.
-     * @param ?non-empty-string $schema Name of the schema that contains the table.
-     * @param non-empty-array<non-empty-string,mixed>|null $options Platform specific options.
+     * @param non-empty-string|null $name name of the table
+     * @param non-empty-string|null $schema name of the schema that contains the table
+     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
      *
      * @throws DoctrineMappingException
      */
@@ -37,21 +37,21 @@ final class Table
         Entity|MappedSuperclass $entity,
         ?string $name = null,
         ?string $schema = null,
-        array|null $options = null,
+        ?array $options = null,
     ): self {
-        if ($name === null) {
+        if (null === $name) {
             $name = to_snake_case($entity->classSortName());
-        } elseif ($name === '') {
+        } elseif ('' === $name) {
             throw MappingException::emptyTableName($entity->className());
         }
 
-        if ($schema === '') {
+        if ('' === $schema) {
             throw MappingException::emptySchemaName($entity->className());
         }
 
-        if ($options !== null) {
+        if (null !== $options) {
             foreach ($options as $key => $value) {
-                if (!is_string($key) || $key === '') {
+                if (!\is_string($key) || '' === $key) {
                     throw MappingException::invalidTableOption(
                         $entity->className(),
                         $key,
@@ -89,7 +89,7 @@ final class Table
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function schema(): ?string
     {

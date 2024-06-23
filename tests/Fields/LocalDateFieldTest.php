@@ -29,11 +29,11 @@ final class LocalDateFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $default = fake()->date();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $default = \fake()->date();
+        $comment = \fake()->sentence();
 
         $field = LocalDateField::of('field')->withColumn(
             name: $name,

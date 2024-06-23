@@ -17,11 +17,11 @@ final class RepositoryClassResolver
     /**
      * @throws DoctrineMappingException
      *
-     * @psalm-assert ?class-string<EntityRepository> $className
+     * @psalm-assert class-string<EntityRepository>|null $className
      */
     public static function resolve(?string $className): ?ReflectionClass
     {
-        if ($className === null) {
+        if (null === $className) {
             return null;
         }
 

@@ -30,7 +30,7 @@ final class OrderBy
         array $value,
     ): self {
         foreach ($value as $field => $direction) {
-            if (!is_string($field) || '' === $field) {
+            if (!\is_string($field) || '' === $field) {
                 throw MappingException::invalidOrderByField(
                     $association->property(),
                     $field,

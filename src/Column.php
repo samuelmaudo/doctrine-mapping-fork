@@ -7,6 +7,7 @@ namespace Hereldar\DoctrineMapping;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
+
 use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**
@@ -15,14 +16,14 @@ use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 final class Column
 {
     /**
-     * @param ?non-empty-string $name
-     * @param ?non-empty-string $definition
-     * @param ?positive-int $length
-     * @param ?non-negative-int $precision
-     * @param ?non-negative-int $scale
-     * @param ?non-empty-string $charset
-     * @param ?non-empty-string $collation
-     * @param ?non-empty-string $comment
+     * @param non-empty-string|null $name
+     * @param non-empty-string|null $definition
+     * @param positive-int|null $length
+     * @param non-negative-int|null $precision
+     * @param non-negative-int|null $scale
+     * @param non-empty-string|null $charset
+     * @param non-empty-string|null $collation
+     * @param non-empty-string|null $comment
      */
     private function __construct(
         private ?string $name = null,
@@ -41,14 +42,14 @@ final class Column
     ) {}
 
     /**
-     * @param ?non-empty-string $name
-     * @param ?non-empty-string $definition
-     * @param ?positive-int $length
-     * @param ?non-negative-int $precision
-     * @param ?non-negative-int $scale
-     * @param ?non-empty-string $charset
-     * @param ?non-empty-string $collation
-     * @param ?non-empty-string $comment
+     * @param non-empty-string|null $name
+     * @param non-empty-string|null $definition
+     * @param positive-int|null $length
+     * @param non-negative-int|null $precision
+     * @param non-negative-int|null $scale
+     * @param non-empty-string|null $charset
+     * @param non-empty-string|null $collation
+     * @param non-empty-string|null $comment
      *
      * @throws DoctrineMappingException
      */
@@ -68,33 +69,33 @@ final class Column
         ?string $collation = null,
         ?string $comment = null,
     ): self {
-        if ($name === null) {
+        if (null === $name) {
             $name = to_snake_case($field->property());
-        } elseif ($name === '') {
+        } elseif ('' === $name) {
             throw MappingException::emptyColumnName($field->property());
         }
 
-        if ($definition === '') {
+        if ('' === $definition) {
             throw MappingException::emptyColumnDefinition($field->property());
         }
 
-        if ($nullable === true && $field instanceof AbstractId) {
+        if (true === $nullable && $field instanceof AbstractId) {
             throw MappingException::nullableId($field->property());
         }
 
-        if ($length !== null && $length < 1) {
+        if (null !== $length && 1 > $length) {
             throw MappingException::nonPositiveLength($field->property());
         }
 
-        if ($precision !== null && $precision < 1) {
+        if (null !== $precision && 1 > $precision) {
             throw MappingException::nonPositivePrecision($field->property());
         }
 
-        if ($scale !== null) {
-            if ($scale < 1) {
+        if (null !== $scale) {
+            if (1 > $scale) {
                 throw MappingException::nonPositiveScale($field->property());
             }
-            if ($precision === null) {
+            if (null === $precision) {
                 throw MappingException::missingPrecision($field->property());
             }
             if ($scale > $precision) {
@@ -102,11 +103,11 @@ final class Column
             }
         }
 
-        if ($charset === '') {
+        if ('' === $charset) {
             throw MappingException::emptyCharset($field->property());
         }
 
-        if ($collation === '') {
+        if ('' === $collation) {
             throw MappingException::emptyCollation($field->property());
         }
 
@@ -147,7 +148,7 @@ final class Column
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function name(): ?string
     {
@@ -155,7 +156,7 @@ final class Column
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function definition(): ?string
     {
@@ -173,7 +174,7 @@ final class Column
     }
 
     /**
-     * @return ?positive-int
+     * @return positive-int|null
      */
     public function length(): ?int
     {
@@ -181,7 +182,7 @@ final class Column
     }
 
     /**
-     * @return ?non-negative-int
+     * @return non-negative-int|null
      */
     public function precision(): ?int
     {
@@ -189,7 +190,7 @@ final class Column
     }
 
     /**
-     * @return ?non-negative-int
+     * @return non-negative-int|null
      */
     public function scale(): ?int
     {
@@ -212,7 +213,7 @@ final class Column
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function charset(): ?string
     {
@@ -220,7 +221,7 @@ final class Column
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function collation(): ?string
     {
@@ -228,7 +229,7 @@ final class Column
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function comment(): ?string
     {

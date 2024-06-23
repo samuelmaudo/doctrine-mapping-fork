@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Tests\UniqueConstraint;
 
+use Hereldar\DoctrineMapping\Tests\TestCase;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Name\DefinedName;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Name\EmptyName;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Name\NullName;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Name\UndefinedName;
-use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class UniqueConstraintNameTest extends TestCase
 {

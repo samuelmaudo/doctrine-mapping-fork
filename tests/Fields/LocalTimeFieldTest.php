@@ -29,11 +29,11 @@ final class LocalTimeFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $default = fake()->time();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $default = \fake()->time();
+        $comment = \fake()->sentence();
 
         $field = LocalTimeField::of('field')->withColumn(
             name: $name,

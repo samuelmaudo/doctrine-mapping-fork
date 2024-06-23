@@ -29,13 +29,13 @@ final class BinaryFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $unique = fake()->boolean();
-        $nullable = fake()->boolean();
-        $length = fake()->integerBetween(1);
-        $default = fake()->sentence();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $unique = \fake()->boolean();
+        $nullable = \fake()->boolean();
+        $length = \fake()->integerBetween(1);
+        $default = \fake()->sentence();
+        $comment = \fake()->sentence();
 
         $field = BinaryField::of('field')->withColumn(
             name: $name,

@@ -13,18 +13,18 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 final class JoinColumn
 {
     /**
-     * @param ?non-empty-string $name
+     * @param non-empty-string|null $name
      * @param non-empty-string $referencedColumnName
-     * @param ?non-empty-string $columnDefinition
+     * @param non-empty-string|null $columnDefinition
      * @param non-empty-array<non-empty-string,mixed> $options
      */
     private function __construct(
-        private string|null $name,
+        private ?string $name,
         private string $referencedColumnName,
         private bool $unique,
         private bool $nullable,
         private mixed $onDelete,
-        private string|null $columnDefinition,
+        private ?string $columnDefinition,
         private array $options,
     ) {}
 
@@ -58,7 +58,7 @@ final class JoinColumn
         }
 
         foreach ($options as $key => $value) {
-            if (!is_string($key) || '' === $key) {
+            if (!\is_string($key) || '' === $key) {
                 throw MappingException::invalidJoinColumnOption(
                     $name,
                     $key,
@@ -78,7 +78,7 @@ final class JoinColumn
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function name(): ?string
     {
@@ -109,7 +109,7 @@ final class JoinColumn
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function columnDefinition(): ?string
     {

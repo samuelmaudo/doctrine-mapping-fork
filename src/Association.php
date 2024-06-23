@@ -163,7 +163,6 @@ abstract class Association extends AbstractAssociation
         $sanitizedOptions = [];
 
         foreach ($options as $option) {
-
             if ($option instanceof Cascade) {
                 $sanitizedOptions[] = $option;
                 continue;
@@ -189,7 +188,7 @@ abstract class Association extends AbstractAssociation
         string $associationName,
         Fetch|string $option,
     ): Fetch {
-        if (is_object($option)) {
+        if (\is_object($option)) {
             return $option;
         }
 

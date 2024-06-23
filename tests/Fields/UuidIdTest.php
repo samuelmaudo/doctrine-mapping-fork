@@ -29,11 +29,11 @@ final class UuidIdTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $charset = fake()->word();
-        $collation = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $charset = \fake()->word();
+        $collation = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = UuidId::of('id')->withColumn(
             name: $name,

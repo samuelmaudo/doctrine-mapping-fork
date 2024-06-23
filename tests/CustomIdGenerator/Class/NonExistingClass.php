@@ -10,4 +10,3 @@ final class NonExistingClass
         public $id,
     ) {}
 }
-

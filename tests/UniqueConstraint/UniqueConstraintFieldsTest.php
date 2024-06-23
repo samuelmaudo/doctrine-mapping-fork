@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Tests\UniqueConstraint;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Tests\TestCase;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Fields\DefinedField;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Fields\DefinedFields;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Fields\EmptyField;
@@ -12,7 +13,6 @@ use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Fields\EmptyFields;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Fields\InvalidField;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Fields\NullFields;
 use Hereldar\DoctrineMapping\Tests\UniqueConstraint\Fields\UndefinedFields;
-use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class UniqueConstraintFieldsTest extends TestCase
 {

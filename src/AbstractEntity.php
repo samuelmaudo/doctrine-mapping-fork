@@ -33,7 +33,7 @@ abstract class AbstractEntity implements EntityLike
 
     /**
      * @param class-string $class
-     * @param ?class-string<EntityRepository> $repositoryClass
+     * @param class-string<EntityRepository>|null $repositoryClass
      *
      * @throws DoctrineMappingException
      */
@@ -42,6 +42,7 @@ abstract class AbstractEntity implements EntityLike
         ?string $repositoryClass = null,
     ): static {
         $classReflection = ClassResolver::resolve($class);
+
         return new static(
             $classReflection,
             RepositoryClassResolver::resolve($repositoryClass),
@@ -55,16 +56,16 @@ abstract class AbstractEntity implements EntityLike
     }
 
     /**
-     * @param ?non-empty-string $name Name of the table.
-     * @param ?non-empty-string $schema Name of the schema that contains the table.
-     * @param non-empty-array<non-empty-string,mixed>|null $options Platform specific options.
+     * @param non-empty-string|null $name name of the table
+     * @param non-empty-string|null $schema name of the schema that contains the table
+     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
      *
      * @throws DoctrineMappingException
      */
     public function withTable(
         ?string $name = null,
         ?string $schema = null,
-        array|null $options = null,
+        ?array $options = null,
     ): static {
         return new static(
             $this->class,

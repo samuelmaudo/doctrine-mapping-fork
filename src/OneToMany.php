@@ -41,7 +41,7 @@ final class OneToMany extends Association
      * @param list<Cascade>|null $cascade
      * @param Fetch|'LAZY'|'EAGER'|'EXTRA_LAZY' $fetch
      * @param non-empty-string|null $indexBy
-     * 
+     *
      * @throws DoctrineMappingException
      */
     public static function of(

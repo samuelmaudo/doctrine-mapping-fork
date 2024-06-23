@@ -20,7 +20,7 @@ final class CustomIdGeneratorClassTest extends TestCase
     public function testUndefinedClass(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessageMatches("/Invalid file 'UndefinedClass.orm.php': Too few arguments to function Hereldar\\\\DoctrineMapping\\\\AbstractId::withCustomIdGenerator\(\), 0 passed in \S+ on line \d+ and exactly 1 expected/");
+        $this->expectExceptionMessageMatches("/Invalid file 'UndefinedClass.orm.php': Too few arguments to function Hereldar\\\\DoctrineMapping\\\\AbstractId::withCustomIdGenerator\\(\\), 0 passed in \\S+ on line \\d+ and exactly 1 expected/");
 
         $this->loadClassMetadata(UndefinedClass::class);
     }

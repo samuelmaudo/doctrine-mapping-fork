@@ -19,9 +19,9 @@ abstract class AbstractId extends AbstractField
 {
     /**
      * @param non-empty-string $property
-     * @param ?non-empty-string $type
-     * @param ?enum-string $enumType
-     * @param ?class-string<AbstractIdGenerator> $customIdGenerator
+     * @param non-empty-string|null $type
+     * @param enum-string|null $enumType
+     * @param class-string<AbstractIdGenerator>|null $customIdGenerator
      */
     protected function __construct(
         string $property,
@@ -47,12 +47,12 @@ abstract class AbstractId extends AbstractField
     }
 
     /**
-     * @param non-empty-string $property Name of the field in the Entity.
-     * @param ?non-empty-string $type
-     * @param ?enum-string $enumType
-     * @param bool $insertable Whether the field is insertable (defaults to TRUE).
-     * @param bool $updatable Whether the field is updatable (defaults to TRUE).
-     * @param Generated|'NEVER'|'INSERT'|'ALWAYS'|int<0, 2>|null $generated Whether a generated value should be retrieved from the database after INSERT or UPDATE.
+     * @param non-empty-string $property name of the field in the Entity
+     * @param non-empty-string|null $type
+     * @param enum-string|null $enumType
+     * @param bool $insertable whether the field is insertable (defaults to TRUE)
+     * @param bool $updatable whether the field is updatable (defaults to TRUE)
+     * @param Generated|'NEVER'|'INSERT'|'ALWAYS'|int<0, 2>|null $generated whether a generated value should be retrieved from the database after INSERT or UPDATE
      *
      * @throws DoctrineMappingException
      */
@@ -87,14 +87,14 @@ abstract class AbstractId extends AbstractField
      * Specifies which strategy is used for identifier generation for
      * a field which `$id` property  is true.
      *
-     * @param Strategy|'AUTO'|'SEQUENCE'|'IDENTITY'|'NONE'|'CUSTOM'|int<1, 7> $strategy How the value should be generated (defaults to 'AUTO').
+     * @param Strategy|'AUTO'|'SEQUENCE'|'IDENTITY'|'NONE'|'CUSTOM'|int<1, 7> $strategy how the value should be generated (defaults to 'AUTO')
      *
      * @throws DoctrineMappingException
      */
     public function withGeneratedValue(
         Strategy|string|int $strategy = Strategy::Auto,
     ): static {
-        if (!is_object($strategy)) {
+        if (!\is_object($strategy)) {
             try {
                 $strategy = Strategy::from($strategy);
             } catch (Error) {
@@ -124,7 +124,7 @@ abstract class AbstractId extends AbstractField
      * generation, such as the increment size and initial values of
      * the sequence.
      *
-     * @param ?non-empty-string $sequenceName Name of the sequence.
+     * @param non-empty-string|null $sequenceName name of the sequence
      * @param positive-int $allocationSize How much the sequence is increased when a new value is fetched. A value larger than 1 allows optimization for scenarios where you create more than one new entity per request. Defaults to 1.
      * @param positive-int $initialValue Where the sequence starts. Defaults to 1.
      *
@@ -160,7 +160,7 @@ abstract class AbstractId extends AbstractField
      * Specifies a user-provided class to generate identifiers. Such
      * class must extend `\Doctrine\ORM\Id\AbstractIdGenerator`.
      *
-     * @param class-string<AbstractIdGenerator> $class Name of the class.
+     * @param class-string<AbstractIdGenerator> $class name of the class
      *
      * @throws DoctrineMappingException
      */
@@ -199,7 +199,7 @@ abstract class AbstractId extends AbstractField
     }
 
     /**
-     * @return ?class-string<AbstractIdGenerator>
+     * @return class-string<AbstractIdGenerator>|null
      */
     public function customIdGenerator(): ?string
     {

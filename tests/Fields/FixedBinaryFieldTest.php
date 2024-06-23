@@ -29,13 +29,13 @@ final class FixedBinaryFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $unique = fake()->boolean();
-        $nullable = fake()->boolean();
-        $length = fake()->integerBetween(1);
-        $default = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $unique = \fake()->boolean();
+        $nullable = \fake()->boolean();
+        $length = \fake()->integerBetween(1);
+        $default = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = FixedBinaryField::of('field')->withColumn(
             name: $name,

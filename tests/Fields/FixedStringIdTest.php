@@ -29,12 +29,12 @@ final class FixedStringIdTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $length = fake()->integerBetween(1);
-        $charset = fake()->word();
-        $collation = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $length = \fake()->integerBetween(1);
+        $charset = \fake()->word();
+        $collation = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = FixedStringId::of('id')->withColumn(
             name: $name,

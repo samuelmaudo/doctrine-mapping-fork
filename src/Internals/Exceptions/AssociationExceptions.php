@@ -54,27 +54,27 @@ trait AssociationExceptions
     public static function emptyJoinColumName(?string $associationName): self
     {
         return new self((null === $associationName)
-            ? "Empty join column name"
+            ? 'Empty join column name'
             : "Empty join column name for association '{$associationName}'");
     }
 
     public static function emptyJoinReferencedColumName(?string $associationName): self
     {
         return new self((null === $associationName)
-            ? "Empty join referenced column name"
+            ? 'Empty join referenced column name'
             : "Empty join referenced column name for association '{$associationName}'");
     }
 
     public static function emptyJoinColumnDefinition(?string $associationName): self
     {
         return new self((null === $associationName)
-            ? "Empty join column definition"
+            ? 'Empty join column definition'
             : "Empty join column definition for association '{$associationName}'");
     }
 
     public static function invalidJoinColumnOption(?string $associationName, mixed $optionKey): self
     {
-        $optionKeyRepresentation = var_export($optionKey, true);
+        $optionKeyRepresentation = \var_export($optionKey, true);
 
         return new self((null === $associationName)
             ? "Option keys of associations should be non-empty strings, but {$optionKeyRepresentation} was found"
@@ -83,14 +83,14 @@ trait AssociationExceptions
 
     public static function invalidOrderByField(string $associationName, mixed $fieldName): self
     {
-        $fieldNameRepresentation = var_export($fieldName, true);
+        $fieldNameRepresentation = \var_export($fieldName, true);
 
         return new self("Sort fields of association '{$associationName}' should be non-empty strings, but {$fieldNameRepresentation} was found");
     }
 
     public static function invalidOrderByDirection(string $associationName, mixed $direction): self
     {
-        $directionRepresentation = var_export($direction, true);
+        $directionRepresentation = \var_export($direction, true);
 
         return new self("Sort directions of association '{$associationName}' should be either 'ASC' or 'DESC', but {$directionRepresentation} was found");
     }

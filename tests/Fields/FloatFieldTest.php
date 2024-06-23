@@ -29,11 +29,11 @@ final class FloatFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $default = fake()->float();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $default = \fake()->float();
+        $comment = \fake()->sentence();
 
         $field = FloatField::of('field')->withColumn(
             name: $name,

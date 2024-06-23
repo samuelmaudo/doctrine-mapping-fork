@@ -13,7 +13,7 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 final class SequenceGenerator
 {
     /**
-     * @param ?non-empty-string $sequenceName
+     * @param non-empty-string|null $sequenceName
      * @param positive-int $allocationSize
      * @param positive-int $initialValue
      */
@@ -24,7 +24,7 @@ final class SequenceGenerator
     ) {}
 
     /**
-     * @param ?non-empty-string $sequenceName
+     * @param non-empty-string|null $sequenceName
      * @param positive-int $allocationSize
      * @param positive-int $initialValue
      *
@@ -36,19 +36,19 @@ final class SequenceGenerator
         int $allocationSize = 1,
         int $initialValue = 1,
     ): self {
-        if ($sequenceName === '') {
+        if ('' === $sequenceName) {
             throw MappingException::emptySequenceName(
                 $field->property(),
             );
         }
 
-        if ($allocationSize < 1) {
+        if (1 > $allocationSize) {
             throw MappingException::nonPositiveAllocationSize(
                 $field->property(),
             );
         }
 
-        if ($initialValue < 1) {
+        if (1 > $initialValue) {
             throw MappingException::nonPositiveInitialValue(
                 $field->property(),
             );
@@ -62,7 +62,7 @@ final class SequenceGenerator
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function sequenceName(): ?string
     {

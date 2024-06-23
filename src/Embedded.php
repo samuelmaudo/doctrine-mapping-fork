@@ -10,6 +10,7 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\FalseTypeError;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
+
 use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**
@@ -33,7 +34,7 @@ final class Embedded extends AbstractEmbedded
 
     /**
      * @param non-empty-string $property
-     * @param ?class-string $class
+     * @param class-string|null $class
      * @param non-empty-string|false|null $columnPrefix
      *
      * @throws DoctrineMappingException
@@ -44,7 +45,7 @@ final class Embedded extends AbstractEmbedded
         string|bool|null $columnPrefix = null,
     ): self|IncompleteEmbedded {
         // TODO: remove when PHP 8.1 is the minimum version
-        if ($columnPrefix === true) {
+        if (true === $columnPrefix) {
             throw new FalseTypeError('Embedded::of()', 3, '$columnPrefix');
         }
 

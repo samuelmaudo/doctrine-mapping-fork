@@ -18,7 +18,7 @@ trait TableExceptions
 
     public static function invalidTableOption(string $className, mixed $optionKey): self
     {
-        $optionKeyRepresentation = var_export($optionKey, true);
+        $optionKeyRepresentation = \var_export($optionKey, true);
 
         return new self("Option keys for class '{$className}' should be non-empty strings, but {$optionKeyRepresentation} was found.");
     }

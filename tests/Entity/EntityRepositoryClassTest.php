@@ -10,7 +10,6 @@ use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\AnonymousRepositoryCla
 use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\EmptyRepositoryClass;
 use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\ExistingRepository;
 use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\ExistingRepositoryClass;
-use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\InvalidRepository;
 use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\InvalidRepositoryClass;
 use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\NonExistingRepositoryClass;
 use Hereldar\DoctrineMapping\Tests\Entity\RepositoryClass\UndefinedRepositoryClass;

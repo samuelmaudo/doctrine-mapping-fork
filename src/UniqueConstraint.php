@@ -15,8 +15,8 @@ final class UniqueConstraint
     /**
      * @param non-empty-list<non-empty-string>|null $fields
      * @param non-empty-list<non-empty-string>|null $columns
-     * @param ?non-empty-string $name
-     * @param ?non-empty-array<non-empty-string,mixed> $options
+     * @param non-empty-string|null $name
+     * @param non-empty-array<non-empty-string,mixed>|null $options
      */
     private function __construct(
         private ?array $fields,
@@ -28,9 +28,9 @@ final class UniqueConstraint
     /**
      * @param non-empty-list<non-empty-string>|non-empty-string|null $fields
      * @param non-empty-list<non-empty-string>|non-empty-string|null $columns
-     * @param ?non-empty-string $name Name of the unique constraint.
-     * @param ?non-empty-array<non-empty-string,mixed> $options Platform specific options.
-     * 
+     * @param non-empty-string|null $name name of the unique constraint
+     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
+     *
      * @throws DoctrineMappingException
      */
     public static function of(
@@ -76,7 +76,7 @@ final class UniqueConstraint
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function name(): ?string
     {
@@ -84,7 +84,7 @@ final class UniqueConstraint
     }
 
     /**
-     * @return ?non-empty-array<non-empty-string,mixed>
+     * @return non-empty-array<non-empty-string,mixed>|null
      */
     public function options(): ?array
     {
@@ -93,7 +93,7 @@ final class UniqueConstraint
 
     /**
      * @param non-empty-list<non-empty-string>|null $fields
-     * @param ?non-empty-string $constraintName
+     * @param non-empty-string|null $constraintName
      *
      * @return non-empty-list<non-empty-string>|null
      *
@@ -107,14 +107,14 @@ final class UniqueConstraint
             return null;
         }
 
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             return [$fields];
         }
 
         $validFields = [];
 
         foreach ($fields as $field) {
-            if (is_string($field) && $field !== '') {
+            if (\is_string($field) && '' !== $field) {
                 $validFields[] = $field;
             } else {
                 throw MappingException::invalidUniqueConstraintField(
@@ -129,7 +129,7 @@ final class UniqueConstraint
 
     /**
      * @param non-empty-list<non-empty-string>|null $columns
-     * @param ?non-empty-string $constraintName
+     * @param non-empty-string|null $constraintName
      *
      * @return non-empty-list<non-empty-string>|null
      *
@@ -143,14 +143,14 @@ final class UniqueConstraint
             return null;
         }
 
-        if (is_string($columns)) {
+        if (\is_string($columns)) {
             return [$columns];
         }
 
         $validColumns = [];
 
         foreach ($columns as $column) {
-            if (is_string($column) && $column !== '') {
+            if (\is_string($column) && '' !== $column) {
                 $validColumns[] = $column;
             } else {
                 throw MappingException::invalidUniqueConstraintColumn(
@@ -164,10 +164,10 @@ final class UniqueConstraint
     }
 
     /**
-     * @param ?non-empty-array<non-empty-string,mixed> $options
-     * @param ?non-empty-string $constraintName
+     * @param non-empty-array<non-empty-string,mixed>|null $options
+     * @param non-empty-string|null $constraintName
      *
-     * @return ?non-empty-array<non-empty-string,mixed>
+     * @return non-empty-array<non-empty-string,mixed>|null
      *
      * @throws DoctrineMappingException
      */
@@ -182,7 +182,7 @@ final class UniqueConstraint
         $validOptions = [];
 
         foreach ($options as $key => $value) {
-            if (is_string($key) && $key !== '') {
+            if (\is_string($key) && '' !== $key) {
                 $validOptions[$key] = $value;
             } else {
                 throw MappingException::invalidUniqueConstraintOption(

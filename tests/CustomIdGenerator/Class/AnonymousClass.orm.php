@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Id;
 use Hereldar\DoctrineMapping\Tests\CustomIdGenerator\Class\AnonymousClass;
 
-$object = new class {};
+$object = new class() {};
 
 return Entity::of(
     class: AnonymousClass::class,

@@ -29,14 +29,14 @@ final class UuidFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $unique = fake()->boolean();
-        $nullable = fake()->boolean();
-        $default = fake()->uuid();
-        $charset = fake()->word();
-        $collation = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $unique = \fake()->boolean();
+        $nullable = \fake()->boolean();
+        $default = \fake()->uuid();
+        $charset = \fake()->word();
+        $collation = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = UuidField::of('field')->withColumn(
             name: $name,

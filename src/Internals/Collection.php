@@ -10,7 +10,9 @@ use IteratorAggregate;
 
 /**
  * @template T
+ *
  * @implements IteratorAggregate<int, T>
+ *
  * @internal
  */
 abstract class Collection implements Countable, IteratorAggregate
@@ -22,7 +24,7 @@ abstract class Collection implements Countable, IteratorAggregate
 
     public function count(): int
     {
-        return count($this->items);
+        return \count($this->items);
     }
 
     /**

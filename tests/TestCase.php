@@ -397,10 +397,10 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @param class-string<T> $className
      *
+     * @return ClassMetadata<T>
+     *
      * @throws OrmMappingException
      * @throws PersistenceMappingException
-     *
-     * @return ClassMetadata<T>
      */
     protected function loadClassMetadata(
         string $className,
@@ -408,7 +408,7 @@ abstract class TestCase extends PHPUnitTestCase
         ?string $namespace = null,
     ): ClassMetadata {
         $directory ??= $this->getMetadataDirectory();
-        $namespace ??= substr($className, 0, strrpos($className, '\\'));
+        $namespace ??= \substr($className, 0, \strrpos($className, '\\'));
 
         $driver = $this->makeSimplifiedDriver($directory, $namespace);
         $metadata = $this->makeClassMetadata($className);
@@ -422,14 +422,14 @@ abstract class TestCase extends PHPUnitTestCase
     {
         $className = $this::class;
 
-        $lastBackslash = strrpos($className, '\\');
-        $classShortName = substr($className, $lastBackslash + 1);
+        $lastBackslash = \strrpos($className, '\\');
+        $classShortName = \substr($className, $lastBackslash + 1);
 
-        $namespace = substr($className, 0, $lastBackslash);
-        $secondLastBackslash = strrpos($namespace, '\\', -1);
-        $directory = substr($namespace, $secondLastBackslash + 1);
+        $namespace = \substr($className, 0, $lastBackslash);
+        $secondLastBackslash = \strrpos($namespace, '\\', -1);
+        $directory = \substr($namespace, $secondLastBackslash + 1);
 
-        $subdirectory = substr($classShortName, strlen($directory), -4);
+        $subdirectory = \substr($classShortName, \strlen($directory), -4);
 
         return __DIR__."/{$directory}/{$subdirectory}";
     }
@@ -451,7 +451,9 @@ abstract class TestCase extends PHPUnitTestCase
 
     /**
      * @template T of object
+     *
      * @param class-string<T> $className
+     *
      * @return ClassMetadata<T>
      */
     private function makeClassMetadata(
@@ -461,6 +463,7 @@ abstract class TestCase extends PHPUnitTestCase
     ): ClassMetadata {
         $metadata = new ClassMetadata($className, $namingStrategy, $typedFieldMapper);
         $metadata->initializeReflection(new RuntimeReflectionService());
+
         return $metadata;
     }
 

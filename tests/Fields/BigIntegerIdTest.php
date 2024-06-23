@@ -29,9 +29,9 @@ final class BigIntegerIdTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $comment = \fake()->sentence();
 
         $field = BigIntegerId::of('id')->withColumn(
             name: $name,

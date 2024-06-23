@@ -30,13 +30,13 @@ final class DateTimeFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $default = fake()->dateTime()->setTimezone(
-            new DateTimeZone(fake()->timezone())
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $default = \fake()->dateTime()->setTimezone(
+            new DateTimeZone(\fake()->timezone())
         );
-        $comment = fake()->sentence();
+        $comment = \fake()->sentence();
 
         $field = DateTimeField::of('field')->withColumn(
             name: $name,

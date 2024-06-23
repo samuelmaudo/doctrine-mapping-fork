@@ -29,13 +29,13 @@ final class DecimalFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $precision = fake()->integerBetween(10, 20);
-        $scale = fake()->integerBetween(1, 6);
-        $default = fake()->float();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $precision = \fake()->integerBetween(10, 20);
+        $scale = \fake()->integerBetween(1, 6);
+        $default = \fake()->float();
+        $comment = \fake()->sentence();
 
         $field = DecimalField::of('field')->withColumn(
             name: $name,

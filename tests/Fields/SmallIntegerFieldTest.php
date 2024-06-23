@@ -29,12 +29,12 @@ final class SmallIntegerFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $unique = fake()->boolean();
-        $nullable = fake()->boolean();
-        $default = fake()->integerBetween();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $unique = \fake()->boolean();
+        $nullable = \fake()->boolean();
+        $default = \fake()->integerBetween();
+        $comment = \fake()->sentence();
 
         $field = SmallIntegerField::of('field')->withColumn(
             name: $name,

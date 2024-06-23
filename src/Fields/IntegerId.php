@@ -20,9 +20,9 @@ class IntegerId extends AbstractId
     }
 
     /**
-     * @param ?non-empty-string $name Column name (defaults to the field name).
-     * @param ?non-empty-string $definition SQL fragment that is used when generating the DDL for the column (non-portable).
-     * @param ?non-empty-string $comment Comment of the column in the schema (might not be supported by all vendors).
+     * @param non-empty-string|null $name column name (defaults to the field name)
+     * @param non-empty-string|null $definition SQL fragment that is used when generating the DDL for the column (non-portable)
+     * @param non-empty-string|null $comment comment of the column in the schema (might not be supported by all vendors)
      *
      * @throws DoctrineMappingException
      */

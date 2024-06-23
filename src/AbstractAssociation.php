@@ -15,10 +15,10 @@ use Hereldar\DoctrineMapping\Interfaces\AssociationLike;
  */
 abstract class AbstractAssociation implements AssociationLike
 {
-    /** @var non-empty-string $property */
+    /** @var non-empty-string */
     protected string $property;
 
-    /** @var list<Cascade> $cascade */
+    /** @var list<Cascade> */
     protected array $cascade;
     protected Fetch $fetch;
 

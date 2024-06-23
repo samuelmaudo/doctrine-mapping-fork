@@ -19,8 +19,8 @@ abstract class AbstractField implements FieldLike
 
     /**
      * @param non-empty-string $property
-     * @param ?non-empty-string $type
-     * @param ?enum-string $enumType
+     * @param non-empty-string|null $type
+     * @param enum-string|null $enumType
      */
     protected function __construct(
         protected string $property,
@@ -35,12 +35,12 @@ abstract class AbstractField implements FieldLike
     }
 
     /**
-     * @param non-empty-string $property Name of the field in the Entity.
-     * @param ?non-empty-string $type
-     * @param ?enum-string $enumType
-     * @param bool $insertable Whether the field is insertable (defaults to TRUE).
-     * @param bool $updatable Whether the field is updatable (defaults to TRUE).
-     * @param Generated|'NEVER'|'INSERT'|'ALWAYS'|int<0, 2>|null $generated Whether a generated value should be retrieved from the database after INSERT or UPDATE.
+     * @param non-empty-string $property name of the field in the entity
+     * @param non-empty-string|null $type
+     * @param enum-string|null $enumType
+     * @param bool $insertable whether the field is insertable (defaults to TRUE)
+     * @param bool $updatable whether the field is updatable (defaults to TRUE)
+     * @param Generated|'NEVER'|'INSERT'|'ALWAYS'|int<0, 2>|null $generated whether a generated value should be retrieved from the database after INSERT or UPDATE
      *
      * @throws DoctrineMappingException
      */
@@ -87,7 +87,7 @@ abstract class AbstractField implements FieldLike
         ?string $type,
         string $property,
     ): void {
-        if ($type === '') {
+        if ('' === $type) {
             throw MappingException::emptyType($property);
         }
     }
@@ -96,7 +96,7 @@ abstract class AbstractField implements FieldLike
         ?string $enumType,
         string $property,
     ): void {
-        if ($enumType === '') {
+        if ('' === $enumType) {
             throw MappingException::emptyEnumType($property);
         }
     }
@@ -105,7 +105,7 @@ abstract class AbstractField implements FieldLike
         Generated|int|string|null $generated,
         string $property,
     ): ?Generated {
-        if ($generated === null || is_object($generated)) {
+        if (null === $generated || \is_object($generated)) {
             return $generated;
         }
 
@@ -128,7 +128,7 @@ abstract class AbstractField implements FieldLike
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function type(): ?string
     {
@@ -136,7 +136,7 @@ abstract class AbstractField implements FieldLike
     }
 
     /**
-     * @return ?enum-string
+     * @return enum-string|null
      */
     public function enumType(): ?string
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Hereldar\DoctrineMapping\Field;
 use Hereldar\DoctrineMapping\MappedSuperclass;
 use Hereldar\DoctrineMapping\Tests\Column\Definition\DefinedDefinition;

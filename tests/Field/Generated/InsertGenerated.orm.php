@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Enums\Generated;
 use Hereldar\DoctrineMapping\Field;
-use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\Tests\Field\Generated\InsertGenerated;
 
 return Entity::of(

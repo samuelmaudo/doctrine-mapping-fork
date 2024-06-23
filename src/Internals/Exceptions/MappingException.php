@@ -21,7 +21,7 @@ final class MappingException extends DoctrineMappingException
 
     public static function invalidFile(string $fileName, Throwable $exception): self
     {
-        $fileShortName = basename($fileName);
+        $fileShortName = \basename($fileName);
 
         return new self(
             "Invalid file '{$fileShortName}': {$exception->getMessage()}",
@@ -31,7 +31,7 @@ final class MappingException extends DoctrineMappingException
 
     public static function invalidMetadata(string $className, Throwable $exception): self
     {
-        $classShortName = substr($className, strrpos($className, '\\') + 1);
+        $classShortName = \substr($className, \strrpos($className, '\\') + 1);
 
         return new self(
             "Invalid metadata for class '{$classShortName}': {$exception->getMessage()}",
@@ -65,9 +65,10 @@ final class MappingException extends DoctrineMappingException
 
         return new self("Class '{$className}' is not a valid repository class because does not extend '{$entityRepositoryClass}'");
     }
+
     public static function emptyPropertyName(): self
     {
-        return new self("Property name cannot be empty");
+        return new self('Property name cannot be empty');
     }
 
     public static function propertyNotFound(string $className, string $propertyName): self

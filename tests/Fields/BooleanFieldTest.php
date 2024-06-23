@@ -29,11 +29,11 @@ final class BooleanFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $default = fake()->boolean();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $default = \fake()->boolean();
+        $comment = \fake()->sentence();
 
         $field = BooleanField::of('field')->withColumn(
             name: $name,

@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "composer/semver": "^3.4",
-        "hereldar/coding-style": "^0.1.2",
+        "hereldar/coding-style": "^0.1.3",
         "hereldar/faker-helper": "^0.1.1",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9.6",

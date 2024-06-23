@@ -6,8 +6,8 @@ namespace Hereldar\DoctrineMapping\Tests\SequenceGenerator;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\SequenceName\DefinedSequenceName;
-use Hereldar\DoctrineMapping\Tests\SequenceGenerator\SequenceName\UndefinedSequenceName;
 use Hereldar\DoctrineMapping\Tests\SequenceGenerator\SequenceName\EmptySequenceName;
+use Hereldar\DoctrineMapping\Tests\SequenceGenerator\SequenceName\UndefinedSequenceName;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class SequenceGeneratorSequenceNameTest extends TestCase
@@ -24,7 +24,7 @@ final class SequenceGeneratorSequenceNameTest extends TestCase
     public function testUndefinedSequenceName(): void
     {
         $this->expectException(DoctrineMappingException::class);
-        $this->expectExceptionMessageMatches("/Invalid file 'UndefinedSequenceName.orm.php': Too few arguments to function Hereldar\\\\DoctrineMapping\\\\AbstractId::withSequenceGenerator\(\), 0 passed in \S+ on line \d+ and at least \d+ expected/");
+        $this->expectExceptionMessageMatches("/Invalid file 'UndefinedSequenceName.orm.php': Too few arguments to function Hereldar\\\\DoctrineMapping\\\\AbstractId::withSequenceGenerator\\(\\), 0 passed in \\S+ on line \\d+ and at least \\d+ expected/");
 
         $this->loadClassMetadata(UndefinedSequenceName::class);
     }

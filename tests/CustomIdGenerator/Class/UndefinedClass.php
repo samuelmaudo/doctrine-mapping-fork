@@ -10,4 +10,3 @@ final class UndefinedClass
         public $id,
     ) {}
 }
-

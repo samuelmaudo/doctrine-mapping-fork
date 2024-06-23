@@ -21,6 +21,7 @@ abstract class AbstractPhpDriver implements MappingDriver
 
     /**
      * @var array<string, Entity|MappedSuperclass|Embeddable>
+     *
      * @psalm-var array<class-string, Entity|MappedSuperclass|Embeddable>
      */
     protected array $classCache = [];
@@ -42,7 +43,6 @@ abstract class AbstractPhpDriver implements MappingDriver
     }
 
     /**
-     * {@inheritDoc}
      * @throws PersistenceMappingException
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata): void
@@ -65,24 +65,18 @@ abstract class AbstractPhpDriver implements MappingDriver
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAllClassNames(): ?array
     {
-        if ($this->classCache === []) {
+        if ([] === $this->classCache) {
             return $this->locator->getAllClassNames('');
         }
 
-        return array_values(array_unique(array_merge(
-            array_keys($this->classCache),
+        return \array_values(\array_unique(\array_merge(
+            \array_keys($this->classCache),
             $this->locator->getAllClassNames('')
         )));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isTransient($className): bool
     {
         if (isset($this->classCache[$className])) {

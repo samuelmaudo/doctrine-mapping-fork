@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Hereldar\DoctrineMapping\AbstractId;
 use Hereldar\DoctrineMapping\Column;
 use Hereldar\DoctrineMapping\Entity;

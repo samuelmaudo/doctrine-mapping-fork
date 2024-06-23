@@ -17,11 +17,11 @@ final class CustomIdGeneratorResolver
     /**
      * @throws DoctrineMappingException
      *
-     * @psalm-assert ?class-string<AbstractIdGenerator> $className
+     * @psalm-assert class-string<AbstractIdGenerator>|null $className
      */
     public static function resolve(?string $className): ?ReflectionClass
     {
-        if ($className === null) {
+        if (null === $className) {
             return null;
         }
 

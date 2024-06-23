@@ -29,7 +29,7 @@ final class Embeddable implements EntityLike
     public static function of(
         string|ReflectionClass $class,
     ): self {
-        if (is_string($class)) {
+        if (\is_string($class)) {
             $class = ClassResolver::resolve($class);
         }
 

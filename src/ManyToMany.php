@@ -85,7 +85,7 @@ final class ManyToMany extends Association
     }
 
     /**
-     * @param non-empty-string $name Name of the join table.
+     * @param non-empty-string $name name of the join table
      *
      * @throws DoctrineMappingException
      */
@@ -108,20 +108,20 @@ final class ManyToMany extends Association
     }
 
     /**
-     * @param ?non-empty-string $name Name of the column that holds the foreign key for this relation.
-     * @param non-empty-string $referencedColumnName Name of the primary key that is used for joining of this relation.
-     * @param ?non-empty-string $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable).
-     * @param non-empty-array<non-empty-string,mixed>|null $options Platform specific options.
+     * @param non-empty-string|null $name name of the column that holds the foreign key for this relation
+     * @param non-empty-string $referencedColumnName name of the primary key that is used for joining of this relation
+     * @param non-empty-string|null $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable)
+     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
      *
      * @throws DoctrineMappingException
      */
     public function withJoinColumn(
-        string|null $name = null,
+        ?string $name = null,
         string $referencedColumnName = 'id',
         bool $unique = false,
         bool $nullable = true,
         mixed $onDelete = null,
-        string|null $columnDefinition = null,
+        ?string $columnDefinition = null,
         array $options = [],
     ): self {
         return new self(
@@ -173,20 +173,20 @@ final class ManyToMany extends Association
     }
 
     /**
-     * @param ?non-empty-string $name Name of the column that holds the foreign key for this relation.
-     * @param non-empty-string $referencedColumnName Name of the primary key that is used for joining of this relation.
-     * @param ?non-empty-string $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable).
-     * @param non-empty-array<non-empty-string,mixed>|null $options Platform specific options.
+     * @param non-empty-string|null $name name of the column that holds the foreign key for this relation
+     * @param non-empty-string $referencedColumnName name of the primary key that is used for joining of this relation
+     * @param non-empty-string|null $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable)
+     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
      *
      * @throws DoctrineMappingException
      */
     public function withInverseJoinColumn(
-        string|null $name = null,
+        ?string $name = null,
         string $referencedColumnName = 'id',
         bool $unique = false,
         bool $nullable = true,
         mixed $onDelete = null,
-        string|null $columnDefinition = null,
+        ?string $columnDefinition = null,
         array $options = [],
     ): self {
         return new self(

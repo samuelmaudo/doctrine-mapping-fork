@@ -27,7 +27,7 @@ trait BackedEnum
     {
         return match ($name) {
             'value' => $this->backingValue,
-            default => throw new Error("Attempt to read undefined property $name"),
+            default => throw new Error("Attempt to read undefined property {$name}"),
         };
     }
 
@@ -35,7 +35,7 @@ trait BackedEnum
     {
         match ($name) {
             'value' => throw new Error('Attempt to write read-only property value'),
-            default => throw new Error("Attempt to write undefined property $name"),
+            default => throw new Error("Attempt to write undefined property {$name}"),
         };
     }
 

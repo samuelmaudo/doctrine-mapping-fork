@@ -29,11 +29,11 @@ final class JsonFieldTest extends TestCase
 
     public function testColumn(): void
     {
-        $name = fake()->word();
-        $definition = fake()->word();
-        $nullable = fake()->boolean();
-        $default = fake()->rgbColorAsArray();
-        $comment = fake()->sentence();
+        $name = \fake()->word();
+        $definition = \fake()->word();
+        $nullable = \fake()->boolean();
+        $default = \fake()->rgbColorAsArray();
+        $comment = \fake()->sentence();
 
         $field = JsonField::of('field')->withColumn(
             name: $name,

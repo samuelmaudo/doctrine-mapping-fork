@@ -15,9 +15,9 @@ final class Index
     /**
      * @param non-empty-list<non-empty-string>|null $fields
      * @param non-empty-list<non-empty-string>|null $columns
-     * @param ?non-empty-string $name
+     * @param non-empty-string|null $name
      * @param non-empty-list<non-empty-string>|null $flags
-     * @param ?non-empty-array<non-empty-string,mixed> $options
+     * @param non-empty-array<non-empty-string,mixed>|null $options
      */
     private function __construct(
         private ?array $fields,
@@ -30,18 +30,18 @@ final class Index
     /**
      * @param non-empty-list<non-empty-string>|non-empty-string|null $fields
      * @param non-empty-list<non-empty-string>|non-empty-string|null $columns
-     * @param non-empty-string|null $name Name of the index.
+     * @param non-empty-string|null $name name of the index
      * @param non-empty-list<non-empty-string>|non-empty-string|null $flags
-     * @param non-empty-array<non-empty-string,mixed>|null $options Platform specific options.
-     * 
+     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
+     *
      * @throws DoctrineMappingException
      */
     public static function of(
         array|string|null $fields = null,
         array|string|null $columns = null,
-        string|null $name = null,
+        ?string $name = null,
         array|string|null $flags = null,
-        array|null $options = null,
+        ?array $options = null,
     ): self {
         if ('' === $name) {
             $name = null;
@@ -82,7 +82,7 @@ final class Index
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-empty-string|null
      */
     public function name(): ?string
     {
@@ -98,7 +98,7 @@ final class Index
     }
 
     /**
-     * @return ?non-empty-array<non-empty-string,mixed>
+     * @return non-empty-array<non-empty-string,mixed>|null
      */
     public function options(): ?array
     {
@@ -107,7 +107,7 @@ final class Index
 
     /**
      * @param non-empty-list<non-empty-string>|null $fields
-     * @param ?non-empty-string $constraintName
+     * @param non-empty-string|null $constraintName
      *
      * @return non-empty-list<non-empty-string>|null
      *
@@ -121,14 +121,14 @@ final class Index
             return null;
         }
 
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             return [$fields];
         }
 
         $validFields = [];
 
         foreach ($fields as $field) {
-            if (is_string($field) && $field !== '') {
+            if (\is_string($field) && '' !== $field) {
                 $validFields[] = $field;
             } else {
                 throw MappingException::invalidIndexField(
@@ -143,7 +143,7 @@ final class Index
 
     /**
      * @param non-empty-list<non-empty-string>|null $columns
-     * @param ?non-empty-string $constraintName
+     * @param non-empty-string|null $constraintName
      *
      * @return non-empty-list<non-empty-string>|null
      *
@@ -157,14 +157,14 @@ final class Index
             return null;
         }
 
-        if (is_string($columns)) {
+        if (\is_string($columns)) {
             return [$columns];
         }
 
         $validColumns = [];
 
         foreach ($columns as $column) {
-            if (is_string($column) && $column !== '') {
+            if (\is_string($column) && '' !== $column) {
                 $validColumns[] = $column;
             } else {
                 throw MappingException::invalidIndexColumn(
@@ -179,7 +179,7 @@ final class Index
 
     /**
      * @param non-empty-list<non-empty-string>|null $flags
-     * @param ?non-empty-string $constraintName
+     * @param non-empty-string|null $constraintName
      *
      * @return non-empty-list<non-empty-string>|null
      *
@@ -193,14 +193,14 @@ final class Index
             return null;
         }
 
-        if (is_string($flags)) {
+        if (\is_string($flags)) {
             return [$flags];
         }
 
         $validFlags = [];
 
         foreach ($flags as $flag) {
-            if (is_string($flag) && $flag !== '') {
+            if (\is_string($flag) && '' !== $flag) {
                 $validFlags[] = $flag;
             } else {
                 throw MappingException::invalidIndexFlag(
@@ -214,10 +214,10 @@ final class Index
     }
 
     /**
-     * @param ?non-empty-array<non-empty-string,mixed> $options
-     * @param ?non-empty-string $constraintName
+     * @param non-empty-array<non-empty-string,mixed>|null $options
+     * @param non-empty-string|null $constraintName
      *
-     * @return ?non-empty-array<non-empty-string,mixed>
+     * @return non-empty-array<non-empty-string,mixed>|null
      *
      * @throws DoctrineMappingException
      */
@@ -230,7 +230,7 @@ final class Index
         }
 
         foreach ($options as $key => $value) {
-            if (!is_string($key) || '' === $key) {
+            if (!\is_string($key) || '' === $key) {
                 throw MappingException::invalidIndexOption(
                     $constraintName,
                     $key,
