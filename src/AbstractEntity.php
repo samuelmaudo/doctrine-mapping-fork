@@ -6,12 +6,17 @@ namespace Hereldar\DoctrineMapping;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Interfaces\AssociationLike;
+use Hereldar\DoctrineMapping\Interfaces\EntityLike;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use Hereldar\DoctrineMapping\Internals\Resolvers\RepositoryClassResolver;
 use ReflectionClass;
 
 /**
  * @psalm-immutable
+ *
+ * @internal
  */
 abstract class AbstractEntity implements EntityLike
 {
@@ -74,12 +79,12 @@ abstract class AbstractEntity implements EntityLike
     }
 
     /**
-     * @param non-empty-list<FieldLike|EmbeddedLike> $fields
+     * @param non-empty-list<FieldLike> $fields
      *
      * @throws DoctrineMappingException
      */
     public function withFields(
-        FieldLike|EmbeddedLike ...$fields,
+        FieldLike ...$fields,
     ): static {
         $fieldCollection = Fields::of($this, ...$fields);
 

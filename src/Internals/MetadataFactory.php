@@ -12,7 +12,6 @@ use Hereldar\DoctrineMapping\Association;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\EntityLike;
 use Hereldar\DoctrineMapping\JoinColumns;
 use Hereldar\DoctrineMapping\ManyToMany;
 use Hereldar\DoctrineMapping\ManyToOne;
@@ -29,14 +28,14 @@ final class MetadataFactory
      * @throws OrmMappingException
      */
     public static function fillMetadataObject(
-        EntityLike $entity,
+        Entity|MappedSuperclass|Embeddable $entity,
         ClassMetadata $metadata,
     ): void {
         if ($entity instanceof Entity) {
             self::fillEntity($entity, $metadata);
         } elseif ($entity instanceof MappedSuperclass) {
             self::fillMappedSuperClass($entity, $metadata);
-        } elseif ($entity instanceof Embeddable) {
+        } else {
             self::fillEmbeddable($entity, $metadata);
         }
     }
@@ -87,7 +86,7 @@ final class MetadataFactory
      * @throws OrmMappingException
      */
     private static function fillFields(
-        EntityLike $entity,
+        Entity|MappedSuperclass|Embeddable $entity,
         ClassMetadata $metadata,
     ): void {
         foreach ($entity->fields() as $field) {

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Interfaces\EntityLike;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Collection;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionException;
@@ -26,7 +28,7 @@ final class Fields extends Collection
      */
     public static function of(
         EntityLike $entity,
-        FieldLike|EmbeddedLike ...$fields,
+        FieldLike ...$fields,
     ): self {
         self::ensureFieldsAreNotDuplicated($entity, $fields);
         $properties = self::ensurePropertiesExist($entity, $fields);
@@ -41,7 +43,7 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<FieldLike|EmbeddedLike> $fields
+     * @param list<FieldLike> $fields
      *
      * @throws DoctrineMappingException
      */
@@ -66,7 +68,7 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<FieldLike|EmbeddedLike> $fields
+     * @param list<FieldLike> $fields
      *
      * @return list<ReflectionProperty>
      *
@@ -95,7 +97,7 @@ final class Fields extends Collection
     }
 
     /**
-     * @param list<FieldLike|EmbeddedLike> $fields
+     * @param list<FieldLike> $fields
      * @param list<ReflectionProperty> $properties
      *
      * @return list<FieldLike>

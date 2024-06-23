@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping;
+namespace Hereldar\DoctrineMapping\Interfaces;
 
+use Hereldar\DoctrineMapping\Embeddables;
+use Hereldar\DoctrineMapping\Fields;
 use ReflectionClass;
 
 interface EntityLike

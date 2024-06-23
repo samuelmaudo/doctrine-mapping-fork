@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping;
+namespace Hereldar\DoctrineMapping\Interfaces;
 
 use Hereldar\DoctrineMapping\Enums\Cascade;
 use Hereldar\DoctrineMapping\Enums\Fetch;
@@ -15,7 +15,7 @@ interface AssociationLike
     public function property(): string;
 
     /**
-     * @return list<Cascade>
+     * @return Cascade
      */
     public function cascade(): array;
 

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
-
 use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**

@@ -13,7 +13,6 @@ final class MappingException extends DoctrineMappingException
     use AssociationExceptions;
     use ColumnExceptions;
     use CustomIdGeneratorExceptions;
-    use EmbeddableExceptions;
     use FieldExceptions;
     use IndexExceptions;
     use SequenceGeneratorExceptions;

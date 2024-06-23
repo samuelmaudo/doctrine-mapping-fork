@@ -22,7 +22,7 @@ final class Indexes extends Collection
      * @throws DoctrineMappingException
      */
     public static function of(
-        AbstractEntity $entity,
+        Entity|MappedSuperclass $entity,
         Index ...$indexes,
     ): self {
         $names = [];

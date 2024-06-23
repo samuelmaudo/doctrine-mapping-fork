@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Interfaces\AssociationLike;
 use Hereldar\DoctrineMapping\Internals\Collection;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionException;
@@ -25,7 +26,7 @@ final class Associations extends Collection
      * @throws DoctrineMappingException
      */
     public static function of(
-        AbstractEntity $entity,
+        Entity|MappedSuperclass $entity,
         AssociationLike ...$associations,
     ): self {
         self::ensureAssociationsAreNotDuplicated($entity, $associations);
@@ -46,7 +47,7 @@ final class Associations extends Collection
      * @throws DoctrineMappingException
      */
     private static function ensureAssociationsAreNotDuplicated(
-        AbstractEntity $entity,
+        Entity|MappedSuperclass $entity,
         array $associations,
     ): void {
         $properties = [];
@@ -73,7 +74,7 @@ final class Associations extends Collection
      * @throws DoctrineMappingException
      */
     private static function ensurePropertiesExist(
-        AbstractEntity $entity,
+        Entity|MappedSuperclass $entity,
         array $associations,
     ): array {
         $class = $entity->class();
@@ -103,7 +104,7 @@ final class Associations extends Collection
      * @throws DoctrineMappingException
      */
     private static function completeIncompleteAssociations(
-        AbstractEntity $entity,
+        Entity|MappedSuperclass $entity,
         array $associations,
         array $properties,
     ): array {

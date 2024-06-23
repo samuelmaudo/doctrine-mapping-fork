@@ -22,7 +22,7 @@ final class UniqueConstraints extends Collection
      * @throws DoctrineMappingException
      */
     public static function of(
-        AbstractEntity $entity,
+        Entity|MappedSuperclass $entity,
         UniqueConstraint ...$constraints,
     ): self {
         $names = [];

@@ -10,7 +10,6 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Mapping\MappingException as PersistenceMappingException;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Entity;
-use Hereldar\DoctrineMapping\EntityLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\MetadataFactory;
 use Hereldar\DoctrineMapping\MappedSuperclass;
@@ -21,8 +20,8 @@ abstract class AbstractPhpDriver implements MappingDriver
     protected FileLocator $locator;
 
     /**
-     * @var array<string, EntityLike>
-     * @psalm-var array<class-string, EntityLike>
+     * @var array<string, Entity|MappedSuperclass|Embeddable>
+     * @psalm-var array<class-string, Entity|MappedSuperclass|Embeddable>
      */
     protected array $classCache = [];
 

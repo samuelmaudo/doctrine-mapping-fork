@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping;
 
-use Error;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Error;
 use Hereldar\DoctrineMapping\Enums\Generated;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
 /**

@@ -13,7 +13,7 @@ use ReflectionClass;
 /**
  * @psalm-immutable
  */
-final class ManyToMany extends AbstractAssociation
+final class ManyToMany extends Association
 {
     /**
      * @param non-empty-string $property

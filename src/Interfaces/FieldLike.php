@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hereldar\DoctrineMapping;
+namespace Hereldar\DoctrineMapping\Interfaces;
 
 interface FieldLike
 {

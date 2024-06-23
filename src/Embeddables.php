@@ -25,13 +25,22 @@ final class Embeddables extends Collection
         $embeddables = [];
 
         foreach ($fields as $field) {
-            if ($field instanceof Embedded
-                && null !== $field->class()) {
-                $embeddables[] = Embeddable
-                    ::of($field->class())
-                    ->withFields(...$field->fields())
-                ;
+            if (!$field instanceof Embedded) {
+                continue;
             }
+            $embeddedFields = $field->fields();
+            if (!$embeddedFields) {
+                continue;
+            }
+            $embeddable = Embeddable
+                ::of($field->class())
+                ->withFields(...$embeddedFields)
+            ;
+            array_push(
+                $embeddables,
+                $embeddable,
+                ...$embeddable->embeddedEmbeddables(),
+            );
         }
 
         return new self(...$embeddables);

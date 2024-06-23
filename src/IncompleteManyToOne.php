@@ -12,7 +12,7 @@ use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 /**
  * @psalm-immutable
  */
-final class IncompleteManyToOne extends AbstractIncompleteAssociation
+final class IncompleteManyToOne extends IncompleteAssociation
 {
     /**
      * @param non-empty-string $property

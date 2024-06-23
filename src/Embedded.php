@@ -5,30 +5,30 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\FalseTypeError;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
-
 use function Hereldar\DoctrineMapping\Internals\to_snake_case;
 
 /**
  * @psalm-immutable
  */
-final class Embedded implements FieldLike, EmbeddedLike
+final class Embedded extends AbstractEmbedded
 {
     /**
      * @param non-empty-string $property
      * @param non-empty-string|false $columnPrefix
-     * @param list<FieldLike|EmbeddedLike> $fields
+     * @param list<FieldLike> $fields
      *
      * @internal
      */
     public function __construct(
-        private string $property,
-        private ?ReflectionClass $class,
-        private string|bool $columnPrefix,
-        private array $fields,
+        protected string $property,
+        private ReflectionClass $class,
+        protected string|bool $columnPrefix,
+        protected array $fields,
     ) {}
 
     /**
@@ -68,10 +68,10 @@ final class Embedded implements FieldLike, EmbeddedLike
     }
 
     /**
-     * @param non-empty-list<FieldLike|EmbeddedLike> $fields
+     * @param non-empty-list<FieldLike> $fields
      */
     public function withFields(
-        FieldLike|EmbeddedLike ...$fields,
+        FieldLike ...$fields,
     ): self {
         return new self(
             $this->property,
@@ -81,15 +81,7 @@ final class Embedded implements FieldLike, EmbeddedLike
         );
     }
 
-    /**
-     * @return non-empty-string
-     */
-    public function property(): string
-    {
-        return $this->property;
-    }
-
-    public function class(): ?ReflectionClass
+    public function class(): ReflectionClass
     {
         return $this->class;
     }
@@ -102,21 +94,5 @@ final class Embedded implements FieldLike, EmbeddedLike
     public function classSortName(): string
     {
         return $this->class->getShortName();
-    }
-
-    /**
-     * @return non-empty-string|false
-     */
-    public function columnPrefix(): string|bool
-    {
-        return $this->columnPrefix;
-    }
-
-    /**
-     * @return list<FieldLike|EmbeddedLike>
-     */
-    public function fields(): array
-    {
-        return $this->fields;
     }
 }
