@@ -27,13 +27,6 @@ jobs:
           - '8.3'
         dependencies:
           - 'highest'
-        include:
-          - php: '8.0'
-            doctrine: '2.18.*'
-          - php: '8.0'
-            doctrine: '2.19.*'
-          - php: '8.0'
-            doctrine: '2.20.*'
 
     runs-on: ubuntu-latest
 
