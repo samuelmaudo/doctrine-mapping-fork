@@ -27,7 +27,7 @@ final class EntityTableTest extends TestCase
 
         self::assertSame(UndefinedTable::class, $metadata->getName());
         self::assertEntity($metadata);
-        self::assertSame('undefined_table', $metadata->table['name']);
+        self::assertSame('UndefinedTable', $metadata->table['name']);
     }
 
     public function testEmptyTable(): void

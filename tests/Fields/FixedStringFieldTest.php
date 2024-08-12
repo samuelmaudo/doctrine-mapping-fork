@@ -33,7 +33,7 @@ final class FixedStringFieldTest extends TestCase
         $definition = \fake()->word();
         $unique = \fake()->boolean();
         $nullable = \fake()->boolean();
-        $length = \fake()->integerBetween(1);
+        $length = \fake()->positiveInteger();
         $default = \fake()->word();
         $charset = \fake()->word();
         $collation = \fake()->word();

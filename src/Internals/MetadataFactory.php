@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Internals;
 
+use Doctrine\ORM\Mapping\ClassMetadata as OrmClassMetadata;
 use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Hereldar\DoctrineMapping\AbstractField;
 use Hereldar\DoctrineMapping\AbstractId;
 use Hereldar\DoctrineMapping\Association;
@@ -25,11 +25,13 @@ use Hereldar\DoctrineMapping\OneToOne;
 final class MetadataFactory
 {
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     public static function fillMetadataObject(
         Entity|MappedSuperclass|Embeddable $entity,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         if ($entity instanceof Entity) {
             self::fillEntity($entity, $metadata);
@@ -41,11 +43,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     public static function fillEntity(
         Entity $entity,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->setCustomRepositoryClass($entity->repositoryClassName());
 
@@ -55,11 +59,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     public static function fillMappedSuperClass(
         MappedSuperclass $superclass,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->isMappedSuperclass = true;
 
@@ -71,11 +77,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     public static function fillEmbeddable(
         Embeddable $embeddable,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->isEmbeddedClass = true;
 
@@ -83,14 +91,18 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillFields(
         Entity|MappedSuperclass|Embeddable $entity,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         foreach ($entity->fields() as $field) {
             if ($field instanceof AbstractField) {
+                self::fillField($field, $metadata);
+            } elseif ($field instanceof AbstractId) {
                 self::fillField($field, $metadata);
             } elseif ($field instanceof Embedded) {
                 self::fillEmbedded($field, $metadata);
@@ -99,11 +111,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillField(
-        AbstractField $field,
-        ClassMetadata $metadata,
+        AbstractField|AbstractId $field,
+        OrmClassMetadata $metadata,
     ): void {
         $column = $field->column();
 
@@ -138,15 +152,18 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillId(
         AbstractId $id,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->setIdGeneratorType($id->strategy()->internalValue());
 
         if ($id->id() && $id->sequenceGenerator()) {
+            // @phpstan-ignore argument.type
             $metadata->setSequenceGeneratorDefinition([
                 'sequenceName' => $id->sequenceGenerator()->sequenceName(),
                 'allocationSize' => $id->sequenceGenerator()->allocationSize(),
@@ -161,11 +178,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillEmbedded(
         Embedded $embedded,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->mapEmbedded([
             'fieldName' => $embedded->property(),
@@ -175,11 +194,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillAssociations(
         Entity|MappedSuperclass $entity,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         foreach ($entity->associations() as $association) {
             self::fillAssociation($association, $metadata);
@@ -187,11 +208,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillAssociation(
         Association $association,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         if ($association instanceof OneToOne) {
             self::fillOneToOne($association, $metadata);
@@ -205,11 +228,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillOneToOne(
         OneToOne $oneToOne,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->mapOneToOne([
             'targetEntity' => $oneToOne->targetEntityName(),
@@ -225,11 +250,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillOneToMany(
         OneToMany $oneToMany,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->mapOneToMany([
             'mappedBy' => $oneToMany->mappedBy(),
@@ -244,11 +271,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillManyToOne(
         ManyToOne $manyToOne,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $metadata->mapManyToOne([
             'joinColumns' => self::serializeJoinColumns(
@@ -262,11 +291,13 @@ final class MetadataFactory
     }
 
     /**
+     * @param OrmClassMetadata<object> $metadata
+     *
      * @throws OrmMappingException
      */
     private static function fillManyToMany(
         ManyToMany $manyToMany,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $joinTable = [];
 
@@ -299,9 +330,12 @@ final class MetadataFactory
         ]);
     }
 
+    /**
+     * @param OrmClassMetadata<object> $metadata
+     */
     private static function fillPrimaryTable(
         Entity|MappedSuperclass $entity,
-        ClassMetadata $metadata,
+        OrmClassMetadata $metadata,
     ): void {
         $table = $entity->table();
 
@@ -341,6 +375,17 @@ final class MetadataFactory
         $metadata->setPrimaryTable($primaryTable);
     }
 
+    /**
+     * @return list<array{
+     *     name: non-empty-string|null,
+     *     unique: bool|null,
+     *     nullable: bool,
+     *     onDelete: mixed,
+     *     columnDefinition: non-empty-string|null,
+     *     referencedColumnName: non-empty-string,
+     *     options: array<non-empty-string,mixed>,
+     * }>|null
+     */
     private static function serializeJoinColumns(?JoinColumns $joinColumns): ?array
     {
         if (null === $joinColumns) {

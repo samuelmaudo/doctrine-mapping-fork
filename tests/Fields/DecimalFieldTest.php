@@ -32,7 +32,9 @@ final class DecimalFieldTest extends TestCase
         $name = \fake()->word();
         $definition = \fake()->word();
         $nullable = \fake()->boolean();
+        /** @var positive-int $precision */
         $precision = \fake()->integerBetween(10, 20);
+        /** @var positive-int $scale */
         $scale = \fake()->integerBetween(1, 6);
         $default = \fake()->float();
         $comment = \fake()->sentence();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hereldar\DoctrineMapping\Drivers;
 
+use Doctrine\ORM\Mapping\ClassMetadata as OrmClassMetadata;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileLocator;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
@@ -57,6 +58,7 @@ abstract class AbstractPhpDriver implements MappingDriver
         }
 
         $entity = $this->classCache[$className];
+        \assert($metadata instanceof OrmClassMetadata);
 
         try {
             MetadataFactory::fillMetadataObject($entity, $metadata);

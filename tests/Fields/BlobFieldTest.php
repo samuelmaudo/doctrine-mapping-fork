@@ -32,7 +32,7 @@ final class BlobFieldTest extends TestCase
         $name = \fake()->word();
         $definition = \fake()->word();
         $nullable = \fake()->boolean();
-        $length = \fake()->integerBetween(1);
+        $length = \fake()->positiveInteger();
         $default = \fake()->text();
         $comment = \fake()->sentence();
 

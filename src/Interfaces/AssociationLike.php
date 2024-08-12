@@ -15,7 +15,7 @@ interface AssociationLike
     public function property(): string;
 
     /**
-     * @return Cascade
+     * @return list<Cascade>
      */
     public function cascade(): array;
 

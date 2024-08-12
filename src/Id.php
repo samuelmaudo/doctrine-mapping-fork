@@ -6,9 +6,6 @@ namespace Hereldar\DoctrineMapping;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 
-/**
- * @psalm-immutable
- */
 class Id extends AbstractId
 {
     /**

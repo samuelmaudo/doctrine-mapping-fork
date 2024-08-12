@@ -8,22 +8,19 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 
-/**
- * @psalm-immutable
- */
 final class IncompleteEmbedded extends AbstractEmbedded
 {
     /**
      * @param non-empty-string $property
-     * @param non-empty-string|false $columnPrefix
+     * @param non-empty-string|false|null $columnPrefix
      * @param list<FieldLike> $fields
      *
      * @internal
      */
     public function __construct(
-        protected string $property,
-        protected string|bool $columnPrefix,
-        protected array $fields,
+        protected readonly string $property,
+        protected readonly string|bool|null $columnPrefix,
+        protected readonly array $fields,
     ) {}
 
     /**
@@ -41,16 +38,13 @@ final class IncompleteEmbedded extends AbstractEmbedded
         );
     }
 
-    /**
-     * @param non-empty-list<FieldLike> $fields
-     */
     public function withFields(
         FieldLike ...$fields,
     ): self {
         return new self(
             $this->property,
             $this->columnPrefix,
-            $fields,
+            \array_values($fields),
         );
     }
 }

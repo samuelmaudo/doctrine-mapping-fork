@@ -10,13 +10,11 @@ use Hereldar\DoctrineMapping\Enums\Fetch;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
 
-/**
- * @psalm-immutable
- */
 final class OneToMany extends Association
 {
     /**
      * @param non-empty-string $property
+     * @phpstan-param ReflectionClass<object> $targetEntity
      * @param non-empty-string|null $mappedBy
      * @param list<Cascade> $cascade
      * @param non-empty-string|null $indexBy
@@ -24,14 +22,14 @@ final class OneToMany extends Association
      * @internal
      */
     public function __construct(
-        protected string $property,
-        protected ReflectionClass $targetEntity,
-        protected ?string $mappedBy,
-        protected array $cascade,
-        protected Fetch $fetch,
-        protected bool $orphanRemoval,
-        protected ?string $indexBy,
-        protected ?OrderBy $orderBy,
+        protected readonly string $property,
+        protected readonly ReflectionClass $targetEntity,
+        protected readonly ?string $mappedBy,
+        protected readonly array $cascade,
+        protected readonly Fetch $fetch,
+        protected readonly bool $orphanRemoval,
+        protected readonly ?string $indexBy,
+        protected readonly ?OrderBy $orderBy,
     ) {}
 
     /**
@@ -64,6 +62,7 @@ final class OneToMany extends Association
             return new IncompleteOneToMany($property, $mappedBy, $cascade, $fetch, $orphanRemoval, $indexBy, null);
         }
 
+        // @phpstan-ignore deadCode.unreachable
         return new self($property, $targetEntity, $mappedBy, $cascade, $fetch, $orphanRemoval, $indexBy, null);
     }
 

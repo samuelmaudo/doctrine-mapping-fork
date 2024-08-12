@@ -27,24 +27,36 @@ abstract class TestCase extends PHPUnitTestCase
     /** @var array<string, bool> */
     private static array $constraintsCache = [];
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertEntity(ClassMetadata $metadata): void
     {
         self::assertFalse($metadata->isMappedSuperclass);
         self::assertFalse($metadata->isEmbeddedClass);
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertMappedSuperclass(ClassMetadata $metadata): void
     {
         self::assertTrue($metadata->isMappedSuperclass);
         self::assertFalse($metadata->isEmbeddedClass);
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertEmbeddable(ClassMetadata $metadata): void
     {
         self::assertFalse($metadata->isMappedSuperclass);
         self::assertTrue($metadata->isEmbeddedClass);
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertField(
         ClassMetadata $metadata,
         string $field,
@@ -60,6 +72,9 @@ abstract class TestCase extends PHPUnitTestCase
         }
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldColumnDefinition(
         ClassMetadata $metadata,
         string $field,
@@ -77,6 +92,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldColumnName(
         ClassMetadata $metadata,
         string $field,
@@ -94,6 +112,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldGenerated(
         ClassMetadata $metadata,
         string $field,
@@ -119,6 +140,9 @@ abstract class TestCase extends PHPUnitTestCase
         }
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldName(
         ClassMetadata $metadata,
         string $field,
@@ -136,6 +160,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldId(
         ClassMetadata $metadata,
         string $field,
@@ -153,6 +180,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldLength(
         ClassMetadata $metadata,
         string $field,
@@ -170,6 +200,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldNotInsertable(
         ClassMetadata $metadata,
         string $field,
@@ -187,6 +220,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldNotUpdatable(
         ClassMetadata $metadata,
         string $field,
@@ -204,6 +240,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldNullable(
         ClassMetadata $metadata,
         string $field,
@@ -221,6 +260,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldOption(
         ClassMetadata $metadata,
         string $field,
@@ -229,14 +271,19 @@ abstract class TestCase extends PHPUnitTestCase
     ): void {
         self::assertField($metadata, $field);
 
+        /** @var array<string, mixed>|null $fieldMappingOptions */
         $fieldMappingOptions = (self::doctrineOrmVersionSatisfies('>=3.0'))
             ? $metadata->fieldMappings[$field]->options
             : $metadata->fieldMappings[$field]['options'];
 
+        self::assertIsArray($fieldMappingOptions);
         self::assertArrayHasKey($key, $fieldMappingOptions);
         self::assertSame($value, $fieldMappingOptions[$key]);
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldPrecision(
         ClassMetadata $metadata,
         string $field,
@@ -254,6 +301,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldScale(
         ClassMetadata $metadata,
         string $field,
@@ -271,6 +321,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldType(
         ClassMetadata $metadata,
         string $field,
@@ -288,6 +341,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertFieldUnique(
         ClassMetadata $metadata,
         string $field,
@@ -302,6 +358,9 @@ abstract class TestCase extends PHPUnitTestCase
             : $fieldMapping['unique']);
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertEmbedded(
         ClassMetadata $metadata,
         string $embedded,
@@ -318,6 +377,7 @@ abstract class TestCase extends PHPUnitTestCase
     }
 
     /**
+     * @param ClassMetadata<object> $metadata
      * @param class-string $value
      */
     public static function assertEmbeddedClass(
@@ -337,6 +397,9 @@ abstract class TestCase extends PHPUnitTestCase
         );
     }
 
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
     public static function assertEmbeddedColumnPrefix(
         ClassMetadata $metadata,
         string $embedded,
@@ -408,7 +471,7 @@ abstract class TestCase extends PHPUnitTestCase
         ?string $namespace = null,
     ): ClassMetadata {
         $directory ??= $this->getMetadataDirectory();
-        $namespace ??= \substr($className, 0, \strrpos($className, '\\'));
+        $namespace ??= $this->getClassNamespace($className);
 
         $driver = $this->makeSimplifiedDriver($directory, $namespace);
         $metadata = $this->makeClassMetadata($className);
@@ -422,18 +485,30 @@ abstract class TestCase extends PHPUnitTestCase
     {
         $className = $this::class;
 
+        /** @var positive-int $lastBackslash */
         $lastBackslash = \strrpos($className, '\\');
         $classShortName = \substr($className, $lastBackslash + 1);
-
         $namespace = \substr($className, 0, $lastBackslash);
+
+        /** @var positive-int $secondLastBackslash */
         $secondLastBackslash = \strrpos($namespace, '\\', -1);
         $directory = \substr($namespace, $secondLastBackslash + 1);
-
         $subdirectory = \substr($classShortName, \strlen($directory), -4);
 
         return __DIR__."/{$directory}/{$subdirectory}";
     }
 
+    private function getClassNamespace(string $className): string
+    {
+        /** @var positive-int $lastBackslash */
+        $lastBackslash = \strrpos($className, '\\');
+
+        return \substr($className, 0, $lastBackslash);
+    }
+
+    /**
+     * @phpstan-ignore method.unused
+     */
     private function makeDriver(
         string $directory,
         string $fileExtension = PhpDriver::DEFAULT_FILE_EXTENSION,

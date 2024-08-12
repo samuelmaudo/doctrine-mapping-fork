@@ -8,16 +8,13 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Interfaces\AssociationLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-/**
- * @psalm-immutable
- */
 final class OrderBy
 {
     /**
      * @param non-empty-array<non-empty-string,'ASC'|'DESC'> $value
      */
     private function __construct(
-        private array $value,
+        private readonly array $value,
     ) {}
 
     /**

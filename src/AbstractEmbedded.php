@@ -7,20 +7,20 @@ namespace Hereldar\DoctrineMapping;
 use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 
 /**
- * @psalm-immutable
- *
  * @internal
  */
 abstract class AbstractEmbedded implements FieldLike
 {
-    /** @var non-empty-string */
-    protected string $property;
-
-    /** @var non-empty-string|false */
-    protected string|bool $columnPrefix;
-
-    /** @var list<FieldLike> */
-    protected array $fields;
+    /**
+     * @param non-empty-string $property
+     * @param non-empty-string|false|null $columnPrefix
+     * @param list<FieldLike> $fields
+     */
+    protected function __construct(
+        protected readonly string $property,
+        protected readonly string|bool|null $columnPrefix,
+        protected readonly array $fields,
+    ) {}
 
     /**
      * @return non-empty-string
@@ -31,9 +31,9 @@ abstract class AbstractEmbedded implements FieldLike
     }
 
     /**
-     * @return non-empty-string|false
+     * @return non-empty-string|false|null
      */
-    public function columnPrefix(): string|bool
+    public function columnPrefix(): string|bool|null
     {
         return $this->columnPrefix;
     }

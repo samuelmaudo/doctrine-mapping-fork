@@ -18,11 +18,6 @@ use ReflectionProperty;
  */
 final class Fields extends Collection
 {
-    public function __construct(FieldLike ...$fields)
-    {
-        $this->items = $fields;
-    }
-
     /**
      * @throws DoctrineMappingException
      */
@@ -30,16 +25,18 @@ final class Fields extends Collection
         EntityLike $entity,
         FieldLike ...$fields,
     ): self {
+        $fields = \array_values($fields);
+
         self::ensureFieldsAreNotDuplicated($entity, $fields);
         $properties = self::ensurePropertiesExist($entity, $fields);
         $fields = self::completeIncompleteFields($entity, $fields, $properties);
 
-        return new self(...$fields);
+        return new self($fields);
     }
 
     public static function empty(): self
     {
-        return new self();
+        return new self([]);
     }
 
     /**
@@ -58,7 +55,7 @@ final class Fields extends Collection
 
             if (isset($properties[$property])) {
                 throw MappingException::duplicateProperty(
-                    $entity->classSortName(),
+                    $entity->classShortName(),
                     $property,
                 );
             }
@@ -87,7 +84,7 @@ final class Fields extends Collection
                 $properties[] = $class->getProperty($propertyName);
             } catch (ReflectionException) {
                 throw MappingException::propertyNotFound(
-                    $entity->classSortName(),
+                    $entity->classShortName(),
                     $propertyName,
                 );
             }
@@ -118,11 +115,13 @@ final class Fields extends Collection
 
                 if (!$propertyType instanceof ReflectionNamedType) {
                     throw MappingException::missingClassAttribute(
-                        $entity->classSortName(),
+                        $entity->classShortName(),
                         $property->name,
                     );
                 }
 
+                /** @psalm-suppress ArgumentTypeCoercion */
+                /** @phpstan-ignore argument.type */
                 $field = $field->withClass($propertyType->getName());
             }
             $completeFields[] = $field;

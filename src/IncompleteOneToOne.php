@@ -9,9 +9,6 @@ use Hereldar\DoctrineMapping\Enums\Cascade;
 use Hereldar\DoctrineMapping\Enums\Fetch;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 
-/**
- * @psalm-immutable
- */
 final class IncompleteOneToOne extends IncompleteAssociation
 {
     /**
@@ -23,13 +20,13 @@ final class IncompleteOneToOne extends IncompleteAssociation
      * @internal
      */
     public function __construct(
-        protected string $property,
-        protected ?string $mappedBy,
-        protected ?string $inversedBy,
-        protected array $cascade,
-        protected Fetch $fetch,
-        protected bool $orphanRemoval,
-        protected ?JoinColumns $joinColumns,
+        protected readonly string $property,
+        protected readonly ?string $mappedBy,
+        protected readonly ?string $inversedBy,
+        protected readonly array $cascade,
+        protected readonly Fetch $fetch,
+        protected readonly bool $orphanRemoval,
+        protected readonly ?JoinColumns $joinColumns,
     ) {}
 
     /**
@@ -55,7 +52,7 @@ final class IncompleteOneToOne extends IncompleteAssociation
      * @param non-empty-string|null $name name of the column that holds the foreign key for this relation
      * @param non-empty-string $referencedColumnName name of the primary key that is used for joining of this relation
      * @param non-empty-string|null $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable)
-     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
+     * @param array<non-empty-string,mixed> $options platform specific options
      *
      * @throws DoctrineMappingException
      */
@@ -88,8 +85,6 @@ final class IncompleteOneToOne extends IncompleteAssociation
     }
 
     /**
-     * @param non-empty-list<JoinColumn> $joinColumns
-     *
      * @throws DoctrineMappingException
      */
     public function withJoinColumns(

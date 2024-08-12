@@ -25,7 +25,7 @@ final class ColumnNameTest extends TestCase
         $metadata = $this->loadClassMetadata(UndefinedName::class);
 
         self::assertFieldColumnName($metadata, 'id', 'id');
-        self::assertFieldColumnName($metadata, 'parentId', 'parent_id');
+        self::assertFieldColumnName($metadata, 'parentId', 'parentId');
     }
 
     public function testEmptyColumn(): void

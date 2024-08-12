@@ -9,9 +9,6 @@ use Hereldar\DoctrineMapping\Enums\Cascade;
 use Hereldar\DoctrineMapping\Enums\Fetch;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 
-/**
- * @psalm-immutable
- */
 final class IncompleteOneToMany extends IncompleteAssociation
 {
     /**
@@ -23,13 +20,13 @@ final class IncompleteOneToMany extends IncompleteAssociation
      * @internal
      */
     public function __construct(
-        protected string $property,
-        protected ?string $mappedBy,
-        protected array $cascade,
-        protected Fetch $fetch,
-        protected bool $orphanRemoval,
-        protected ?string $indexBy,
-        protected ?OrderBy $orderBy,
+        protected readonly string $property,
+        protected readonly ?string $mappedBy,
+        protected readonly array $cascade,
+        protected readonly Fetch $fetch,
+        protected readonly bool $orphanRemoval,
+        protected readonly ?string $indexBy,
+        protected readonly ?OrderBy $orderBy,
     ) {}
 
     /**

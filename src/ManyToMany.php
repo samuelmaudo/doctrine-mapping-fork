@@ -10,13 +10,11 @@ use Hereldar\DoctrineMapping\Enums\Fetch;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
 
-/**
- * @psalm-immutable
- */
 final class ManyToMany extends Association
 {
     /**
      * @param non-empty-string $property
+     * @phpstan-param ReflectionClass<object> $targetEntity
      * @param non-empty-string|null $mappedBy
      * @param non-empty-string|null $inversedBy
      * @param list<Cascade> $cascade
@@ -25,18 +23,18 @@ final class ManyToMany extends Association
      * @internal
      */
     public function __construct(
-        protected string $property,
-        protected ReflectionClass $targetEntity,
-        protected ?string $mappedBy,
-        protected ?string $inversedBy,
-        protected array $cascade,
-        protected Fetch $fetch,
-        protected bool $orphanRemoval,
-        protected ?string $indexBy,
-        protected ?JoinTable $joinTable,
-        protected ?JoinColumns $joinColumns,
-        protected ?JoinColumns $inverseJoinColumns,
-        protected ?OrderBy $orderBy,
+        protected readonly string $property,
+        protected readonly ReflectionClass $targetEntity,
+        protected readonly ?string $mappedBy,
+        protected readonly ?string $inversedBy,
+        protected readonly array $cascade,
+        protected readonly Fetch $fetch,
+        protected readonly bool $orphanRemoval,
+        protected readonly ?string $indexBy,
+        protected readonly ?JoinTable $joinTable,
+        protected readonly ?JoinColumns $joinColumns,
+        protected readonly ?JoinColumns $inverseJoinColumns,
+        protected readonly ?OrderBy $orderBy,
     ) {}
 
     /**
@@ -101,7 +99,7 @@ final class ManyToMany extends Association
             $this->orphanRemoval,
             $this->indexBy,
             JoinTable::of($this, $name),
-            $this->joinTable,
+            $this->joinColumns,
             $this->inverseJoinColumns,
             $this->orderBy,
         );
@@ -111,7 +109,7 @@ final class ManyToMany extends Association
      * @param non-empty-string|null $name name of the column that holds the foreign key for this relation
      * @param non-empty-string $referencedColumnName name of the primary key that is used for joining of this relation
      * @param non-empty-string|null $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable)
-     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
+     * @param array<non-empty-string,mixed> $options platform specific options
      *
      * @throws DoctrineMappingException
      */
@@ -149,8 +147,6 @@ final class ManyToMany extends Association
     }
 
     /**
-     * @param non-empty-list<JoinColumn> $joinColumns
-     *
      * @throws DoctrineMappingException
      */
     public function withJoinColumns(
@@ -176,7 +172,7 @@ final class ManyToMany extends Association
      * @param non-empty-string|null $name name of the column that holds the foreign key for this relation
      * @param non-empty-string $referencedColumnName name of the primary key that is used for joining of this relation
      * @param non-empty-string|null $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable)
-     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
+     * @param array<non-empty-string,mixed> $options platform specific options
      *
      * @throws DoctrineMappingException
      */
@@ -214,8 +210,6 @@ final class ManyToMany extends Association
     }
 
     /**
-     * @param non-empty-list<JoinColumn> $joinColumns
-     *
      * @throws DoctrineMappingException
      */
     public function withInverseJoinColumns(

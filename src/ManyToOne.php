@@ -10,25 +10,23 @@ use Hereldar\DoctrineMapping\Enums\Fetch;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
 
-/**
- * @psalm-immutable
- */
 final class ManyToOne extends Association
 {
     /**
      * @param non-empty-string $property
+     * @phpstan-param ReflectionClass<object> $targetEntity
      * @param list<Cascade> $cascade
      * @param non-empty-string|null $inversedBy
      *
      * @internal
      */
     public function __construct(
-        protected string $property,
-        protected ReflectionClass $targetEntity,
-        protected array $cascade,
-        protected Fetch $fetch,
-        protected ?string $inversedBy,
-        protected ?JoinColumns $joinColumns,
+        protected readonly string $property,
+        protected readonly ReflectionClass $targetEntity,
+        protected readonly array $cascade,
+        protected readonly Fetch $fetch,
+        protected readonly ?string $inversedBy,
+        protected readonly ?JoinColumns $joinColumns,
     ) {}
 
     /**
@@ -57,6 +55,7 @@ final class ManyToOne extends Association
             return new IncompleteManyToOne($property, $cascade, $fetch, $inversedBy, null);
         }
 
+        // @phpstan-ignore deadCode.unreachable
         return new self($property, $targetEntity, $cascade, $fetch, $inversedBy, null);
     }
 
@@ -64,7 +63,7 @@ final class ManyToOne extends Association
      * @param non-empty-string|null $name name of the column that holds the foreign key for this relation
      * @param non-empty-string $referencedColumnName name of the primary key that is used for joining of this relation
      * @param non-empty-string|null $columnDefinition SQL fragment that is used when generating the DDL for the column (non-portable)
-     * @param non-empty-array<non-empty-string,mixed>|null $options platform specific options
+     * @param array<non-empty-string,mixed> $options platform specific options
      *
      * @throws DoctrineMappingException
      */
@@ -96,8 +95,6 @@ final class ManyToOne extends Association
     }
 
     /**
-     * @param non-empty-list<JoinColumn> $joinColumns
-     *
      * @throws DoctrineMappingException
      */
     public function withJoinColumns(

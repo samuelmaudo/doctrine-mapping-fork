@@ -17,28 +17,25 @@ use ReflectionProperty;
  */
 final class Associations extends Collection
 {
-    public function __construct(Association ...$associations)
-    {
-        $this->items = $associations;
-    }
-
     /**
      * @throws DoctrineMappingException
      */
     public static function of(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         AssociationLike ...$associations,
     ): self {
+        $associations = \array_values($associations);
+
         self::ensureAssociationsAreNotDuplicated($entity, $associations);
         $properties = self::ensurePropertiesExist($entity, $associations);
         $associations = self::completeIncompleteAssociations($entity, $associations, $properties);
 
-        return new self(...$associations);
+        return new self($associations);
     }
 
     public static function empty(): self
     {
-        return new self();
+        return new self([]);
     }
 
     /**
@@ -47,7 +44,7 @@ final class Associations extends Collection
      * @throws DoctrineMappingException
      */
     private static function ensureAssociationsAreNotDuplicated(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         array $associations,
     ): void {
         $properties = [];
@@ -57,7 +54,7 @@ final class Associations extends Collection
 
             if (isset($properties[$property])) {
                 throw MappingException::duplicateProperty(
-                    $entity->classSortName(),
+                    $entity->classShortName(),
                     $property,
                 );
             }
@@ -74,7 +71,7 @@ final class Associations extends Collection
      * @throws DoctrineMappingException
      */
     private static function ensurePropertiesExist(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         array $associations,
     ): array {
         $class = $entity->class();
@@ -86,7 +83,7 @@ final class Associations extends Collection
                 $properties[] = $class->getProperty($propertyName);
             } catch (ReflectionException) {
                 throw MappingException::propertyNotFound(
-                    $entity->classSortName(),
+                    $entity->classShortName(),
                     $propertyName,
                 );
             }
@@ -104,7 +101,7 @@ final class Associations extends Collection
      * @throws DoctrineMappingException
      */
     private static function completeIncompleteAssociations(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         array $associations,
         array $properties,
     ): array {
@@ -117,18 +114,21 @@ final class Associations extends Collection
 
                 if (!$propertyType instanceof ReflectionNamedType) {
                     throw MappingException::missingTargetEntity(
-                        $entity->classSortName(),
+                        $entity->classShortName(),
                         $property->name,
                     );
                 }
 
                 $association = $association->withTargetEntity(
+                    /** @psalm-suppress ArgumentTypeCoercion */
+                    /** @phpstan-ignore argument.type */
                     $propertyType->getName()
                 );
             }
             $completeAssociations[] = $association;
         }
 
+        /** @var list<Association> */
         return $completeAssociations;
     }
 }

@@ -32,7 +32,7 @@ final class TextFieldTest extends TestCase
         $name = \fake()->word();
         $definition = \fake()->word();
         $nullable = \fake()->boolean();
-        $length = \fake()->integerBetween(1);
+        $length = \fake()->positiveInteger();
         $default = \fake()->text();
         $charset = \fake()->word();
         $collation = \fake()->word();

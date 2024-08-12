@@ -13,16 +13,11 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
  */
 final class UniqueConstraints extends Collection
 {
-    public function __construct(UniqueConstraint ...$constraints)
-    {
-        $this->items = $constraints;
-    }
-
     /**
      * @throws DoctrineMappingException
      */
     public static function of(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         UniqueConstraint ...$constraints,
     ): self {
         $names = [];
@@ -34,18 +29,18 @@ final class UniqueConstraints extends Collection
             }
             if (isset($names[$name])) {
                 throw MappingException::duplicateUniqueConstraintName(
-                    $entity->classSortName(),
+                    $entity->classShortName(),
                     $name,
                 );
             }
             $names[$name] = true;
         }
 
-        return new self(...$constraints);
+        return new self(\array_values($constraints));
     }
 
     public static function empty(): self
     {
-        return new self();
+        return new self([]);
     }
 }

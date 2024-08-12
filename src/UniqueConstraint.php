@@ -7,9 +7,6 @@ namespace Hereldar\DoctrineMapping;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-/**
- * @psalm-immutable
- */
 final class UniqueConstraint
 {
     /**
@@ -19,10 +16,10 @@ final class UniqueConstraint
      * @param non-empty-array<non-empty-string,mixed>|null $options
      */
     private function __construct(
-        private ?array $fields,
-        private ?array $columns,
-        private ?string $name,
-        private ?array $options,
+        private readonly ?array $fields,
+        private readonly ?array $columns,
+        private readonly ?string $name,
+        private readonly ?array $options,
     ) {}
 
     /**

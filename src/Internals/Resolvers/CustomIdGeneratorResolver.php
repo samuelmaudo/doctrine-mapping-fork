@@ -15,6 +15,9 @@ use ReflectionClass;
 final class CustomIdGeneratorResolver
 {
     /**
+     * @return ReflectionClass<AbstractIdGenerator>|null
+     * @psalm-return ($className is null ? null : ReflectionClass<AbstractIdGenerator>)
+     *
      * @throws DoctrineMappingException
      *
      * @psalm-assert class-string<AbstractIdGenerator>|null $className

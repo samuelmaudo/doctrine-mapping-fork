@@ -10,19 +10,19 @@ use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
 
-/**
- * @psalm-immutable
- */
 final class Embeddable implements EntityLike
 {
+    /**
+     * @phpstan-param ReflectionClass<object> $class
+     */
     private function __construct(
-        private ReflectionClass $class,
-        private Fields $fields,
-        private Embeddables $embeddedEmbeddables,
+        private readonly ReflectionClass $class,
+        private readonly Fields $fields,
+        private readonly Embeddables $embeddedEmbeddables,
     ) {}
 
     /**
-     * @param class-string $class
+     * @param class-string|ReflectionClass<object> $class
      *
      * @throws DoctrineMappingException
      */
@@ -41,8 +41,6 @@ final class Embeddable implements EntityLike
     }
 
     /**
-     * @param non-empty-list<FieldLike> $fields
-     *
      * @throws DoctrineMappingException
      */
     public function withFields(
@@ -57,18 +55,28 @@ final class Embeddable implements EntityLike
         );
     }
 
+    /**
+     * @return ReflectionClass<object>
+     */
     public function class(): ReflectionClass
     {
         return $this->class;
     }
 
+    /**
+     * @return class-string
+     */
     public function className(): string
     {
         return $this->class->name;
     }
 
-    public function classSortName(): string
+    /**
+     * @return non-empty-string
+     */
+    public function classShortName(): string
     {
+        /** @var non-empty-string */
         return $this->class->getShortName();
     }
 

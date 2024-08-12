@@ -6,9 +6,6 @@ namespace Hereldar\DoctrineMapping\Fields;
 
 use Doctrine\DBAL\Types\Types;
 
-/**
- * @psalm-immutable
- */
 class UnsignedBigIntegerId extends UnsignedIntegerId
 {
     public static function defaultType(): string

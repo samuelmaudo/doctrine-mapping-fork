@@ -7,9 +7,6 @@ namespace Hereldar\DoctrineMapping;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-/**
- * @psalm-immutable
- */
 final class Index
 {
     /**
@@ -20,11 +17,11 @@ final class Index
      * @param non-empty-array<non-empty-string,mixed>|null $options
      */
     private function __construct(
-        private ?array $fields,
-        private ?array $columns,
-        private ?string $name,
-        private ?array $flags,
-        private ?array $options,
+        private readonly ?array $fields,
+        private readonly ?array $columns,
+        private readonly ?string $name,
+        private readonly ?array $flags,
+        private readonly ?array $options,
     ) {}
 
     /**

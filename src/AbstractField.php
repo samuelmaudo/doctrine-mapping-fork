@@ -10,26 +10,24 @@ use Hereldar\DoctrineMapping\Enums\Generated;
 use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-/**
- * @psalm-immutable
- */
 abstract class AbstractField implements FieldLike
 {
-    protected ?string $type;
+    /** @var non-empty-string|null */
+    protected readonly ?string $type;
 
     /**
      * @param non-empty-string $property
      * @param non-empty-string|null $type
      * @param enum-string|null $enumType
      */
-    protected function __construct(
-        protected string $property,
+    final protected function __construct(
+        protected readonly string $property,
         ?string $type,
-        protected ?string $enumType,
-        protected bool $insertable,
-        protected bool $updatable,
-        protected ?Generated $generated,
-        protected Column $column,
+        protected readonly ?string $enumType,
+        protected readonly bool $insertable,
+        protected readonly bool $updatable,
+        protected readonly ?Generated $generated,
+        protected readonly Column $column,
     ) {
         $this->type = $type ?? static::defaultType();
     }
@@ -76,13 +74,19 @@ abstract class AbstractField implements FieldLike
         return null;
     }
 
+    /**
+     * @psalm-assert non-empty-string $property
+     */
     protected static function validateProperty(string $property): void
     {
-        if (!$property) {
+        if ('' === $property) {
             throw MappingException::emptyPropertyName();
         }
     }
 
+    /**
+     * @psalm-assert non-empty-string|null $type
+     */
     protected static function validateType(
         ?string $type,
         string $property,
@@ -92,6 +96,9 @@ abstract class AbstractField implements FieldLike
         }
     }
 
+    /**
+     * @psalm-assert non-empty-string|null $enumType
+     */
     protected static function validateEnumType(
         ?string $enumType,
         string $property,
@@ -105,7 +112,7 @@ abstract class AbstractField implements FieldLike
         Generated|int|string|null $generated,
         string $property,
     ): ?Generated {
-        if (null === $generated || \is_object($generated)) {
+        if (null === $generated || $generated instanceof Generated) {
             return $generated;
         }
 

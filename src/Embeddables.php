@@ -12,11 +12,6 @@ use Hereldar\DoctrineMapping\Internals\Collection;
  */
 final class Embeddables extends Collection
 {
-    public function __construct(Embeddable ...$embeddables)
-    {
-        $this->items = $embeddables;
-    }
-
     /**
      * @throws DoctrineMappingException
      */
@@ -43,11 +38,11 @@ final class Embeddables extends Collection
             );
         }
 
-        return new self(...$embeddables);
+        return new self($embeddables);
     }
 
     public static function empty(): self
     {
-        return new self();
+        return new self([]);
     }
 }

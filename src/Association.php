@@ -11,13 +11,23 @@ use Hereldar\DoctrineMapping\Enums\Fetch;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use ReflectionClass;
 
-/**
- * @psalm-immutable
- */
 abstract class Association extends AbstractAssociation
 {
-    protected ReflectionClass $targetEntity;
+    /**
+     * @param non-empty-string $property
+     * @phpstan-param ReflectionClass<object> $targetEntity
+     * @param list<Cascade> $cascade
+     */
+    protected function __construct(
+        protected readonly string $property,
+        protected readonly ReflectionClass $targetEntity,
+        protected readonly array $cascade,
+        protected readonly Fetch $fetch,
+    ) {}
 
+    /**
+     * @phpstan-return ReflectionClass<object>
+     */
     public function targetEntity(): ReflectionClass
     {
         return $this->targetEntity;
@@ -25,6 +35,8 @@ abstract class Association extends AbstractAssociation
 
     /**
      * @return class-string
+     * @psalm-return class-string
+     * @phpstan-return class-string<object>
      */
     public function targetEntityName(): string
     {
@@ -36,6 +48,7 @@ abstract class Association extends AbstractAssociation
      */
     public function targetEntityShortName(): string
     {
+        /** @var non-empty-string */
         return $this->targetEntity->getShortName();
     }
 
@@ -52,6 +65,8 @@ abstract class Association extends AbstractAssociation
     }
 
     /**
+     * @phpstan-param ReflectionClass<object>|null $targetEntity
+     *
      * @throws DoctrineMappingException
      *
      * @psalm-assert non-empty-string|null $mappedBy
@@ -84,6 +99,8 @@ abstract class Association extends AbstractAssociation
     }
 
     /**
+     * @phpstan-param ReflectionClass<object>|null $targetEntity
+     *
      * @throws DoctrineMappingException
      *
      * @psalm-assert non-empty-string|null $inversedBy
@@ -116,6 +133,8 @@ abstract class Association extends AbstractAssociation
     }
 
     /**
+     * @phpstan-param ReflectionClass<object>|null $targetEntity
+     *
      * @throws DoctrineMappingException
      *
      * @psalm-assert non-empty-string|null $indexBy
@@ -148,6 +167,8 @@ abstract class Association extends AbstractAssociation
     }
 
     /**
+     * @param list<Cascade|string>|null $options
+     *
      * @return list<Cascade>
      *
      * @throws DoctrineMappingException
@@ -188,7 +209,7 @@ abstract class Association extends AbstractAssociation
         string $associationName,
         Fetch|string $option,
     ): Fetch {
-        if (\is_object($option)) {
+        if ($option instanceof Fetch) {
             return $option;
         }
 

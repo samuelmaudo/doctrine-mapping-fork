@@ -1,6 +1,12 @@
 parameters:
     level: 9
+    treatPhpDocTypesAsCertain: false
     paths:
         - src
         - tests
-    checkGenericClassInNonGenericObjectType: false
+    excludePaths:
+        - tests/*/*/*.php
+    ignoreErrors:
+        -
+            identifier: offsetAccess.notFound
+            path: tests

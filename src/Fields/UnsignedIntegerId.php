@@ -9,9 +9,6 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\AbstractId;
 use Hereldar\DoctrineMapping\Column;
 
-/**
- * @psalm-immutable
- */
 class UnsignedIntegerId extends AbstractId
 {
     public static function defaultType(): string

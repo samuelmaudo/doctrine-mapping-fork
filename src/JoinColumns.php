@@ -14,11 +14,6 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
  */
 final class JoinColumns extends Collection
 {
-    public function __construct(JoinColumn ...$columns)
-    {
-        $this->items = $columns;
-    }
-
     /**
      * @throws DoctrineMappingException
      */
@@ -42,11 +37,11 @@ final class JoinColumns extends Collection
             $names[$name] = true;
         }
 
-        return new self(...$columns);
+        return new self(\array_values($columns));
     }
 
     public static function empty(): self
     {
-        return new self();
+        return new self([]);
     }
 }

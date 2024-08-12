@@ -6,9 +6,6 @@ namespace Hereldar\DoctrineMapping\Fields;
 
 use Doctrine\DBAL\Types\Types;
 
-/**
- * @psalm-immutable
- */
 class SmallIntegerField extends IntegerField
 {
     public static function defaultType(): string

@@ -15,6 +15,9 @@ use ReflectionClass;
 final class RepositoryClassResolver
 {
     /**
+     * @psalm-return ($className is null ? null : ReflectionClass<EntityRepository>)
+     * @phpstan-return ($className is null ? null : ReflectionClass<EntityRepository<object>>)
+     *
      * @throws DoctrineMappingException
      *
      * @psalm-assert class-string<EntityRepository>|null $className
@@ -31,6 +34,7 @@ final class RepositoryClassResolver
             throw MappingException::invalidRepositoryClass($class->getShortName());
         }
 
+        /** @phpstan-var ReflectionClass<EntityRepository<object>> */
         return $class;
     }
 }

@@ -11,25 +11,21 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\ClassResolver;
 use ReflectionClass;
 
-use function Hereldar\DoctrineMapping\Internals\to_snake_case;
-
-/**
- * @psalm-immutable
- */
 final class Embedded extends AbstractEmbedded
 {
     /**
      * @param non-empty-string $property
-     * @param non-empty-string|false $columnPrefix
+     * @phpstan-param ReflectionClass<object> $class
+     * @param non-empty-string|false|null $columnPrefix
      * @param list<FieldLike> $fields
      *
      * @internal
      */
     public function __construct(
-        protected string $property,
-        private ReflectionClass $class,
-        protected string|bool $columnPrefix,
-        protected array $fields,
+        protected readonly string $property,
+        private readonly ReflectionClass $class,
+        protected readonly string|bool|null $columnPrefix,
+        protected readonly array $fields,
     ) {}
 
     /**
@@ -53,11 +49,10 @@ final class Embedded extends AbstractEmbedded
             throw MappingException::emptyPropertyName();
         }
 
+        /** @var ReflectionClass<object>|null $class */
         $class = ClassResolver::resolveNullable($class);
 
-        if (null === $columnPrefix) {
-            $columnPrefix = to_snake_case($property).'_';
-        } elseif ('' === $columnPrefix) {
+        if ('' === $columnPrefix) {
             $columnPrefix = false;
         }
 
@@ -68,9 +63,6 @@ final class Embedded extends AbstractEmbedded
         return new self($property, $class, $columnPrefix, []);
     }
 
-    /**
-     * @param non-empty-list<FieldLike> $fields
-     */
     public function withFields(
         FieldLike ...$fields,
     ): self {
@@ -78,22 +70,32 @@ final class Embedded extends AbstractEmbedded
             $this->property,
             $this->class,
             $this->columnPrefix,
-            $fields,
+            \array_values($fields),
         );
     }
 
+    /**
+     * @return ReflectionClass<object>
+     */
     public function class(): ReflectionClass
     {
         return $this->class;
     }
 
+    /**
+     * @return class-string
+     */
     public function className(): string
     {
         return $this->class->name;
     }
 
-    public function classSortName(): string
+    /**
+     * @return non-empty-string
+     */
+    public function classShortName(): string
     {
+        /** @var non-empty-string */
         return $this->class->getShortName();
     }
 }

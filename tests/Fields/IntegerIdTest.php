@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Tests\Fields;
 
 use Doctrine\DBAL\Types\Types;
-use Hereldar\DoctrineMapping\AbstractField;
 use Hereldar\DoctrineMapping\AbstractId;
 use Hereldar\DoctrineMapping\Fields\IntegerId;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class IntegerIdTest extends TestCase
@@ -16,7 +16,7 @@ final class IntegerIdTest extends TestCase
     {
         $field = IntegerId::of('id');
 
-        self::assertInstanceOf(AbstractField::class, $field);
+        self::assertInstanceOf(FieldLike::class, $field);
         self::assertInstanceOf(AbstractId::class, $field);
     }
 

@@ -27,7 +27,7 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         $metadata = $this->loadClassMetadata(UndefinedColumnPrefix::class);
 
-        self::assertEmbeddedColumnPrefix($metadata, 'field', 'field_');
+        self::assertEmbeddedColumnPrefix($metadata, 'field', null);
     }
 
     public function testEmptyColumnPrefix(): void
@@ -48,6 +48,7 @@ final class EmbeddedColumnPrefixTest extends TestCase
     {
         self::assertException(
             TypeError::class,
+            // @phpstan-ignore argument.type
             fn () => Embedded::of(property: 'field', columnPrefix: true),
         );
 

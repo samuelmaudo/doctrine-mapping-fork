@@ -14,26 +14,30 @@ use Hereldar\DoctrineMapping\Internals\Resolvers\RepositoryClassResolver;
 use ReflectionClass;
 
 /**
- * @psalm-immutable
- *
  * @internal
  */
 abstract class AbstractEntity implements EntityLike
 {
-    protected function __construct(
-        private ReflectionClass $class,
-        private ?ReflectionClass $repositoryClass,
-        private Table $table,
-        private Fields $fields,
-        private Associations $associations,
-        private Embeddables $embeddedEmbeddables,
-        private Indexes $indexes,
-        private UniqueConstraints $uniqueConstraints,
+    /**
+     * @phpstan-param ReflectionClass<object> $class
+     * @param ReflectionClass<EntityRepository<object>>|null $repositoryClass
+     */
+    final protected function __construct(
+        private readonly ReflectionClass $class,
+        private readonly ?ReflectionClass $repositoryClass,
+        private readonly Table $table,
+        private readonly Fields $fields,
+        private readonly Associations $associations,
+        private readonly Embeddables $embeddedEmbeddables,
+        private readonly Indexes $indexes,
+        private readonly UniqueConstraints $uniqueConstraints,
     ) {}
 
     /**
-     * @param class-string $class
-     * @param class-string<EntityRepository>|null $repositoryClass
+     * @template T of object
+     *
+     * @param class-string<T> $class
+     * @param class-string<EntityRepository<T>>|null $repositoryClass
      *
      * @throws DoctrineMappingException
      */
@@ -46,7 +50,7 @@ abstract class AbstractEntity implements EntityLike
         return new static(
             $classReflection,
             RepositoryClassResolver::resolve($repositoryClass),
-            Table::empty($classReflection),
+            Table::empty(),
             Fields::empty(),
             Associations::empty(),
             Embeddables::empty(),
@@ -80,8 +84,6 @@ abstract class AbstractEntity implements EntityLike
     }
 
     /**
-     * @param non-empty-list<FieldLike> $fields
-     *
      * @throws DoctrineMappingException
      */
     public function withFields(
@@ -102,8 +104,6 @@ abstract class AbstractEntity implements EntityLike
     }
 
     /**
-     * @param non-empty-list<AssociationLike> $associations
-     *
      * @throws DoctrineMappingException
      */
     public function withAssociations(
@@ -124,8 +124,6 @@ abstract class AbstractEntity implements EntityLike
     }
 
     /**
-     * @param non-empty-list<Index> $indexes
-     *
      * @throws DoctrineMappingException
      */
     public function withIndexes(
@@ -144,8 +142,6 @@ abstract class AbstractEntity implements EntityLike
     }
 
     /**
-     * @param non-empty-list<UniqueConstraint> $uniqueConstraints
-     *
      * @throws DoctrineMappingException
      */
     public function withUniqueConstraints(
@@ -163,33 +159,53 @@ abstract class AbstractEntity implements EntityLike
         );
     }
 
+    /**
+     * @return ReflectionClass<object>
+     */
     public function class(): ReflectionClass
     {
         return $this->class;
     }
 
+    /**
+     * @return class-string
+     */
     public function className(): string
     {
         return $this->class->name;
     }
 
-    public function classSortName(): string
+    /**
+     * @return non-empty-string
+     */
+    public function classShortName(): string
     {
+        /** @var non-empty-string */
         return $this->class->getShortName();
     }
 
+    /**
+     * @return ReflectionClass<EntityRepository<object>>|null
+     */
     public function repositoryClass(): ?ReflectionClass
     {
         return $this->repositoryClass;
     }
 
+    /**
+     * @return class-string<EntityRepository<object>>|null
+     */
     public function repositoryClassName(): ?string
     {
         return $this->repositoryClass?->name;
     }
 
+    /**
+     * @return non-empty-string|null
+     */
     public function repositoryClassShortName(): ?string
     {
+        /** @var non-empty-string */
         return $this->repositoryClass?->getShortName();
     }
 

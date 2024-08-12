@@ -24,48 +24,34 @@ namespace Hereldar\DoctrineMapping\Enums;
  * Make sure to weigh the benefits and downsides of each cascade
  * operation that you define.
  *
- * @property-read value-of<Cascade::VALUES> $value
- *
  * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/working-with-associations.html#transitive-persistence-cascade-operations
- *
- * TODO: convert to a backed enum when PHP 8.1 is the minimum version
  */
-final class Cascade
+enum Cascade: string
 {
-    /** @use BackedEnum<string> */
-    use BackedEnum;
-
     /**
      * Apply to the associated entities all the operations that can be
      * cascaded automatically.
      */
-    public const All = 'all';
+    case All = 'all';
 
     /**
      * Remove the associated entities when their owner is removed.
      */
-    public const Remove = 'remove';
+    case Remove = 'remove';
 
     /**
-     * Persist the associated entities when their owner is persisted.
+     * Persist the associated entities when their owner is
+     * persisted.
      */
-    public const Persist = 'persist';
+    case Persist = 'persist';
 
     /**
      * Fetch the associated entities when their owner is refreshed.
      */
-    public const Refresh = 'refresh';
+    case Refresh = 'refresh';
 
     /**
      * Detach the associated entities when their owner is detached.
      */
-    public const Detach = 'detach';
-
-    private const VALUES = [
-        self::All,
-        self::Remove,
-        self::Persist,
-        self::Refresh,
-        self::Detach,
-    ];
+    case Detach = 'detach';
 }

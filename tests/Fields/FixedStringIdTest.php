@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Tests\Fields;
 
 use Doctrine\DBAL\Types\Types;
-use Hereldar\DoctrineMapping\AbstractField;
 use Hereldar\DoctrineMapping\AbstractId;
 use Hereldar\DoctrineMapping\Fields\FixedStringId;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Tests\TestCase;
 
 final class FixedStringIdTest extends TestCase
@@ -16,7 +16,7 @@ final class FixedStringIdTest extends TestCase
     {
         $field = FixedStringId::of('id');
 
-        self::assertInstanceOf(AbstractField::class, $field);
+        self::assertInstanceOf(FieldLike::class, $field);
         self::assertInstanceOf(AbstractId::class, $field);
     }
 
@@ -31,7 +31,7 @@ final class FixedStringIdTest extends TestCase
     {
         $name = \fake()->word();
         $definition = \fake()->word();
-        $length = \fake()->integerBetween(1);
+        $length = \fake()->positiveInteger();
         $charset = \fake()->word();
         $collation = \fake()->word();
         $comment = \fake()->sentence();

@@ -7,16 +7,13 @@ namespace Hereldar\DoctrineMapping;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-/**
- * @psalm-immutable
- */
 final class JoinTable
 {
     /**
      * @param non-empty-string $name
      */
     protected function __construct(
-        protected string $name,
+        protected readonly string $name,
     ) {}
 
     /**

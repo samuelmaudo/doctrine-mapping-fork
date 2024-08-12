@@ -7,9 +7,6 @@ namespace Hereldar\DoctrineMapping;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-/**
- * @psalm-immutable
- */
 final class SequenceGenerator
 {
     /**
@@ -18,9 +15,9 @@ final class SequenceGenerator
      * @param positive-int $initialValue
      */
     private function __construct(
-        private ?string $sequenceName,
-        private int $allocationSize,
-        private int $initialValue,
+        private readonly ?string $sequenceName,
+        private readonly int $allocationSize,
+        private readonly int $initialValue,
     ) {}
 
     /**

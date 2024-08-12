@@ -9,9 +9,6 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\AbstractField;
 use Hereldar\DoctrineMapping\Column;
 
-/**
- * @psalm-immutable
- */
 class LocalDateTimeField extends AbstractField
 {
     public static function defaultType(): string

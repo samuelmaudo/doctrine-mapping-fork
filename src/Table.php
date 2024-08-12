@@ -6,24 +6,18 @@ namespace Hereldar\DoctrineMapping;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
-use ReflectionClass;
 
-use function Hereldar\DoctrineMapping\Internals\to_snake_case;
-
-/**
- * @psalm-immutable
- */
 final class Table
 {
     /**
-     * @param non-empty-string $name
+     * @param non-empty-string|null $name
      * @param non-empty-string|null $schema
      * @param non-empty-array<non-empty-string,mixed>|null $options
      */
     private function __construct(
-        private string $name,
-        private ?string $schema,
-        private ?array $options,
+        private readonly ?string $name,
+        private readonly ?string $schema,
+        private readonly ?array $options,
     ) {}
 
     /**
@@ -34,14 +28,12 @@ final class Table
      * @throws DoctrineMappingException
      */
     public static function of(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         ?string $name = null,
         ?string $schema = null,
         ?array $options = null,
     ): self {
-        if (null === $name) {
-            $name = to_snake_case($entity->classSortName());
-        } elseif ('' === $name) {
+        if ('' === $name) {
             throw MappingException::emptyTableName($entity->className());
         }
 
@@ -67,23 +59,19 @@ final class Table
         );
     }
 
-    /**
-     * @param ReflectionClass<Entity|MappedSuperclass> $entityClass
-     */
-    public static function empty(
-        ReflectionClass $entityClass,
-    ): self {
+    public static function empty(): self
+    {
         return new self(
-            to_snake_case($entityClass->getShortName()),
+            null,
             null,
             null,
         );
     }
 
     /**
-     * @return non-empty-string
+     * @return non-empty-string|null
      */
-    public function name(): string
+    public function name(): ?string
     {
         return $this->name;
     }

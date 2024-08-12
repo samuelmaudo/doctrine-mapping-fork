@@ -7,32 +7,29 @@ namespace Hereldar\DoctrineMapping;
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-/**
- * @psalm-immutable
- */
 final class JoinColumn
 {
     /**
      * @param non-empty-string|null $name
      * @param non-empty-string $referencedColumnName
      * @param non-empty-string|null $columnDefinition
-     * @param non-empty-array<non-empty-string,mixed> $options
+     * @param array<non-empty-string,mixed> $options
      */
     private function __construct(
-        private ?string $name,
-        private string $referencedColumnName,
-        private bool $unique,
-        private bool $nullable,
-        private mixed $onDelete,
-        private ?string $columnDefinition,
-        private array $options,
+        private readonly ?string $name,
+        private readonly string $referencedColumnName,
+        private readonly bool $unique,
+        private readonly bool $nullable,
+        private readonly mixed $onDelete,
+        private readonly ?string $columnDefinition,
+        private readonly array $options,
     ) {}
 
     /**
      * @param non-empty-string|null $name
      * @param non-empty-string $referencedColumnName
      * @param non-empty-string|null $columnDefinition
-     * @param non-empty-array<non-empty-string,mixed> $options
+     * @param array<non-empty-string,mixed> $options
      *
      * @throws DoctrineMappingException
      */
@@ -117,7 +114,7 @@ final class JoinColumn
     }
 
     /**
-     * @return non-empty-array<non-empty-string,mixed>
+     * @return array<non-empty-string,mixed>
      */
     public function options(): array
     {

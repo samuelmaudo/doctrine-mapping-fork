@@ -15,6 +15,8 @@ use ReflectionException;
 final class ClassResolver
 {
     /**
+     * @phpstan-return ReflectionClass<object>
+     *
      * @throws DoctrineMappingException
      *
      * @psalm-assert class-string $className
@@ -26,6 +28,8 @@ final class ClassResolver
         }
 
         try {
+            /** @psalm-suppress ArgumentTypeCoercion */
+            /** @phpstan-ignore argument.type */
             $class = new ReflectionClass($className);
         } catch (ReflectionException) {
             throw MappingException::classNotFound($className);
@@ -39,6 +43,9 @@ final class ClassResolver
     }
 
     /**
+     * @psalm-return ($className is null ? null : ReflectionClass)
+     * @phpstan-return ($className is null ? null : ReflectionClass<object>)
+     *
      * @throws DoctrineMappingException
      *
      * @psalm-assert class-string|null $className

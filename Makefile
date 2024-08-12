@@ -8,7 +8,7 @@ else
 endif
 
 phpstan:
-	vendor/bin/phpstan --ansi
+	vendor/bin/phpstan --ansi --verbose
 
 phpunit:
 	vendor/bin/phpunit

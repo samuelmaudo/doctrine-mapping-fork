@@ -9,18 +9,19 @@ use Hereldar\DoctrineMapping\Enums\Fetch;
 use Hereldar\DoctrineMapping\Interfaces\AssociationLike;
 
 /**
- * @psalm-immutable
- *
  * @internal
  */
 abstract class AbstractAssociation implements AssociationLike
 {
-    /** @var non-empty-string */
-    protected string $property;
-
-    /** @var list<Cascade> */
-    protected array $cascade;
-    protected Fetch $fetch;
+    /**
+     * @param non-empty-string $property
+     * @param list<Cascade> $cascade
+     */
+    protected function __construct(
+        protected readonly string $property,
+        protected readonly array $cascade,
+        protected readonly Fetch $fetch,
+    ) {}
 
     /**
      * @return non-empty-string

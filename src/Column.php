@@ -8,11 +8,6 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 
-use function Hereldar\DoctrineMapping\Internals\to_snake_case;
-
-/**
- * @psalm-immutable
- */
 final class Column
 {
     /**
@@ -26,19 +21,19 @@ final class Column
      * @param non-empty-string|null $comment
      */
     private function __construct(
-        private ?string $name = null,
-        private ?string $definition = null,
-        private bool $unique = false,
-        private ?bool $nullable = null,
-        private ?int $length = null,
-        private ?int $precision = null,
-        private ?int $scale = null,
-        private mixed $default = null,
-        private ?bool $unsigned = null,
-        private ?bool $fixed = null,
-        private ?string $charset = null,
-        private ?string $collation = null,
-        private ?string $comment = null,
+        private readonly ?string $name = null,
+        private readonly ?string $definition = null,
+        private readonly bool $unique = false,
+        private readonly ?bool $nullable = null,
+        private readonly ?int $length = null,
+        private readonly ?int $precision = null,
+        private readonly ?int $scale = null,
+        private readonly mixed $default = null,
+        private readonly ?bool $unsigned = null,
+        private readonly ?bool $fixed = null,
+        private readonly ?string $charset = null,
+        private readonly ?string $collation = null,
+        private readonly ?string $comment = null,
     ) {}
 
     /**
@@ -69,9 +64,7 @@ final class Column
         ?string $collation = null,
         ?string $comment = null,
     ): self {
-        if (null === $name) {
-            $name = to_snake_case($field->property());
-        } elseif ('' === $name) {
+        if ('' === $name) {
             throw MappingException::emptyColumnName($field->property());
         }
 

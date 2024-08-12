@@ -18,9 +18,11 @@ use IteratorAggregate;
 abstract class Collection implements Countable, IteratorAggregate
 {
     /**
-     * @var array<T>
+     * @param array<T> $items
      */
-    protected array $items;
+    protected function __construct(
+        protected readonly array $items,
+    ) {}
 
     public function count(): int
     {

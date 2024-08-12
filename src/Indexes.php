@@ -13,16 +13,11 @@ use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
  */
 final class Indexes extends Collection
 {
-    public function __construct(Index ...$indexes)
-    {
-        $this->items = $indexes;
-    }
-
     /**
      * @throws DoctrineMappingException
      */
     public static function of(
-        Entity|MappedSuperclass $entity,
+        AbstractEntity $entity,
         Index ...$indexes,
     ): self {
         $names = [];
@@ -34,18 +29,18 @@ final class Indexes extends Collection
             }
             if (isset($names[$name])) {
                 throw MappingException::duplicateIndexName(
-                    $entity->classSortName(),
+                    $entity->classShortName(),
                     $name,
                 );
             }
             $names[$name] = true;
         }
 
-        return new self(...$indexes);
+        return new self(\array_values($indexes));
     }
 
     public static function empty(): self
     {
-        return new self();
+        return new self([]);
     }
 }

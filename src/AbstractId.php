@@ -9,41 +9,34 @@ use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
 use Error;
 use Hereldar\DoctrineMapping\Enums\Generated;
 use Hereldar\DoctrineMapping\Enums\Strategy;
+use Hereldar\DoctrineMapping\Interfaces\FieldLike;
 use Hereldar\DoctrineMapping\Internals\Exceptions\MappingException;
 use Hereldar\DoctrineMapping\Internals\Resolvers\CustomIdGeneratorResolver;
 
-/**
- * @psalm-immutable
- */
-abstract class AbstractId extends AbstractField
+abstract class AbstractId implements FieldLike
 {
+    /** @var non-empty-string|null */
+    protected readonly ?string $type;
+
     /**
      * @param non-empty-string $property
      * @param non-empty-string|null $type
      * @param enum-string|null $enumType
      * @param class-string<AbstractIdGenerator>|null $customIdGenerator
      */
-    protected function __construct(
-        string $property,
+    final protected function __construct(
+        protected readonly string $property,
         ?string $type,
-        ?string $enumType,
-        bool $insertable,
-        bool $updatable,
-        ?Generated $generated,
-        Column $column,
-        protected Strategy $strategy,
-        protected ?SequenceGenerator $sequenceGenerator,
-        protected ?string $customIdGenerator,
+        protected readonly ?string $enumType,
+        protected readonly bool $insertable,
+        protected readonly bool $updatable,
+        protected readonly ?Generated $generated,
+        protected readonly Column $column,
+        protected readonly Strategy $strategy,
+        protected readonly ?SequenceGenerator $sequenceGenerator,
+        protected readonly ?string $customIdGenerator,
     ) {
-        parent::__construct(
-            $property,
-            $type,
-            $enumType,
-            $insertable,
-            $updatable,
-            $generated,
-            $column,
-        );
+        $this->type = $type ?? static::defaultType();
     }
 
     /**
@@ -52,7 +45,7 @@ abstract class AbstractId extends AbstractField
      * @param enum-string|null $enumType
      * @param bool $insertable whether the field is insertable (defaults to TRUE)
      * @param bool $updatable whether the field is updatable (defaults to TRUE)
-     * @param Generated|'NEVER'|'INSERT'|'ALWAYS'|int<0, 2>|null $generated whether a generated value should be retrieved from the database after INSERT or UPDATE
+     * @param Generated|'NEVER'|'INSERT'|'ALWAYS'|null $generated whether a generated value should be retrieved from the database after INSERT or UPDATE
      *
      * @throws DoctrineMappingException
      */
@@ -62,7 +55,7 @@ abstract class AbstractId extends AbstractField
         ?string $enumType = null,
         bool $insertable = true,
         bool $updatable = true,
-        Generated|string|int|null $generated = null,
+        Generated|string|null $generated = null,
     ): static {
         self::validateProperty($property);
         self::validateType($type, $property);
@@ -77,24 +70,32 @@ abstract class AbstractId extends AbstractField
             $updatable,
             $generated,
             Column::empty(),
-            Strategy::from(Strategy::None),
+            Strategy::None,
             null,
             null,
         );
     }
 
     /**
+     * @return non-empty-string|null
+     */
+    public static function defaultType(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Specifies which strategy is used for identifier generation for
      * a field which `$id` property  is true.
      *
-     * @param Strategy|'AUTO'|'SEQUENCE'|'IDENTITY'|'NONE'|'CUSTOM'|int<1, 7> $strategy how the value should be generated (defaults to 'AUTO')
+     * @param Strategy|'AUTO'|'SEQUENCE'|'IDENTITY'|'NONE'|'CUSTOM' $strategy how the value should be generated (defaults to 'AUTO')
      *
      * @throws DoctrineMappingException
      */
     public function withGeneratedValue(
-        Strategy|string|int $strategy = Strategy::Auto,
+        Strategy|string $strategy = Strategy::Auto,
     ): static {
-        if (!\is_object($strategy)) {
+        if (!$strategy instanceof Strategy) {
             try {
                 $strategy = Strategy::from($strategy);
             } catch (Error) {
@@ -143,8 +144,8 @@ abstract class AbstractId extends AbstractField
             $this->updatable,
             $this->generated,
             $this->column,
-            (Strategy::None === $this->strategy->value)
-                ? Strategy::from(Strategy::Sequence)
+            (Strategy::None === $this->strategy)
+                ? Strategy::Sequence
                 : $this->strategy,
             SequenceGenerator::of(
                 $this,
@@ -175,17 +176,118 @@ abstract class AbstractId extends AbstractField
             $this->updatable,
             $this->generated,
             $this->column,
-            (Strategy::None === $this->strategy->value)
-                ? Strategy::from(Strategy::Custom)
+            (Strategy::None === $this->strategy)
+                ? Strategy::Custom
                 : $this->strategy,
             $this->sequenceGenerator,
-            CustomIdGeneratorResolver::resolve($class)?->name,
+            CustomIdGeneratorResolver::resolve($class)->name,
         );
     }
 
+    /**
+     * @psalm-assert non-empty-string $property
+     */
+    protected static function validateProperty(string $property): void
+    {
+        if ('' === $property) {
+            throw MappingException::emptyPropertyName();
+        }
+    }
+
+    /**
+     * @psalm-assert non-empty-string|null $type
+     */
+    protected static function validateType(
+        ?string $type,
+        string $property,
+    ): void {
+        if ('' === $type) {
+            throw MappingException::emptyType($property);
+        }
+    }
+
+    /**
+     * @psalm-assert non-empty-string|null $enumType
+     */
+    protected static function validateEnumType(
+        ?string $enumType,
+        string $property,
+    ): void {
+        if ('' === $enumType) {
+            throw MappingException::emptyEnumType($property);
+        }
+    }
+
+    protected static function sanitizeGenerated(
+        Generated|string|null $generated,
+        string $property,
+    ): ?Generated {
+        if (null === $generated || $generated instanceof Generated) {
+            return $generated;
+        }
+
+        try {
+            return Generated::from($generated);
+        } catch (Error) {
+            throw MappingException::invalidGenerationMode(
+                $property,
+                $generated,
+            );
+        }
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    public function property(): string
+    {
+        return $this->property;
+    }
+
+    /**
+     * @return non-empty-string|null
+     */
+    public function type(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return enum-string|null
+     */
+    public function enumType(): ?string
+    {
+        return $this->enumType;
+    }
+
+    /**
+     * Whether the field is the identifier of the entity (multiple
+     * fields can have the `$id` attribute, forming a composite
+     * identifier).
+     */
     public function id(): bool
     {
         return true;
+    }
+
+    public function insertable(): bool
+    {
+        return $this->insertable;
+    }
+
+    public function updatable(): bool
+    {
+        return $this->updatable;
+    }
+
+    public function generated(): ?Generated
+    {
+        return $this->generated;
+    }
+
+    public function column(): Column
+    {
+        return $this->column;
     }
 
     public function strategy(): Strategy
