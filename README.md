@@ -53,4 +53,43 @@ return Entity::of(
 );
 ```
 
+Supported Attributes
+--------------------
+
+- [ ] [AssociationOverride](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_associationoverride)
+- [ ] [AttributeOverride](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_attributeoverride)
+- [x] [Column](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_column)
+- [ ] [Cache](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_cache)
+- [ ] [ChangeTrackingPolicy](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_changetrackingpolicy)
+- [x] [CustomIdGenerator](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_customidgenerator)
+- [ ] [DiscriminatorColumn](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_discriminatorcolumn)
+- [ ] [DiscriminatorMap](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_discriminatormap)
+- [x] [Embeddable](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_embeddable)
+- [x] [Embedded](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_embedded)
+- [x] [Entity](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_entity)
+- [x] [GeneratedValue](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_generatedvalue)
+- [ ] [HasLifecycleCallbacks](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_haslifecyclecallbacks)
+- [x] [Index](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_index)
+- [x] [Id](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_id)
+- [ ] [InheritanceType](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_inheritancetype)
+- [x] [JoinColumn](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_joincolumn)
+- [x] [JoinTable](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_jointable)
+- [x] [ManyToOne](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_manytoone)
+- [x] [ManyToMany](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_manytomany)
+- [x] [MappedSuperclass](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_mappedsuperclass)
+- [x] [OneToOne](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_onetoone)
+- [x] [OneToMany](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_onetomany)
+- [x] [OrderBy](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_orderby)
+- [ ] [PostLoad](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_postload)
+- [ ] [PostPersist](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_postpersist)
+- [ ] [PostRemove](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_postremove)
+- [ ] [PostUpdate](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_postupdate)
+- [ ] [PrePersist](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_prepersist)
+- [ ] [PreRemove](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_preremove)
+- [ ] [PreUpdate](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_preupdate)
+- [x] [SequenceGenerator](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_sequencegenerator)
+- [x] [Table](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_table)
+- [x] [UniqueConstraint](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_uniqueconstraint)
+- [ ] [Version](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/attributes-reference.html#attrref_version)
+
 **Currently under development.**
