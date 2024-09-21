@@ -6,7 +6,6 @@ namespace Hereldar\DoctrineMapping\Tests;
 
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
-use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\EmbeddedClassMapping;
 use Doctrine\ORM\Mapping\FieldMapping;
@@ -466,6 +465,27 @@ abstract class TestCase extends PHPUnitTestCase
             (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $associationMapping->fieldName
                 : $associationMapping['fieldName']
+        );
+    }
+
+    /**
+     * @param ClassMetadata<object> $metadata
+     * @param class-string $value
+     */
+    public static function assertAssociationTargetEntity(
+        ClassMetadata $metadata,
+        string $association,
+        string $value,
+    ): void {
+        self::assertAssociation($metadata, $association);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        self::assertSame(
+            $value,
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
+                ? $associationMapping->targetEntity
+                : $associationMapping['targetEntity']
         );
     }
 
