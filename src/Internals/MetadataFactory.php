@@ -25,7 +25,7 @@ use Hereldar\DoctrineMapping\OneToOne;
 final class MetadataFactory
 {
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -43,7 +43,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -59,7 +59,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -77,7 +77,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -91,7 +91,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -111,7 +111,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -152,7 +152,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -178,7 +178,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -194,7 +194,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -208,7 +208,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -228,7 +228,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -237,6 +237,7 @@ final class MetadataFactory
         OrmClassMetadata $metadata,
     ): void {
         $metadata->mapOneToOne([
+            'fieldName' => $oneToOne->property(),
             'targetEntity' => $oneToOne->targetEntityName(),
             'joinColumns' => self::serializeJoinColumns(
                 $oneToOne->joinColumns()
@@ -250,7 +251,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -259,19 +260,19 @@ final class MetadataFactory
         OrmClassMetadata $metadata,
     ): void {
         $metadata->mapOneToMany([
+            'fieldName' => $oneToMany->property(),
             'mappedBy' => $oneToMany->mappedBy(),
             'targetEntity' => $oneToMany->targetEntity(),
             'cascade' => $oneToMany->cascade(),
             'indexBy' => $oneToMany->indexBy(),
             'orphanRemoval' => $oneToMany->orphanRemoval(),
             'fetch' => $oneToMany->fetch()->internalValue(),
-            'fieldName' => $oneToMany->property(),
             'orderBy' => $oneToMany->orderBy()?->value(),
         ]);
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -280,6 +281,7 @@ final class MetadataFactory
         OrmClassMetadata $metadata,
     ): void {
         $metadata->mapManyToOne([
+            'fieldName' => $manyToOne->property(),
             'joinColumns' => self::serializeJoinColumns(
                 $manyToOne->joinColumns()
             ),
@@ -291,7 +293,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      *
      * @throws OrmMappingException
      */
@@ -318,6 +320,7 @@ final class MetadataFactory
         }
 
         $metadata->mapManyToMany([
+            'fieldName' => $manyToMany->property(),
             'joinTable' => $joinTable,
             'targetEntity' => $manyToMany->targetEntity(),
             'mappedBy' => $manyToMany->mappedBy(),
@@ -331,7 +334,7 @@ final class MetadataFactory
     }
 
     /**
-     * @param OrmClassMetadata<object> $metadata
+     * @phpstan-param OrmClassMetadata<object> $metadata
      */
     private static function fillPrimaryTable(
         Entity|MappedSuperclass $entity,

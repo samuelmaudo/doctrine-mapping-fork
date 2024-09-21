@@ -6,11 +6,18 @@ namespace Hereldar\DoctrineMapping\Tests;
 
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
+use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\EmbeddedClassMapping;
 use Doctrine\ORM\Mapping\FieldMapping;
+use Doctrine\ORM\Mapping\ManyToManyInverseSideMapping;
+use Doctrine\ORM\Mapping\ManyToManyOwningSideMapping;
+use Doctrine\ORM\Mapping\ManyToOneAssociationMapping;
 use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
 use Doctrine\ORM\Mapping\NamingStrategy;
+use Doctrine\ORM\Mapping\OneToManyAssociationMapping;
+use Doctrine\ORM\Mapping\OneToOneInverseSideMapping;
+use Doctrine\ORM\Mapping\OneToOneOwningSideMapping;
 use Doctrine\ORM\Mapping\TypedFieldMapper;
 use Doctrine\Persistence\Mapping\MappingException as PersistenceMappingException;
 use Doctrine\Persistence\Mapping\RuntimeReflectionService;
@@ -414,6 +421,51 @@ abstract class TestCase extends PHPUnitTestCase
             (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? $embeddedClass->columnPrefix
                 : $embeddedClass['columnPrefix']
+        );
+    }
+
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
+    public static function assertAssociation(
+        ClassMetadata $metadata,
+        string $association,
+    ): void {
+        self::assertArrayHasKey($association, $metadata->associationMappings);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        if (self::doctrineOrmVersionSatisfies('>=3.0')) {
+            self::assertThat($associationMapping, self::logicalOr(
+                self::isInstanceOf(OneToOneOwningSideMapping::class),
+                self::isInstanceOf(OneToOneInverseSideMapping::class),
+                self::isInstanceOf(ManyToOneAssociationMapping::class),
+                self::isInstanceOf(OneToManyAssociationMapping::class),
+                self::isInstanceOf(ManyToManyOwningSideMapping::class),
+                self::isInstanceOf(ManyToManyInverseSideMapping::class),
+            ));
+        } else {
+            self::assertIsArray($associationMapping);
+        }
+    }
+
+    /**
+     * @param ClassMetadata<object> $metadata
+     */
+    public static function assertAssociationName(
+        ClassMetadata $metadata,
+        string $association,
+        string $value,
+    ): void {
+        self::assertAssociation($metadata, $association);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        self::assertSame(
+            $value,
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
+                ? $associationMapping->fieldName
+                : $associationMapping['fieldName']
         );
     }
 
