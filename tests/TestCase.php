@@ -530,6 +530,46 @@ abstract class TestCase extends PHPUnitTestCase
     }
 
     /**
+     * @param ClassMetadata<object> $metadata
+     * @param class-string $value
+     */
+    public static function assertAssociationInversedBy(
+        ClassMetadata $metadata,
+        string $association,
+        string $value,
+    ): void {
+        self::assertAssociation($metadata, $association);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        self::assertSame(
+            $value,
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
+                ? $associationMapping->inversedBy
+                : $associationMapping['inversedBy']
+        );
+    }
+
+    /**
+     * @param ClassMetadata<object> $metadata
+     * @param class-string $value
+     */
+    public static function assertAssociationInversedByIsUndefined(
+        ClassMetadata $metadata,
+        string $association,
+    ): void {
+        self::assertAssociation($metadata, $association);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        self::assertFalse(
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
+                ? isset($associationMapping->inversedBy)
+                : isset($associationMapping['inversedBy'])
+        );
+    }
+
+    /**
      * @param Throwable|class-string<Throwable> $expectedException
      *
      * @psalm-suppress InternalClass
