@@ -570,6 +570,26 @@ abstract class TestCase extends PHPUnitTestCase
     }
 
     /**
+     * @param ClassMetadata<object> $metadata
+     */
+    public static function assertAssociationFetch(
+        ClassMetadata $metadata,
+        string $association,
+        int $value,
+    ): void {
+        self::assertAssociation($metadata, $association);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        self::assertSame(
+            $value,
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
+                ? $associationMapping->fetch
+                : $associationMapping['fetch']
+        );
+    }
+
+    /**
      * @param Throwable|class-string<Throwable> $expectedException
      *
      * @psalm-suppress InternalClass
