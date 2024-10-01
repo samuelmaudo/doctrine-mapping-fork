@@ -590,6 +590,26 @@ abstract class TestCase extends PHPUnitTestCase
     }
 
     /**
+     * @param ClassMetadata<object> $metadata
+     */
+    public static function assertAssociationOrphanRemoval(
+        ClassMetadata $metadata,
+        string $association,
+        bool $value,
+    ): void {
+        self::assertAssociation($metadata, $association);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        self::assertSame(
+            $value,
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
+                ? $associationMapping->orphanRemoval
+                : $associationMapping['orphanRemoval']
+        );
+    }
+
+    /**
      * @param Throwable|class-string<Throwable> $expectedException
      *
      * @psalm-suppress InternalClass
