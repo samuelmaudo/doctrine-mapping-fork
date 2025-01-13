@@ -36,7 +36,7 @@ final class OneToMany extends Association
      * @param non-empty-string $property
      * @param class-string|null $targetEntity
      * @param non-empty-string|null $mappedBy
-     * @param list<Cascade>|null $cascade
+     * @param list<Cascade|'all'|'remove'|'persist'|'refresh'|'detach'> $cascade
      * @param Fetch|'LAZY'|'EAGER'|'EXTRA_LAZY' $fetch
      * @param non-empty-string|null $indexBy
      *
@@ -46,7 +46,7 @@ final class OneToMany extends Association
         string $property,
         ?string $targetEntity = null,
         ?string $mappedBy = null,
-        ?array $cascade = null,
+        array $cascade = [],
         Fetch|string $fetch = 'LAZY',
         bool $orphanRemoval = false,
         ?string $indexBy = null,

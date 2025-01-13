@@ -32,7 +32,7 @@ final class ManyToOne extends Association
     /**
      * @param non-empty-string $property
      * @param class-string|null $targetEntity
-     * @param list<Cascade|'all'|'remove'|'persist'|'refresh'|'detach'>|null $cascade
+     * @param list<Cascade|'all'|'remove'|'persist'|'refresh'|'detach'> $cascade
      * @param Fetch|'LAZY'|'EAGER'|'EXTRA_LAZY' $fetch
      * @param non-empty-string|null $inversedBy
      *
@@ -41,7 +41,7 @@ final class ManyToOne extends Association
     public static function of(
         string $property,
         ?string $targetEntity = null,
-        ?array $cascade = null,
+        array $cascade = [],
         Fetch|string $fetch = 'LAZY',
         ?string $inversedBy = null,
     ): self|IncompleteManyToOne {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Hereldar\DoctrineMapping\Tests\OneToOne;
 
 use Doctrine\Persistence\Mapping\MappingException as DoctrineMappingException;
-use Hereldar\DoctrineMapping\Tests\OneToOne\Fetch\ExtraLazyFetch;
 use Hereldar\DoctrineMapping\Tests\OneToOne\Fetch\EagerFetch;
+use Hereldar\DoctrineMapping\Tests\OneToOne\Fetch\ExtraLazyFetch;
 use Hereldar\DoctrineMapping\Tests\OneToOne\Fetch\InvalidFetch;
 use Hereldar\DoctrineMapping\Tests\OneToOne\Fetch\LazyFetch;
 use Hereldar\DoctrineMapping\Tests\OneToOne\Fetch\UndefinedFetch;

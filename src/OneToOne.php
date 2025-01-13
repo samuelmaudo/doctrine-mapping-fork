@@ -37,7 +37,7 @@ final class OneToOne extends Association
      * @param class-string|null $targetEntity
      * @param non-empty-string|null $mappedBy
      * @param non-empty-string|null $inversedBy
-     * @param list<Cascade>|null $cascade
+     * @param list<Cascade|'all'|'remove'|'persist'|'refresh'|'detach'> $cascade
      * @param Fetch|'LAZY'|'EAGER'|'EXTRA_LAZY' $fetch
      *
      * @throws DoctrineMappingException
@@ -47,7 +47,7 @@ final class OneToOne extends Association
         ?string $targetEntity = null,
         ?string $mappedBy = null,
         ?string $inversedBy = null,
-        ?array $cascade = null,
+        array $cascade = [],
         Fetch|string $fetch = 'LAZY',
         bool $orphanRemoval = false,
     ): self|IncompleteOneToOne {

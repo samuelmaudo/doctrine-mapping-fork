@@ -12,6 +12,7 @@ use Hereldar\DoctrineMapping\Association;
 use Hereldar\DoctrineMapping\Embeddable;
 use Hereldar\DoctrineMapping\Embedded;
 use Hereldar\DoctrineMapping\Entity;
+use Hereldar\DoctrineMapping\Enums\Cascade;
 use Hereldar\DoctrineMapping\JoinColumns;
 use Hereldar\DoctrineMapping\ManyToMany;
 use Hereldar\DoctrineMapping\ManyToOne;
@@ -244,7 +245,10 @@ final class MetadataFactory
             ),
             'mappedBy' => $oneToOne->mappedBy(),
             'inversedBy' => $oneToOne->inversedBy(),
-            'cascade' => $oneToOne->cascade(),
+            'cascade' => \array_map(
+                static fn (Cascade $option): string => $option->value,
+                $oneToOne->cascade(),
+            ),
             'orphanRemoval' => $oneToOne->orphanRemoval(),
             'fetch' => $oneToOne->fetch()->internalValue(),
         ]);
@@ -263,7 +267,10 @@ final class MetadataFactory
             'fieldName' => $oneToMany->property(),
             'mappedBy' => $oneToMany->mappedBy(),
             'targetEntity' => $oneToMany->targetEntity(),
-            'cascade' => $oneToMany->cascade(),
+            'cascade' => \array_map(
+                static fn (Cascade $option): string => $option->value,
+                $oneToMany->cascade(),
+            ),
             'indexBy' => $oneToMany->indexBy(),
             'orphanRemoval' => $oneToMany->orphanRemoval(),
             'fetch' => $oneToMany->fetch()->internalValue(),
@@ -285,7 +292,10 @@ final class MetadataFactory
             'joinColumns' => self::serializeJoinColumns(
                 $manyToOne->joinColumns()
             ),
-            'cascade' => $manyToOne->cascade(),
+            'cascade' => \array_map(
+                static fn (Cascade $option): string => $option->value,
+                $manyToOne->cascade(),
+            ),
             'inversedBy' => $manyToOne->inversedBy(),
             'targetEntity' => $manyToOne->targetEntity(),
             'fetch' => $manyToOne->fetch()->internalValue(),
@@ -325,7 +335,10 @@ final class MetadataFactory
             'targetEntity' => $manyToMany->targetEntity(),
             'mappedBy' => $manyToMany->mappedBy(),
             'inversedBy' => $manyToMany->inversedBy(),
-            'cascade' => $manyToMany->cascade(),
+            'cascade' => \array_map(
+                static fn (Cascade $option): string => $option->value,
+                $manyToMany->cascade(),
+            ),
             'indexBy' => $manyToMany->indexBy(),
             'orphanRemoval' => $manyToMany->orphanRemoval(),
             'fetch' => $manyToMany->fetch()->internalValue(),

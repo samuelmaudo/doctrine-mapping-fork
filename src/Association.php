@@ -167,7 +167,7 @@ abstract class Association extends AbstractAssociation
     }
 
     /**
-     * @param list<Cascade|string>|null $options
+     * @param list<Cascade|string> $options
      *
      * @return list<Cascade>
      *
@@ -175,10 +175,10 @@ abstract class Association extends AbstractAssociation
      */
     protected static function sanitizeCascade(
         string $associationName,
-        ?array $options,
+        array $options,
     ): array {
-        if (null === $options) {
-            return [];
+        if (0 === \count($options)) {
+            return $options;
         }
 
         $sanitizedOptions = [];

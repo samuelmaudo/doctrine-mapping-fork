@@ -491,7 +491,6 @@ abstract class TestCase extends PHPUnitTestCase
 
     /**
      * @param ClassMetadata<object> $metadata
-     * @param class-string $value
      */
     public static function assertAssociationMappedBy(
         ClassMetadata $metadata,
@@ -502,17 +501,17 @@ abstract class TestCase extends PHPUnitTestCase
 
         $associationMapping = $metadata->associationMappings[$association];
 
-        self::assertSame(
-            $value,
-            (self::doctrineOrmVersionSatisfies('>=3.0'))
-                ? $associationMapping->mappedBy
-                : $associationMapping['mappedBy']
-        );
+        if (self::doctrineOrmVersionSatisfies('>=3.0')) {
+            self::assertObjectHasProperty('mappedBy', $associationMapping);
+            self::assertSame($value, $associationMapping->mappedBy);
+        } else {
+            self::assertArrayHasKey('mappedBy', $associationMapping);
+            self::assertSame($value, $associationMapping['mappedBy']);
+        }
     }
 
     /**
      * @param ClassMetadata<object> $metadata
-     * @param class-string $value
      */
     public static function assertAssociationMappedByIsUndefined(
         ClassMetadata $metadata,
@@ -531,7 +530,6 @@ abstract class TestCase extends PHPUnitTestCase
 
     /**
      * @param ClassMetadata<object> $metadata
-     * @param class-string $value
      */
     public static function assertAssociationInversedBy(
         ClassMetadata $metadata,
@@ -542,17 +540,17 @@ abstract class TestCase extends PHPUnitTestCase
 
         $associationMapping = $metadata->associationMappings[$association];
 
-        self::assertSame(
-            $value,
-            (self::doctrineOrmVersionSatisfies('>=3.0'))
-                ? $associationMapping->inversedBy
-                : $associationMapping['inversedBy']
-        );
+        if (self::doctrineOrmVersionSatisfies('>=3.0')) {
+            self::assertObjectHasProperty('inversedBy', $associationMapping);
+            self::assertSame($value, $associationMapping->inversedBy);
+        } else {
+            self::assertArrayHasKey('inversedBy', $associationMapping);
+            self::assertSame($value, $associationMapping['inversedBy']);
+        }
     }
 
     /**
      * @param ClassMetadata<object> $metadata
-     * @param class-string $value
      */
     public static function assertAssociationInversedByIsUndefined(
         ClassMetadata $metadata,
@@ -566,6 +564,27 @@ abstract class TestCase extends PHPUnitTestCase
             (self::doctrineOrmVersionSatisfies('>=3.0'))
                 ? isset($associationMapping->inversedBy)
                 : isset($associationMapping['inversedBy'])
+        );
+    }
+
+    /**
+     * @param ClassMetadata<object> $metadata
+     * @param list<string> $value
+     */
+    public static function assertAssociationCascade(
+        ClassMetadata $metadata,
+        string $association,
+        array $value,
+    ): void {
+        self::assertAssociation($metadata, $association);
+
+        $associationMapping = $metadata->associationMappings[$association];
+
+        self::assertSame(
+            $value,
+            (self::doctrineOrmVersionSatisfies('>=3.0'))
+                ? $associationMapping->cascade
+                : $associationMapping['cascade']
         );
     }
 

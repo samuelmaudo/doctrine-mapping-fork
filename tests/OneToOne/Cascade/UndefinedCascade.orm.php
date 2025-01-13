@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 use Hereldar\DoctrineMapping\Entity;
 use Hereldar\DoctrineMapping\OneToOne;
-use Hereldar\DoctrineMapping\Tests\OneToOne\Fetch\InvalidFetch;
+use Hereldar\DoctrineMapping\Tests\OneToOne\Cascade\UndefinedCascade;
 
 return Entity::of(
-    class: InvalidFetch::class,
+    class: UndefinedCascade::class,
 )->withAssociations(
     OneToOne::of(
         property: 'association',
-        targetEntity: InvalidFetch::class,
-        fetch: 'UNKNOWN',
+        targetEntity: UndefinedCascade::class,
     ),
 );

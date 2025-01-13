@@ -42,7 +42,7 @@ final class ManyToMany extends Association
      * @param class-string $targetEntity
      * @param non-empty-string|null $mappedBy
      * @param non-empty-string|null $inversedBy
-     * @param list<Cascade>|null $cascade
+     * @param list<Cascade|'all'|'remove'|'persist'|'refresh'|'detach'> $cascade
      * @param Fetch|'LAZY'|'EAGER'|'EXTRA_LAZY' $fetch
      * @param non-empty-string|null $indexBy
      *
@@ -53,7 +53,7 @@ final class ManyToMany extends Association
         string $targetEntity,
         ?string $mappedBy = null,
         ?string $inversedBy = null,
-        ?array $cascade = null,
+        array $cascade = [],
         Fetch|string $fetch = 'LAZY',
         bool $orphanRemoval = false,
         ?string $indexBy = null,
